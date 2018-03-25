@@ -1,0 +1,31 @@
+{
+  "configuration": {
+    "status": "error",
+    "name": "DefaultJSONConfig",
+    "packages": "edu.ithaca.dragon",
+    "ThresholdFilter": {
+      "level": "debug"
+    },
+    "appenders": {
+      "Console": {
+        "name": "STDOUT",
+        "PatternLayout": {
+          "pattern": "%d [%t] %-5p %c - %m%n"
+        }
+      }
+    },
+    "loggers": {
+      "logger": [
+        { "name": "edu.ithaca.dragon.Log4JTest", "level": "fatal", "additivity": "false",
+          "AppenderRef": { "ref": "STDOUT" }}
+      ],
+      "root": {
+        "level": "debug",
+        "AppenderRef": {
+          "ref": "STDOUT"
+        }
+      }
+
+    }
+  }
+}
