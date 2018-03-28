@@ -1,3 +1,5 @@
+package ihill.CommandLine;
+
 import java.util.Scanner;
 
 /**
@@ -16,6 +18,7 @@ public class CommandLine {
                     "RecipeApp \n" +
                             "Available commands are: \n" +
                             "Help\n" +
+                            "Quit\n" +
                             "List\n" +
                             "View [ID]");
             System.out.print(">_");
@@ -30,7 +33,10 @@ public class CommandLine {
                 case "Help":
                 case "h":
                     System.out.println("Help: \n" +
-                            "The help command prints a menu of other commands and what they do \n");
+                            "The help command prints a menu of other commands and what they do \n" +
+                            "List: Lists available rooms\n" +
+                            "View [ID]: Views the details of the room numbered [ID]\n" +
+                            "Quit: Quits the program");
                     break;
                 case "quit":
                 case "Quit":
