@@ -1,3 +1,7 @@
+package edu.ithaca.recipeApp;
+
+import edu.ithaca.recipeApp.ListRecipes;
+import edu.ithaca.recipeApp.Recipe;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
