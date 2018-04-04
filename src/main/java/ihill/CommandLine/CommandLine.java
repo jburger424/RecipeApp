@@ -55,7 +55,9 @@ public class CommandLine {
             }
         }
     }
-
+    public void view(String title){
+        
+    }
     public static void main(String[] args) throws Exception {
         CommandLine cl = new CommandLine();
         cl.run();
