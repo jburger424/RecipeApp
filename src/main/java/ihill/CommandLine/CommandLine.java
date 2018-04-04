@@ -22,8 +22,9 @@ public class CommandLine {
                             "List\n" +
                             "View [ID]");
             System.out.print(">_");
-            String cmd = userScan.next();
-            switch (cmd) {
+            String cmd = userScan.nextLine();
+            String[] cmdArray = cmd.split(" ");
+            switch (cmdArray[0]) {
                 case "List":
                 case "list":
                 case "l":
@@ -36,7 +37,17 @@ public class CommandLine {
                             "The help command prints a menu of other commands and what they do \n" +
                             "List: Lists available rooms\n" +
                             "View [ID]: Views the details of the room numbered [ID]\n" +
-                            "Quit: Quits the program");
+                            "Quit: Quits the program\n\n");
+                    break;
+                case "view":
+                case "View":
+                case "v":
+                    if(cmdArray.length==1){
+                        System.out.println("No Recipe ID entered, please try again\n");
+                        break;
+                    } else {
+                        view(cmdArray[1]);
+                    }
                     break;
                 case "quit":
                 case "Quit":
@@ -55,8 +66,9 @@ public class CommandLine {
             }
         }
     }
-    public void view(String title){
-        
+
+    private void view(String title){
+        System.out.println("Viewing recipe "+ title+"\n");
     }
     public static void main(String[] args) throws Exception {
         CommandLine cl = new CommandLine();
