@@ -15,7 +15,7 @@ public class CommandLine {
     public void run(){
         while(true) {
             System.out.println(
-                    "edu.ithaca.recipeApp.RecipeApp \n" +
+                    "RecipeApp \n" +
                             "Available commands are: \n" +
                             "Help\n" +
                             "Quit\n" +
@@ -41,7 +41,7 @@ public class CommandLine {
                 case "quit":
                 case "Quit":
                 case "q":
-                    System.out.println("Thank you for using edu.ithaca.recipeApp.RecipeApp!\n");
+                    System.out.println("Thank you for using RecipeApp!\n");
                     return;
                 default:
                     System.out.println("Command not recognized, please try again...\n");
