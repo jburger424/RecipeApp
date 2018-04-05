@@ -1,9 +1,9 @@
-package ihill.CommandLine;
+package edu.ithaca.recipeApp;
 
 import java.util.Scanner;
 
 /**
- * Isaak Hill RecipeApp 3/25/18.
+ * Isaak Hill edu.ithaca.recipeApp.RecipeApp 3/25/18.
  */
 public class CommandLine {
     private Scanner userScan;
@@ -15,7 +15,7 @@ public class CommandLine {
     public void run(){
         while(true) {
             System.out.println(
-                    "RecipeApp \n" +
+                    "edu.ithaca.recipeApp.RecipeApp \n" +
                             "Available commands are: \n" +
                             "Help\n" +
                             "Quit\n" +
@@ -41,7 +41,7 @@ public class CommandLine {
                 case "quit":
                 case "Quit":
                 case "q":
-                    System.out.println("Thank you for using RecipeApp!\n");
+                    System.out.println("Thank you for using edu.ithaca.recipeApp.RecipeApp!\n");
                     return;
                 default:
                     System.out.println("Command not recognized, please try again...\n");

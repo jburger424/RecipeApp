@@ -1,4 +1,4 @@
-# RecipeApp
+# edu.ithaca.recipeApp.RecipeApp
 
 [Narratives & Scenarios](https://docs.google.com/document/d/1FErwj0r6H3sooWhP-GS69keH9Yd82cZMn4ozyKQOiTQ/edit)
 
