@@ -28,7 +28,7 @@ public class CommandLine {
                 case "List":
                 case "list":
                 case "l":
-                    System.out.println("List recipes is not implemented yet...\n");
+                    list();
                     break;
                 case "help":
                 case "Help":
@@ -69,6 +69,11 @@ public class CommandLine {
 
     private void view(String title){
         System.out.println("Viewing recipe "+ title+"\n");
+    }
+
+    private void list(){
+        System.out.println("Listing recipes...\n");
+        System.out.println("List recipes not implemented yet\n");
     }
     public static void main(String[] args) throws Exception {
         CommandLine cl = new CommandLine();
