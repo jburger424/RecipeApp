@@ -1,9 +1,9 @@
-package ihill.CommandLine;
+package edu.ithaca.recipeApp;
 
 import java.util.Scanner;
 
 /**
- * Isaak Hill RecipeApp 3/25/18.
+ * Isaak Hill edu.ithaca.recipeApp.RecipeApp 3/25/18.
  */
 public class CommandLine {
     private Scanner userScan;

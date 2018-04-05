@@ -1,3 +1,5 @@
+package edu.ithaca.recipeApp;
+
 import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -5,7 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-public class ListRecipes {
+public class DisplayRecipe {
 
 
     public static ArrayList<String> printAllRecipeInfo(){
