@@ -13,14 +13,14 @@ public class CommandLine {
     }
 
     public void run(){
+        System.out.println(
+                "RecipeApp \n" +
+                        "Available commands are: \n" +
+                        "Help\n" +
+                        "Quit\n" +
+                        "List\n" +
+                        "View [ID]");
         while(true) {
-            System.out.println(
-                    "RecipeApp \n" +
-                            "Available commands are: \n" +
-                            "Help\n" +
-                            "Quit\n" +
-                            "List\n" +
-                            "View [ID]");
             System.out.print(">_");
             String cmd = userScan.nextLine();
             String[] cmdArray = cmd.split(" ");
