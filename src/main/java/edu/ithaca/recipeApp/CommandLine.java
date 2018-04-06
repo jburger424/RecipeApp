@@ -13,14 +13,14 @@ public class CommandLine {
     }
 
     public void run(){
+        System.out.println(
+                "RecipeApp \n" +
+                        "Available commands are: \n" +
+                        "Help\n" +
+                        "Quit\n" +
+                        "List\n" +
+                        "View [ID]");
         while(true) {
-            System.out.println(
-                    "RecipeApp \n" +
-                            "Available commands are: \n" +
-                            "Help\n" +
-                            "Quit\n" +
-                            "List\n" +
-                            "View [ID]");
             System.out.print(">_");
             String cmd = userScan.nextLine();
             String[] cmdArray = cmd.split(" ");
@@ -63,11 +63,6 @@ public class CommandLine {
         }
     }
 
-    private void view(String title){
-        //To be linked to a function to list details of a single recipe based on a title input
-        System.out.println("Viewing recipe "+ title+"\n");
-    }
-
     private void list(){
         //To be linked to a function for listing recipes
         System.out.println("Listing recipes...\n");
@@ -80,6 +75,45 @@ public class CommandLine {
                 "View [ID]: Views the details of the room numbered [ID]\n" +
                 "Quit: Quits the program\n\n");
     }
+
+    private void view(String title){
+        //To be linked to a function to list details of a single recipe based on a title input
+        System.out.println("Viewing recipe "+ title+"\n");
+        System.out.println("Available commands are:\n" +
+                "Edit\n" +
+                "Print\n" +
+                "Back\n");
+        while(true){
+            System.out.print(">_");
+            String rec = userScan.nextLine();
+            String[] recArray = rec.split(" ");
+            switch (recArray[0]) {
+                case "Edit":
+                case "edit":
+                case "e":
+                    edit();
+                    break;
+                case "Print":
+                case "print":
+                case "p":
+                    print();
+                    break;
+                case "Back":
+                case "back":
+                case "b":
+                    run();
+                    break;
+            }
+        }
+    }
+
+    public void edit(){
+
+    }
+    public void print(){
+
+    }
+
     public static void main(String[] args) throws Exception {
         CommandLine cl = new CommandLine();
         cl.run();
