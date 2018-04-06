@@ -1,0 +1,85 @@
+{
+  "recipes": [
+    {
+      "id": "1",
+      "title": "Macaroni and Cheese",
+      "image": "www.image.com/image.jpg",
+      "source": "Bobby Flay",
+      "owner": "bflay1",
+      "tags": [
+        "Sugar-Free",
+        "Peanut-Free",
+        "Vegan",
+        "Gluten-Free",
+        "Kosher"
+      ],
+      "ingredients": [
+        {
+          "name": "apples",
+          "quantity": "2oz"
+        },
+        {
+          "name": "tomatoes",
+          "quantity": "5oz"
+        }
+      ],
+      "recipe": "mix apples with tomatoes, enjoy",
+      "servings": "3",
+      "calsperserving": "400"
+    },
+    {
+      "id": "2",
+      "title": "Bacon Sandwich",
+      "image": "www.image.com/image.jpg",
+      "source": "Bobby Flay",
+      "owner": "bflay1",
+      "tags": [
+        "Sugar-Free",
+        "Peanut-Free",
+        "Vegan",
+        "Gluten-Free",
+        "Kosher"
+      ],
+      "ingredients": [
+        {
+          "name": "apples",
+          "quantity": "2oz"
+        },
+        {
+          "name": "tomatoes",
+          "quantity": "5oz"
+        }
+      ],
+      "recipe": "mix apples with tomatoes, enjoy",
+      "servings": "3",
+      "calsperserving": "400"
+    },
+    {
+      "id": "3",
+      "title": "Quiche",
+      "image": "www.image.com/image.jpg",
+      "source": "Bobby Flay",
+      "owner": "bflay1",
+      "tags": [
+        "Sugar-Free",
+        "Peanut-Free",
+        "Vegan",
+        "Gluten-Free",
+        "Kosher"
+      ],
+      "ingredients": [
+        {
+          "name": "apples",
+          "quantity": "2oz"
+        },
+        {
+          "name": "tomatoes",
+          "quantity": "5oz"
+        }
+      ],
+      "recipe": "mix apples with tomatoes, enjoy",
+      "servings": "3",
+      "calsperserving": "400"
+    }
+  ]
+}
