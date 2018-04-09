@@ -1,5 +1,6 @@
 package edu.ithaca.recipeApp;
 
+import java.io.IOException;
 import java.util.Scanner;
 
 /**
@@ -12,7 +13,9 @@ public class CommandLine {
         this.userScan=new Scanner(System.in);
     }
 
-    public void run(){
+
+    public void run() throws IOException{
+
         System.out.println(
                 "RecipeApp \n" +
                         "Available commands are: \n" +
@@ -20,6 +23,7 @@ public class CommandLine {
                         "Quit\n" +
                         "List\n" +
                         "View [ID]");
+
         while(true) {
             System.out.print(">_");
             String cmd = userScan.nextLine();
@@ -63,10 +67,13 @@ public class CommandLine {
         }
     }
 
-    private void list(){
+
+    private void list() throws IOException{
+
         //To be linked to a function for listing recipes
         System.out.println("Listing recipes...\n");
-        System.out.println("List recipes not implemented yet\n");
+        ListRecipes listRecipes = new ListRecipes();
+        listRecipes.list_all();
     }
     private void help(){
         System.out.println("Help: \n" +
