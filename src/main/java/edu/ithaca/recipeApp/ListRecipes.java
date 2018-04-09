@@ -27,6 +27,7 @@ public class ListRecipes {
         for(int i = 0; i < recipes.size(); i++){
             System.out.println("ID: " + recipes.get(i).getId() + " Name: " + recipes.get(i).getTitle());
         }
+        System.out.println('\n');
 
 
 
