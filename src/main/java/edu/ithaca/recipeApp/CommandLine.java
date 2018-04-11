@@ -73,7 +73,7 @@ public class CommandLine {
         //To be linked to a function for listing recipes
         System.out.println("Listing recipes...\n");
         ListRecipes listRecipes = new ListRecipes();
-        listRecipes.list_all();
+        listRecipes.list_all_from_sql();
     }
     private void help(){
         System.out.println("Help: \n" +
