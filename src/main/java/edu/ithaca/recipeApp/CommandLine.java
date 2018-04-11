@@ -14,7 +14,7 @@ public class CommandLine {
     }
 
 
-    public void run() throws IOException{
+    public void run(){
 
         System.out.println(
                 "RecipeApp \n" +
@@ -68,7 +68,7 @@ public class CommandLine {
     }
 
 
-    private void list() throws IOException{
+    private void list(){
 
         //To be linked to a function for listing recipes
         System.out.println("Listing recipes...\n");
