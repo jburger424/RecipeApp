@@ -22,7 +22,8 @@ public class CommandLine {
                         "Help\n" +
                         "Quit\n" +
                         "List\n" +
-                        "View [ID]");
+                        "View [ID]\n" +
+                        "Filter [Args]");
 
         while(true) {
             System.out.print(">_");
@@ -49,6 +50,15 @@ public class CommandLine {
                         view(cmdArray[1]);
                     }
                     break;
+                case "filter":
+                case "Filter":
+                case "f":
+                    if (cmdArray.length == 1) {
+                        System.out.println("No arguments provided. Please try again\n");
+                        break;
+                    } else {
+                        filter(cmdArray);
+                    }
                 case "quit":
                 case "Quit":
                 case "q":
@@ -131,6 +141,9 @@ public class CommandLine {
 
     }
 
+    public void filter(String[] args){
+        
+    }
     public static void main(String[] args) throws Exception {
         CommandLine cl = new CommandLine();
         cl.run();
