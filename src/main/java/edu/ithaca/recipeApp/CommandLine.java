@@ -17,7 +17,7 @@ public class CommandLine {
     public void run() throws IOException{
 
         System.out.println(
-                "RecipeApp \n" +
+                "\nRecipeApp \n" +
                         "Available commands are: \n" +
                         "Help\n" +
                         "Quit\n" +
@@ -76,7 +76,7 @@ public class CommandLine {
         listRecipes.list_all();
     }
     private void help(){
-        System.out.println("Help: \n" +
+        System.out.println("\nHelp: \n" +
                 "The help command prints a menu of other commands and what they do \n" +
                 "List: Lists available rooms\n" +
                 "View [ID]: Views the details of the room numbered [ID]\n" +
@@ -108,7 +108,17 @@ public class CommandLine {
                 case "Back":
                 case "back":
                 case "b":
-                    run();
+                    System.out.println(
+                            "RecipeApp \n" +
+                                    "Available commands are: \n" +
+                                    "Help\n" +
+                                    "Quit\n" +
+                                    "List\n" +
+                                    "View [ID]");
+
+                    return;
+                default:
+                    System.out.println("Command not recognized, please try again...\n");
                     break;
             }
         }
