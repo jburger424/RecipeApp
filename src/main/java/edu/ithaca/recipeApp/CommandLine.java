@@ -8,9 +8,16 @@ import java.util.Scanner;
  */
 public class CommandLine {
     private Scanner userScan;
+    public String cmd;
+    public String[] cmdArray;
+    public String[] dietFilters = new String[5];
+    public String[] ingredientFilters = new String[5];
 
     public CommandLine() {
         this.userScan=new Scanner(System.in);
+        this.dietFilters[0]="None";
+        this.ingredientFilters[0]="None";
+
     }
 
 
@@ -18,6 +25,16 @@ public class CommandLine {
 
         System.out.println(
                 "\nRecipeApp \n" +
+                        "Dietary filters: \n");
+        for (int i = 0; i < dietFilters.length; i++) {
+            System.out.println(dietFilters[i]);
+        }
+        System.out.println(
+        "Ingredient filters: \n");
+        for (int i = 0; i < ingredientFilters.length; i++) {
+            System.out.println(ingredientFilters[i]);
+        }
+        System.out.println(
                         "Available commands are: \n" +
                         "Help\n" +
                         "Quit\n" +
@@ -27,8 +44,8 @@ public class CommandLine {
 
         while(true) {
             System.out.print(">_");
-            String cmd = userScan.nextLine();
-            String[] cmdArray = cmd.split(" ");
+            cmd = userScan.nextLine();
+            cmdArray = cmd.split(" ");
             switch (cmdArray[0]) {
                 case "List":
                 case "list":
@@ -59,6 +76,7 @@ public class CommandLine {
                     } else {
                         filter(cmdArray);
                     }
+                    break;
                 case "quit":
                 case "Quit":
                 case "q":
@@ -78,14 +96,24 @@ public class CommandLine {
     }
 
 
-    private void list() throws IOException{
+    public void list() throws IOException{
 
         //To be linked to a function for listing recipes
         System.out.println("Listing recipes...\n");
+        System.out.println(
+                        "Dietary filters: \n");
+        for (int i = 0; i < dietFilters.length; i++) {
+            System.out.println(dietFilters[i]);
+        }
+        System.out.println(
+                "Ingredient filters: \n");
+        for (int i = 0; i < ingredientFilters.length; i++) {
+            System.out.println(ingredientFilters[i]);
+        }
         ListRecipes listRecipes = new ListRecipes();
         listRecipes.list_all();
     }
-    private void help(){
+    public void help(){
         System.out.println("\nHelp: \n" +
                 "The help command prints a menu of other commands and what they do \n" +
                 "List: Lists available rooms\n" +
@@ -93,7 +121,7 @@ public class CommandLine {
                 "Quit: Quits the program\n\n");
     }
 
-    private void view(String title){
+    public void view(String title){
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ title+"\n");
         System.out.println("Available commands are:\n" +
@@ -135,14 +163,56 @@ public class CommandLine {
     }
 
     public void edit(){
-
+        //TODO
     }
     public void print(){
-
+        //TODO
     }
 
     public void filter(String[] args){
-        
+        if(args.length>=3) {
+            switch (args[1]) {
+                case "-d":
+                    dietFilters = args[2].split(",");
+                    break;
+                case "-i":
+                    ingredientFilters = args[2].split(",");
+                    break;
+                default:
+                    System.out.println("\nNo filter provided. Available filters are " +
+                            "-d: for dietary filtering, and \n" +
+                            "-i: for ingredient filtering\n" +
+                            "-c: to clear filters");
+
+                    break;
+
+            }
+            if(args.length==5) {
+                switch (args[3]) {
+                    case "-d":
+                        dietFilters = args[4].split(",");
+                        break;
+                    case "-i":
+                        ingredientFilters = args[4].split(",");
+                        break;
+                    default:
+                        System.out.println("\nNo filter provided. Available filters are " +
+                                "-d: for dietary filtering and -i: for ingredient filtering\n");
+                        break;
+
+                }
+            }
+        } else if(args.length==2 && args[1].equals("-c")){
+            System.out.println("Clearing filters...");
+            dietFilters[0]="none";
+            for (int i = 1; i < dietFilters.length; i++) {
+                dietFilters[i]="";
+            }
+            ingredientFilters[0]="none";
+            for (int i = 1; i < ingredientFilters.length; i++) {
+                ingredientFilters[i]="";
+            }
+        }
     }
     public static void main(String[] args) throws Exception {
         CommandLine cl = new CommandLine();
