@@ -25,17 +25,17 @@ public class CommandLine {
 
         System.out.println(
                 "\nRecipeApp \n" +
-                        "Dietary filters: \n");
+                        "\nDietary filters:");
         for (int i = 0; i < dietFilters.length; i++) {
-            System.out.println(dietFilters[i]);
+            if(dietFilters[i]!=null){System.out.println(dietFilters[i]);}
         }
         System.out.println(
-        "Ingredient filters: \n");
+        "\nIngredient filters:");
         for (int i = 0; i < ingredientFilters.length; i++) {
-            System.out.println(ingredientFilters[i]);
+            if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
         System.out.println(
-                        "Available commands are: \n" +
+                        "\nAvailable commands are: \n" +
                         "Help\n" +
                         "Quit\n" +
                         "List\n" +
@@ -103,12 +103,12 @@ public class CommandLine {
         System.out.println(
                         "Dietary filters: \n");
         for (int i = 0; i < dietFilters.length; i++) {
-            System.out.println(dietFilters[i]);
+            if(dietFilters[i]!=null){System.out.println(dietFilters[i]);}
         }
         System.out.println(
                 "Ingredient filters: \n");
         for (int i = 0; i < ingredientFilters.length; i++) {
-            System.out.println(ingredientFilters[i]);
+            if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
         ListRecipes listRecipes = new ListRecipes();
         listRecipes.list_all();
@@ -180,8 +180,8 @@ public class CommandLine {
                     break;
                 default:
                     System.out.println("\nNo filter provided. Available filters are " +
-                            "-d: for dietary filtering, and \n" +
-                            "-i: for ingredient filtering\n" +
+                            "-d: for dietary filtering,\n" +
+                            "-i: for ingredient filtering, and\n" +
                             "-c: to clear filters");
 
                     break;
@@ -197,7 +197,9 @@ public class CommandLine {
                         break;
                     default:
                         System.out.println("\nNo filter provided. Available filters are " +
-                                "-d: for dietary filtering and -i: for ingredient filtering\n");
+                                "-d: for dietary filtering," +
+                                "-i: for ingredient filtering, and\n" +
+                                "-c: to clear filters");
                         break;
 
                 }
