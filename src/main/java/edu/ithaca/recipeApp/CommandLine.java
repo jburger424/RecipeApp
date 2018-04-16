@@ -22,6 +22,7 @@ public class CommandLine {
                         "Help\n" +
                         "Quit\n" +
                         "List\n" +
+                        "Edit\n" +
                         "View [ID]");
 
         while(true) {
@@ -49,6 +50,11 @@ public class CommandLine {
                         view(cmdArray[1]);
                     }
                     break;
+
+                case "edit":
+                case "Edit":
+                case "e":
+                    edit();
                 case "quit":
                 case "Quit":
                 case "q":
@@ -66,6 +72,7 @@ public class CommandLine {
             }
         }
     }
+
 
 
     private void list(){
@@ -113,10 +120,12 @@ public class CommandLine {
             }
         }
     }
-
-    public void edit(){
-
+    private void edit(){
+        editRecipe rec = new editRecipe();
+        rec.edit();
     }
+
+
     public void print(){
 
     }
