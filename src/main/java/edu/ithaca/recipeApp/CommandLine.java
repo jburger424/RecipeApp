@@ -214,6 +214,8 @@ public class CommandLine {
             for (int i = 1; i < ingredientFilters.length; i++) {
                 ingredientFilters[i]="";
             }
+        } else {
+            System.out.println("Invalid format. Please enter a valid filter, followed by a comma seperated list of arguments");
         }
     }
     public static void main(String[] args) throws Exception {
