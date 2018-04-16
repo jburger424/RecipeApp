@@ -83,7 +83,7 @@ public class CommandLine {
                 "Quit: Quits the program\n\n");
     }
 
-    private void view(String title){
+    private void view(String title) throws IOException{
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ title+"\n");
         System.out.println("Available commands are:\n" +
