@@ -22,7 +22,7 @@ public class CommandLine {
     }
 
 
-    public void run() throws IOException{
+    public void run(){
 
         System.out.println(
                 "\nRecipeApp \n" +
@@ -40,8 +40,11 @@ public class CommandLine {
                         "Help\n" +
                         "Quit\n" +
                         "List\n" +
+
+                        "Edit\n" +
                         "View [ID]\n" +
                         "Filter [Args]");
+
 
         while(true) {
             System.out.print(">_");
@@ -65,8 +68,20 @@ public class CommandLine {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        view(cmdArray[1]);
+                        try{
+                            view(cmdArray[1]);
+                        }
+                        catch (IOException e){
+                            e.printStackTrace();
+                        }
                     }
+                    break;
+
+
+                case "edit":
+                case "Edit":
+                case "e":
+                    edit();
                     break;
                 case "filter":
                 case "Filter":
@@ -78,6 +93,7 @@ public class CommandLine {
                         filter(cmdArray);
                     }
                     break;
+
                 case "quit":
                 case "Quit":
                 case "q":
@@ -97,7 +113,9 @@ public class CommandLine {
     }
 
 
-    public void list() throws IOException{
+
+    public void list() {
+
 
         //To be linked to a function for listing recipes
         System.out.println("Listing recipes...\n");
@@ -111,8 +129,6 @@ public class CommandLine {
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
-        //ListRecipes listRecipes = new ListRecipes();
-        //listRecipes.list_all();
         dbConnect.listRecipes();
     }
     public void help(){
@@ -164,10 +180,11 @@ public class CommandLine {
             }
         }
     }
-
-    public void edit(){
-        //TODO
+    private void edit(){
+        editRecipe rec = new editRecipe();
+        rec.edit();
     }
+
     public void print(){
         //TODO
     }
