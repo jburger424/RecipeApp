@@ -20,7 +20,7 @@ public class editRecipe {
 
 
         try{
-            Class.forName(driverName).newInstance();
+            //Class.forName(driverName).newInstance();
             connection = DriverManager.getConnection(url);
 
             try{
