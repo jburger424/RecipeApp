@@ -48,6 +48,11 @@
   </build>
 
   <dependencies>
+    <dependency>
+      <groupId>org.xerial</groupId>
+      <artifactId>sqlite-jdbc</artifactId>
+      <version>3.21.0</version>
+    </dependency>
 
     <!-- junit  - https://howtoprogram.xyz/2016/09/09/junit-5-maven-example/ -->
     <dependency>

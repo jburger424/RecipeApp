@@ -12,6 +12,7 @@ public class CommandLine {
     public String[] cmdArray;
     public String[] dietFilters = new String[5];
     public String[] ingredientFilters = new String[5];
+    public DatabaseConnect dbConnect = new DatabaseConnect();
 
     public CommandLine() {
         this.userScan=new Scanner(System.in);
@@ -110,8 +111,9 @@ public class CommandLine {
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
-        ListRecipes listRecipes = new ListRecipes();
-        listRecipes.list_all();
+        //ListRecipes listRecipes = new ListRecipes();
+        //listRecipes.list_all();
+        dbConnect.listRecipes();
     }
     public void help(){
         System.out.println("\nHelp: \n" +
@@ -121,9 +123,10 @@ public class CommandLine {
                 "Quit: Quits the program\n\n");
     }
 
-    private void view(String title) throws IOException{
+    private void view(String ID) throws IOException{
         //To be linked to a function to list details of a single recipe based on a title input
-        System.out.println("Viewing recipe "+ title+"\n");
+        dbConnect.viewRecipe(Integer.parseInt(ID));
+
         System.out.println("Available commands are:\n" +
                 "Edit\n" +
                 "Print\n" +
