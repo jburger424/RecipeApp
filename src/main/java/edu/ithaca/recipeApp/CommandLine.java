@@ -76,7 +76,7 @@ public class CommandLine {
                 case "Edit":
                 case "e":
                     edit();
-
+                    break;
                 case "filter":
                 case "Filter":
                 case "f":
@@ -108,7 +108,7 @@ public class CommandLine {
 
 
 
-    public void list() throws IOException{
+    public void list() {
 
 
         //To be linked to a function for listing recipes

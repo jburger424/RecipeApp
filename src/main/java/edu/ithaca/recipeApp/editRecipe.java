@@ -54,8 +54,6 @@ public class editRecipe {
                 rs = stmt.executeQuery(selectquery);
                 System.out.println("NEW: "+rs.getString(col));
 
-
-
             }
             catch(SQLException s){
                 System.out.println(s);
