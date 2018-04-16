@@ -21,7 +21,7 @@ public class CommandLine {
     }
 
 
-    public void run() throws IOException{
+    public void run(){
 
         System.out.println(
                 "\nRecipeApp \n" +
@@ -39,8 +39,11 @@ public class CommandLine {
                         "Help\n" +
                         "Quit\n" +
                         "List\n" +
+
+                        "Edit\n" +
                         "View [ID]\n" +
                         "Filter [Args]");
+
 
         while(true) {
             System.out.print(">_");
@@ -67,6 +70,13 @@ public class CommandLine {
                         view(cmdArray[1]);
                     }
                     break;
+
+
+                case "edit":
+                case "Edit":
+                case "e":
+                    edit();
+
                 case "filter":
                 case "Filter":
                 case "f":
@@ -77,6 +87,7 @@ public class CommandLine {
                         filter(cmdArray);
                     }
                     break;
+
                 case "quit":
                 case "Quit":
                 case "q":
@@ -96,7 +107,9 @@ public class CommandLine {
     }
 
 
+
     public void list() throws IOException{
+
 
         //To be linked to a function for listing recipes
         System.out.println("Listing recipes...\n");
@@ -111,7 +124,7 @@ public class CommandLine {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
         ListRecipes listRecipes = new ListRecipes();
-        listRecipes.list_all();
+        listRecipes.list_all_from_sql();
     }
     public void help(){
         System.out.println("\nHelp: \n" +
@@ -161,10 +174,11 @@ public class CommandLine {
             }
         }
     }
-
-    public void edit(){
-        //TODO
+    private void edit(){
+        editRecipe rec = new editRecipe();
+        rec.edit();
     }
+
     public void print(){
         //TODO
     }
