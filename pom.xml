@@ -120,6 +120,11 @@
       <artifactId>junit-jupiter-api</artifactId>
       <version>5.0.0</version>
     </dependency>
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.36</version>
+    </dependency>
 
   </dependencies>
 

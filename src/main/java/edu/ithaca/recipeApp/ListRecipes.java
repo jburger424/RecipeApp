@@ -4,16 +4,21 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 
 import java.io.File;
 import java.io.IOException;
-import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 
 public class ListRecipes {
 
     public void list_all_from_sql(){
         Connection connection = null;
-        String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "******";
+        String url = "jdbc:sqlite:C:/Users/Conor/IdeaProjects/RecipeApp/db/recipes.db";
+        //String url = "jdbc:mysql://localhost:3306/";
+        String dbName = "C:/Users/Conor/IdeaProjects/RecipeApp/db/recipes.db";
         String driverName = "com.mysql.jdbc.Driver";
         String userName = "abarrett";
         String password = "abarrett1";
@@ -21,11 +26,11 @@ public class ListRecipes {
 
         try{
             Class.forName(driverName).newInstance();
-            connection = DriverManager.getConnection(url+dbName, userName, password);
+            connection = DriverManager.getConnection(url);
 
             try{
                 Statement stmt = connection.createStatement();
-                String selectquery = "SELECT * FROM `thisTable'";
+                String selectquery = "SELECT * FROM RECIPES";
                 ResultSet rs = stmt.executeQuery(selectquery);
 
 
