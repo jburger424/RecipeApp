@@ -30,7 +30,7 @@ public class CommandLine {
             if(dietFilters[i]!=null){System.out.println(dietFilters[i]);}
         }
         System.out.println(
-        "\nIngredient filters:");
+        "\n\nIngredient filters:");
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
@@ -120,7 +120,7 @@ public class CommandLine {
                 "View [ID]: Views the details of the room numbered [ID]\n" +
                 "Quit: Quits the program\n\n");
     }
-    
+
     private void view(String title) throws IOException{
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ title+"\n");
