@@ -125,7 +125,7 @@ class Ingredient{
         this.quantity = quantity;
     }
     public String toString(){
-        return quantity+" X "+name;
+        return name+" : "+quantity;
     }
 }
 

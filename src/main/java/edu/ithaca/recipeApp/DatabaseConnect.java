@@ -63,7 +63,10 @@ public class DatabaseConnect {
         System.out.println("Servings: "+rs.getInt("SERVINGS"));
         System.out.println("Calories/Serving: "+rs.getInt("CALS_PER_SERVING"));
         System.out.println("Steps:");
-        System.out.println("\t"+rs.getString("steps"));
+        String[] steps = rs.getString("steps").split("\\r?\\n|\\r");
+        for(String step:steps){
+          System.out.println("\t"+step);
+        }
         System.out.println();
       }
     }
