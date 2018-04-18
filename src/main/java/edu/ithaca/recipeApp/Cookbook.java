@@ -111,9 +111,10 @@ class Recipe{
 class Ingredient{
     private String name;
     private String quantity;
-    public String getName(){
-        return this.name;
-    }
+    private int ID;
+    public int getID(){ return this.ID; }
+    public void setID(int ID){ this.ID = ID;}
+    public String getName(){ return this.name; }
     public void setName(String name){
         this.name = name;
     }
@@ -122,6 +123,9 @@ class Ingredient{
     }
     public void setQuantity(String quantity){
         this.quantity = quantity;
+    }
+    public String toString(){
+        return name+" : "+quantity;
     }
 }
 
