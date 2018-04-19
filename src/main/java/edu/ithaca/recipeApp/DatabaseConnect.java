@@ -17,6 +17,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DatabaseConnect {
+  private ArrayList<String> ingreds;
+
+  //TODO do we want to add or modify current filters?
+  public void setFilter(ArrayList<String> ingreds){
+    this.ingreds = ingreds;
+  }
   public void viewRecipe(int ID){
     ArrayList<Ingredient> ingredients = new ArrayList<>();
     // load the sqlite-JDBC driver using the current class loader
@@ -109,7 +115,25 @@ public class DatabaseConnect {
       connection = DriverManager.getConnection("jdbc:sqlite:/Users/jonburger/Google_Drive/recipeapp/src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
-      ResultSet rs = statement.executeQuery("select * from RECIPES");
+      StringBuilder listQuery = new StringBuilder();
+      listQuery.append("SELECT ID, TITLE FROM RECIPES EXCEPT SELECT DISTINCT RECIPE_ID, NAME FROM (SELECT RECIPES.ID AS RECIPE_ID, RECIPES.TITLE AS NAME, INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT FROM RECIPES JOIN RECIPE_TO_INGREDIENT ON RECIPES.ID = RECIPE_TO_INGREDIENT.RECIPE_ID JOIN INGREDIENTS ON RECIPE_TO_INGREDIENT.INGREDIENT_ID = INGREDIENTS.ID WHERE NOT (");
+      if(ingreds != null){
+        for (int i = 0; i < ingreds.size(); i++) {
+          listQuery.append(" INGREDIENT LIKE '");
+          listQuery.append(ingreds.get(i));
+          if(i==ingreds.size()-1) {
+            listQuery.append("'));)");
+          }
+          else{
+            listQuery.append("' OR");
+          }
+      }
+      }
+      else{
+          listQuery.append("1));)");
+        }
+      System.out.println(listQuery.toString());
+      ResultSet rs = statement.executeQuery(listQuery.toString());
       while(rs.next())
       {
         // read the result set
