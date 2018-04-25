@@ -21,7 +21,7 @@ public class CommandLine {
     }
 
 
-    public void run(){
+    public void run() throws IOException {
 
         System.out.println(
                 "\nRecipeApp \n" +
@@ -36,13 +36,13 @@ public class CommandLine {
         }
         System.out.println(
                         "\nAvailable commands are: \n" +
-                        "Help\n" +
-                        "Quit\n" +
-                        "List\n" +
+                        "1) List Recipes\n" +
+                        "2) View Recipe\n" +
+                        "3) Edit Recipe\n" +
 
-                        "Edit\n" +
-                        "View [ID]\n" +
-                        "Filter [Args]");
+                        "4) Filter Recipes\n" +
+                        "5) Help\n" +
+                        "6) Quit");
 
 
         while(true) {
@@ -53,16 +53,21 @@ public class CommandLine {
                 case "List":
                 case "list":
                 case "l":
+                case "1":
                     list();
                     break;
+
                 case "help":
                 case "Help":
                 case "h":
+                case "5":
                     help();
                     break;
+
                 case "view":
                 case "View":
                 case "v":
+                case "2":
                     if(cmdArray.length==1){
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
@@ -75,11 +80,13 @@ public class CommandLine {
                 case "edit":
                 case "Edit":
                 case "e":
+                case "3":
                     edit();
 
                 case "filter":
                 case "Filter":
                 case "f":
+                case "4":
                     if (cmdArray.length == 1) {
                         System.out.println("No arguments provided. Please try again\n");
                         break;
@@ -91,6 +98,7 @@ public class CommandLine {
                 case "quit":
                 case "Quit":
                 case "q":
+                case "6":
                     System.out.println("Thank you for using RecipeApp!\n");
                     return;
                 default:
@@ -114,12 +122,12 @@ public class CommandLine {
         //To be linked to a function for listing recipes
         System.out.println("Listing recipes...\n");
         System.out.println(
-                        "Dietary filters: \n");
+                        "Dietary filters currently applied: \n");
         for (int i = 0; i < dietFilters.length; i++) {
             if(dietFilters[i]!=null){System.out.println(dietFilters[i]);}
         }
         System.out.println(
-                "Ingredient filters: \n");
+                "\nIngredient filters currently applied: \n");
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
@@ -128,19 +136,19 @@ public class CommandLine {
     }
     public void help(){
         System.out.println("\nHelp: \n" +
-                "The help command prints a menu of other commands and what they do \n" +
-                "List: Lists available rooms\n" +
-                "View [ID]: Views the details of the room numbered [ID]\n" +
-                "Quit: Quits the program\n\n");
+                "\nAvailable commands are: \n" +
+                "1) List Recipes (Lists all recipes based on current filters)\n" +
+                "2) View Recipe (Views details about an individual recipe)\n" +
+                "3) Edit Recipe (Allows for editing an individual recipe)\n" +
+
+                "4) Filter Recipes (Applies filters to the main list of recipes)\n" +
+                "5) Help (Prints this menu)\n" +
+                "6) Quit (Quits the program");
     }
 
     public void view(String title){
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ title+"\n");
-        System.out.println("Available commands are:\n" +
-                "Edit\n" +
-                "Print\n" +
-                "Back\n");
         while(true){
             System.out.print(">_");
             String rec = userScan.nextLine();
@@ -151,11 +159,13 @@ public class CommandLine {
                 case "e":
                     edit();
                     break;
+
                 case "Print":
                 case "print":
                 case "p":
                     print();
                     break;
+
                 case "Back":
                 case "back":
                 case "b":

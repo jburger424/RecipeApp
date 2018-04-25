@@ -10,7 +10,7 @@ public class editRecipe {
         Connection connection = null;
         String url = "jdbc:sqlite:C:/Users/Conor/IdeaProjects/RecipeApp/db/recipes.db";
         //String url = "jdbc:mysql://localhost:3306/";
-        String dbName = "C:/Users/Conor/IdeaProjects/RecipeApp/db/recipes.db";
+        //String dbName = "C:/Users/Conor/IdeaProjects/RecipeApp/db/recipes.db";
         String driverName = "com.mysql.jdbc.Driver";
         String userName = "abarrett";
         String password = "abarrett1";
