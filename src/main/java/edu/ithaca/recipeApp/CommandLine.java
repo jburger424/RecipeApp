@@ -67,13 +67,14 @@ public class CommandLine {
                 case "view":
                 case "View":
                 case "v":
-                case "2":
                     if(cmdArray.length==1){
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
                         view(cmdArray[1]);
                     }
+                case "2":
+                    view();
                     break;
 
 
@@ -144,6 +145,20 @@ public class CommandLine {
                 "4) Filter Recipes (Applies filters to the main list of recipes)\n" +
                 "5) Help (Prints this menu)\n" +
                 "6) Quit (Quits the program");
+    }
+
+    public void view(){
+        System.out.println("Which recipe would you like to view?");
+        try {
+            list();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        while(true){
+            System.out.print(">_");
+            String recipe = userScan.nextLine();
+            
+        }
     }
 
     public void view(String title){
