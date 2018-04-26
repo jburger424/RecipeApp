@@ -23,6 +23,7 @@ public class DatabaseConnect {
   public void setFilter(ArrayList<String> ingreds){
     this.ingreds = ingreds;
   }
+
   public void viewRecipe(int ID){
     ArrayList<Ingredient> ingredients = new ArrayList<>();
     // load the sqlite-JDBC driver using the current class loader
@@ -116,13 +117,13 @@ public class DatabaseConnect {
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       StringBuilder listQuery = new StringBuilder();
-      listQuery.append("SELECT ID, TITLE FROM RECIPES EXCEPT SELECT DISTINCT RECIPE_ID, NAME FROM (SELECT RECIPES.ID AS RECIPE_ID, RECIPES.TITLE AS NAME, INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT FROM RECIPES JOIN RECIPE_TO_INGREDIENT ON RECIPES.ID = RECIPE_TO_INGREDIENT.RECIPE_ID JOIN INGREDIENTS ON RECIPE_TO_INGREDIENT.INGREDIENT_ID = INGREDIENTS.ID WHERE NOT (");
+      listQuery.append("SELECT NAME, RECIPE_ID, COUNT(NAME) AS MATCHING_INGREDS FROM(SELECT RECIPES.ID AS RECIPE_ID, RECIPES.TITLE AS NAME, INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT FROM RECIPES JOIN RECIPE_TO_INGREDIENT ON RECIPES.ID=RECIPE_TO_INGREDIENT.RECIPE_ID JOIN INGREDIENTS ON RECIPE_TO_INGREDIENT.INGREDIENT_ID=INGREDIENTS.ID WHERE");
       if(ingreds != null){
         for (int i = 0; i < ingreds.size(); i++) {
           listQuery.append(" INGREDIENT LIKE '");
           listQuery.append(ingreds.get(i));
           if(i==ingreds.size()-1) {
-            listQuery.append("'));)");
+            listQuery.append("') GROUP BY NAME ORDER BY MATCHING_INGREDS DESC;");
           }
           else{
             listQuery.append("' OR");
@@ -132,13 +133,12 @@ public class DatabaseConnect {
       else{
           listQuery.append("1));)");
         }
-      System.out.println(listQuery.toString());
       ResultSet rs = statement.executeQuery(listQuery.toString());
       while(rs.next())
       {
         // read the result set
-        System.out.print(rs.getInt("ID")+".");
-        System.out.println(rs.getString("title"));
+        System.out.print(rs.getInt("RECIPE_ID")+".");
+        System.out.println(rs.getString("NAME"));
       }
     }
     catch(SQLException e)
