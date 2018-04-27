@@ -11,3 +11,5 @@ To display a list of recipes
 
 **State Diagrams**
 In narratives & scenarios file.
+
+[![CircleCI](https://circleci.com/gh/jburger424/RecipeApp.svg?style=svg)](https://circleci.com/gh/jburger424/RecipeApp)

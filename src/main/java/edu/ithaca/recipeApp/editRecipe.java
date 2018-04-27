@@ -8,12 +8,10 @@ public class editRecipe {
 
     public void edit(){
         Connection connection = null;
-        String url = "jdbc:sqlite:C:/Users/Conor/IdeaProjects/RecipeApp/db/recipes.db";
-        //String url = "jdbc:mysql://localhost:3306/";
-        //String dbName = "C:/Users/Conor/IdeaProjects/RecipeApp/db/recipes.db";
+
+        String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
+
         String driverName = "com.mysql.jdbc.Driver";
-        String userName = "abarrett";
-        String password = "abarrett1";
         ArrayList<String> rowArray = new ArrayList<String>();
 
         Scanner reader = new Scanner(System.in);
@@ -53,8 +51,6 @@ public class editRecipe {
                 stmt.executeUpdate(editQuery);
                 rs = stmt.executeQuery(selectquery);
                 System.out.println("NEW: "+rs.getString(col));
-
-
 
             }
             catch(SQLException s){

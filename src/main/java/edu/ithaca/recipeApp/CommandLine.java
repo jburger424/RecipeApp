@@ -12,6 +12,7 @@ public class CommandLine {
     public String[] cmdArray;
     public String[] dietFilters = new String[5];
     public String[] ingredientFilters = new String[5];
+    public DatabaseConnect dbConnect = new DatabaseConnect();
 
     public CommandLine() {
         this.userScan=new Scanner(System.in);
@@ -30,7 +31,7 @@ public class CommandLine {
             if(dietFilters[i]!=null){System.out.println(dietFilters[i]);}
         }
         System.out.println(
-        "\nIngredient filters:");
+        "\n\nIngredient filters:");
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
@@ -71,7 +72,12 @@ public class CommandLine {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        view(cmdArray[1]);
+                        try{
+                            view(cmdArray[1]);
+                        }
+                        catch (IOException e){
+                            e.printStackTrace();
+                        }
                     }
                 case "2":
                     view();
@@ -122,7 +128,7 @@ public class CommandLine {
 
 
 
-    public void list() throws IOException{
+    public void list() {
 
 
         //To be linked to a function for listing recipes
@@ -137,8 +143,7 @@ public class CommandLine {
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
-        ListRecipes listRecipes = new ListRecipes();
-        listRecipes.list_all_from_sql();
+        dbConnect.listRecipes();
     }
     public void add(){
 
@@ -169,10 +174,10 @@ public class CommandLine {
         }
     }
 
-    public void view(String title){
+    private void view(String ID) throws IOException{
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ title+"\n");
-
+        dbConnect.viewRecipe(Integer.parseInt(ID));
     }
     private void edit(){
         editRecipe rec = new editRecipe();
