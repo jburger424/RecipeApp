@@ -8,7 +8,9 @@ public class editRecipe {
 
     public void edit(){
         Connection connection = null;
+
         String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
+
         String driverName = "com.mysql.jdbc.Driver";
         ArrayList<String> rowArray = new ArrayList<String>();
 
