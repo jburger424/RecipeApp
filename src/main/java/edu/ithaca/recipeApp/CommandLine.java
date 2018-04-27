@@ -38,11 +38,11 @@ public class CommandLine {
                         "\nAvailable commands are: \n" +
                         "1) List Recipes\n" +
                         "2) View Recipe\n" +
-                        "3) Edit Recipe\n" +
+                        "3) Edit Recipe\n" + "4) Add Recipe\n" +
 
-                        "4) Filter Recipes\n" +
-                        "5) Help\n" +
-                        "6) Quit");
+                        "5) Filter Recipes\n" +
+                        "6) Help\n" +
+                        "7) Quit");
 
 
         while(true) {
@@ -60,7 +60,7 @@ public class CommandLine {
                 case "help":
                 case "Help":
                 case "h":
-                case "5":
+                case "6":
                     help();
                     break;
 
@@ -77,20 +77,25 @@ public class CommandLine {
                     view();
                     break;
 
+                case "Add":
+                case "add":
+                case "a":
+                case "4":
+                    add();
+                    break;
 
                 case "edit":
                 case "Edit":
                 case "e":
                 case "3":
                     edit();
-
+                    break;
                 case "filter":
                 case "Filter":
                 case "f":
-                case "4":
-                    if (cmdArray.length == 1) {
-                        System.out.println("No arguments provided. Please try again\n");
-                        break;
+                case "5":
+                    if (cmdArray.length == 1 ) {
+                        filter();
                     } else {
                         filter(cmdArray);
                     }
@@ -99,7 +104,7 @@ public class CommandLine {
                 case "quit":
                 case "Quit":
                 case "q":
-                case "6":
+                case "7":
                     System.out.println("Thank you for using RecipeApp!\n");
                     return;
                 default:
@@ -121,19 +126,22 @@ public class CommandLine {
 
 
         //To be linked to a function for listing recipes
-        System.out.println("Listing recipes...\n");
+        System.out.println("Listing recipes...");
         System.out.println(
-                        "Dietary filters currently applied: \n");
+                        "Dietary filters currently applied:");
         for (int i = 0; i < dietFilters.length; i++) {
             if(dietFilters[i]!=null){System.out.println(dietFilters[i]);}
         }
         System.out.println(
-                "\nIngredient filters currently applied: \n");
+                "\nIngredient filters currently applied:");
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
         ListRecipes listRecipes = new ListRecipes();
         listRecipes.list_all_from_sql();
+    }
+    public void add(){
+
     }
     public void help(){
         System.out.println("\nHelp: \n" +
@@ -157,47 +165,14 @@ public class CommandLine {
         while(true){
             System.out.print(">_");
             String recipe = userScan.nextLine();
-            
+            view(recipe);
         }
     }
 
     public void view(String title){
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ title+"\n");
-        while(true){
-            System.out.print(">_");
-            String rec = userScan.nextLine();
-            String[] recArray = rec.split(" ");
-            switch (recArray[0]) {
-                case "Edit":
-                case "edit":
-                case "e":
-                    edit();
-                    break;
 
-                case "Print":
-                case "print":
-                case "p":
-                    print();
-                    break;
-
-                case "Back":
-                case "back":
-                case "b":
-                    System.out.println(
-                            "RecipeApp \n" +
-                                    "Available commands are: \n" +
-                                    "Help\n" +
-                                    "Quit\n" +
-                                    "List\n" +
-                                    "View [ID]");
-
-                    return;
-                default:
-                    System.out.println("Command not recognized, please try again...\n");
-                    break;
-            }
-        }
     }
     private void edit(){
         editRecipe rec = new editRecipe();
@@ -208,6 +183,38 @@ public class CommandLine {
         //TODO
     }
 
+    public void filter(){
+        System.out.println("What ingredients would you like to use? (Enter all the ingredients you would like to use, seperated by commas)\n" +
+                "If you would like to clear the filters, type \"none\"");
+        String ingredients = userScan.nextLine();
+        if(ingredients.equals("none")){
+            System.out.println("Clearing filters...");
+            ingredientFilters[0]="none";
+            for (int i = 1; i < ingredientFilters.length; i++) {
+                ingredientFilters[i]="";
+            }
+        }
+        ingredientFilters = ingredients.split("\\s*(\\s|,)\\s*");
+        System.out.println("Do you have any dietary restrictions? If so, please list them here in the same fashion.\n" +
+                "Again, you can clear the dietary filters by entering \"none\"");
+        String diet = userScan.nextLine();
+        if(diet.equals("none")){
+            System.out.println("Clearing filters...");
+            dietFilters[0]="none";
+            for (int i = 1; i < dietFilters.length; i++) {
+                dietFilters[i]="";
+            }
+        }
+        return;
+    }
+
+    /**
+     * Deprecated commandline filter code. Kept in for legacy uses.
+     * parses single letter arguments and following ingredients/dietary concerns
+     * Updates dietFilters and ingredientFilters with the user input.
+     * Clears all filters on inputting "-c"
+     * @param args
+     */
     public void filter(String[] args){
         if(args.length>=3) {
             switch (args[1]) {
