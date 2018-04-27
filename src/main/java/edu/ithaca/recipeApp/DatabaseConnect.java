@@ -106,7 +106,7 @@ public class DatabaseConnect {
     try
     {
       // create a database connection
-      connection = DriverManager.getConnection("jdbc:sqlite:/Users/jonburger/Google_Drive/recipeapp/src/test/resources/db/recipes.db");
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       ResultSet rs = statement.executeQuery("select * from RECIPES");
