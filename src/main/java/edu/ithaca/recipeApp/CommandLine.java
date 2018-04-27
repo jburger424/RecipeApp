@@ -154,29 +154,27 @@ public class CommandLine {
                 "1) List Recipes (Lists all recipes based on current filters)\n" +
                 "2) View Recipe (Views details about an individual recipe)\n" +
                 "3) Edit Recipe (Allows for editing an individual recipe)\n" +
-
-                "4) Filter Recipes (Applies filters to the main list of recipes)\n" +
-                "5) Help (Prints this menu)\n" +
-                "6) Quit (Quits the program");
+                "4) Add Recipe (Adds a new recipe)\n" +
+                "5) Filter Recipes (Applies filters to the main list of recipes)\n" +
+                "6) Help (Prints this menu)\n" +
+                "7) Quit (Quits the program)");
     }
 
-    public void view(){
+    public void view() throws IOException {
+        list();
         System.out.println("Which recipe would you like to view?");
-        try {
-            list();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+
         while(true){
             System.out.print(">_");
             String recipe = userScan.nextLine();
             view(recipe);
+            return;
         }
     }
 
     private void view(String ID) throws IOException{
         //To be linked to a function to list details of a single recipe based on a title input
-        System.out.println("Viewing recipe "+ title+"\n");
+        System.out.println("Viewing recipe "+ ID +"\n");
         dbConnect.viewRecipe(Integer.parseInt(ID));
     }
     private void edit(){
