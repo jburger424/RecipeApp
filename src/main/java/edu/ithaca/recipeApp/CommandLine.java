@@ -146,6 +146,7 @@ public class CommandLine {
         dbConnect.listRecipes();
     }
     public void add(){
+        AddRecipe.addRecipe();
 
     }
     public void help(){

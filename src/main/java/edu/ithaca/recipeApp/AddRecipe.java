@@ -23,8 +23,8 @@ public class AddRecipe {
         System.out.println("Follow prompt to create a new recipe...");
         System.out.println("Type these optional commands at any point:");
         System.out.println("   'cancel' to quit without saving");
-        System.out.println("   'draft' to quit and continue later\n");
-        System.out.println("   'skip' to skip an option");
+        System.out.println("   'draft' to quit and continue later");
+        System.out.println("   'skip' to skip an option\n");
 
         String input = "void";
         int prompt = 0;
@@ -67,11 +67,6 @@ public class AddRecipe {
     }
 
     public static void insertRecipeToDatabase(Recipe recipe){
-
-        System.out.println("Recipe received...");
-
-        System.out.println(recipe.getRecipe());
-
         Connection connection = null;
         Statement statement = null;
         ResultSet result = null;
@@ -99,8 +94,6 @@ public class AddRecipe {
             int ingNum = ingredients.size();
             for(int i = 0; i < ingNum; i++){
 
-                System.out.println("CHECKING INGREDIENTS");
-
                 stmt = "insert into INGREDIENTS (NAME) select '"
                         + ingredients.get(i).getName()
                         + "' where not exists(select * from INGREDIENTS where NAME = '"
@@ -110,8 +103,6 @@ public class AddRecipe {
 
                 stmt = "select * from INGREDIENTS where NAME = '" + ingredients.get(i).getName() + "'";
                 result = statement.executeQuery(stmt);
-
-                System.out.println("RECIPE TO INGREDIENT");
 
                 stmt = "insert into RECIPE_TO_INGREDIENT"
                         + "(INGREDIENT_ID, QUANTITY, RECIPE_ID)"
@@ -124,8 +115,6 @@ public class AddRecipe {
             int tagNum = recipe.getTags().size();
             for(int i = 0; i < tagNum; i++){
 
-                System.out.println("CHECKING TAGS");
-
                 stmt = "insert into TAGS (NAME) select '"
                         + recipe.getTags().get(i)
                         + "' where not exists(select * from TAGS where NAME = '"
@@ -133,8 +122,6 @@ public class AddRecipe {
                 statement.executeUpdate(stmt);
                 stmt = "select * from TAGS where NAME = '" + recipe.getTags().get(i) + "'";
                 result = statement.executeQuery(stmt);
-
-                System.out.println("RECIPE TO TAG");
 
                 stmt = "insert into RECIPE_TO_TAG"
                         + "(RECIPE_ID, TAG_ID)"
@@ -145,11 +132,12 @@ public class AddRecipe {
             statement.close();
             result.close();
             connection.close();
+            System.out.println("Insertion successful.");
         }
         catch(SQLException se){
             System.err.println(se.getMessage());
         }
-        System.out.println("Insert Complete");
+        System.out.println("Your recipe has been saved.");
     }
 
     public static boolean validInteger(String input){
@@ -252,7 +240,9 @@ public class AddRecipe {
 
 
     public static void main(String[] args){
-        Recipe recipe = addRecipe();
+
+        AddRecipe.addRecipe();
+        //Recipe recipe = addRecipe();
 
 
     }
