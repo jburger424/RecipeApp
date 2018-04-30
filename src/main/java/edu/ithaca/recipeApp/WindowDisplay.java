@@ -19,8 +19,13 @@ public class WindowDisplay {
     String[] ingredients;
     String[] steps;
 
-    public WindowDisplay(int id){
+    public WindowDisplay(){
         this.id = id;
+        this.calories = calories;
+        this.servings = servings;
+        this.title = title;
+        this.ingredients = ingredients;
+        this.steps = steps;
     }
 
     public static void getImage(String imageUrl) throws Exception {
@@ -46,23 +51,41 @@ public class WindowDisplay {
         os.close();
     }
 
-    public static void makeWindow(){
+    public void makeWindow(){
         JFrame frame = new JFrame("Recipe");
         JPanel panel = new JPanel();
         panel.setLayout(new FlowLayout());
 
 
-        JLabel label = new JLabel("This is a label!");
-        panel.add(label);
+        JLabel titleLabel = new JLabel("Title: "+ title);
+        JLabel calLabel = new JLabel("Calories: "+ calories);
+        JLabel servLabel = new JLabel("Servings: "+ servings);
+
+        String ingrLabelText = "";
+        for (int i = 0; i < ingredients.length; i++) {
+            ingrLabelText += ingredients[i] + "\n";
+        }
+        JLabel ingrLabel = new JLabel(ingrLabelText);
+
+        String stepsLabelText = "";
+        for (int i = 0; i < ingredients.length; i++) {
+            stepsLabelText += ingredients[i] + "\n";
+        }
+        JLabel stepsLabel = new JLabel(stepsLabelText);
+
+        panel.add(titleLabel);
+        panel.add(calLabel);
+        panel.add(servLabel);
+        panel.add(ingrLabel);
+        panel.add(stepsLabel);
+
 
 
         frame.add(panel);
-        frame.setSize(300, 300);
+        frame.setSize(600, 600);
         frame.setLocationRelativeTo(null);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
-
-
     }
 
     public void getDatabaseInfo(int ID){
@@ -77,6 +100,7 @@ public class WindowDisplay {
         Connection connection = null;
         try {
             // create a database connection
+            int ingrCount = 0;
             connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
             Statement statement = connection.createStatement();
             statement.setQueryTimeout(30);  // set timeout to 30 sec.
@@ -87,11 +111,12 @@ public class WindowDisplay {
                 Ingredient tempIngred = new Ingredient();
                 tempIngred.setID(ingredID);
                 tempIngred.setQuantity(ingredQuant);
-                ingredients.add(tempIngred);
+                ingrCount = Integer.parseInt(ingredQuant);
+                ingredients[ingrCount-1] = tempIngred.toString();
             }
-            for (Ingredient i:ingredients){
-                rs = statement.executeQuery("select * from INGREDIENTS WHERE ID="+i.getID());
-                i.setName(rs.getString("NAME"));
+            for (int i = 0; i < ingrCount; i++){
+                //rs = statement.executeQuery("select * from INGREDIENTS WHERE ID="+Ingredient.getID());
+                //i.setName(rs.getString("NAME"));
             }
             rs = statement.executeQuery("select * from RECIPES WHERE ID="+ID);
             while(rs.next())
@@ -134,7 +159,7 @@ public class WindowDisplay {
 
     }
 
-    public static void main(String[] args) {
+    public void main(String[] args) {
         makeWindow();
     }
 }
