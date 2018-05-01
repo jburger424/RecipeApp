@@ -42,8 +42,8 @@ public class CommandLine {
                         "3) Edit Recipe\n" + "4) Add Recipe\n" +
 
                         "5) Filter Recipes\n" +
-                        "6) Help\n" +
-                        "7) Quit");
+                        "6) Help\n" + "7) Print Recipe\n" +
+                        "8) Quit");
 
 
         while(true) {
@@ -106,7 +106,9 @@ public class CommandLine {
                         filter(cmdArray);
                     }
                     break;
-                case "8":
+                case "7":
+                case "print":
+                case "Print":
                     if (cmdArray.length == 1 ) {
                         print();
                     } else {
@@ -117,7 +119,7 @@ public class CommandLine {
                 case "quit":
                 case "Quit":
                 case "q":
-                case "7":
+                case "8":
                     System.out.println("Thank you for using RecipeApp!\n");
                     return;
                 default:
@@ -165,7 +167,8 @@ public class CommandLine {
                 "4) Add Recipe (Adds a new recipe)\n" +
                 "5) Filter Recipes (Applies filters to the main list of recipes)\n" +
                 "6) Help (Prints this menu)\n" +
-                "7) Quit (Quits the program)");
+                "7) Print Recipe (Open a window that displays the information of the recipe as well as a picture)\n" +
+                "8) Quit (Quits the program)");
     }
 
     public void view() throws IOException {
@@ -205,7 +208,6 @@ public class CommandLine {
 
     public void print(String ID) throws IOException{
         System.out.println("Printing recipe "+ ID);
-        //TODO
         DatabaseConnect db2 = new DatabaseConnect();
         WindowDisplay wd = db2.viewRecipe(Integer.parseInt(ID));
         wd.makeWindow();

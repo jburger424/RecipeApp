@@ -75,9 +75,9 @@ public class WindowDisplay {
             panel.setLayout(new FlowLayout());
 
 
-            JLabel titleLabel = new JLabel("<html>Title: " + title + "<br/></html>", SwingConstants.CENTER);
-            JLabel calLabel = new JLabel("Calories: " + calories + "\n");
-            JLabel servLabel = new JLabel("Servings: " + servings + "\n");
+            JLabel titleLabel = new JLabel("<html>Title: " + title + ". <br/></html>", SwingConstants.CENTER);
+            JLabel calLabel = new JLabel("Calories: " + calories + ". \n");
+            JLabel servLabel = new JLabel("Servings: " + servings + ". \n");
 
             String ingrLabelText = "Ingredients: ";
             for (int i = 0; i < ingredients.size(); i++) {
@@ -94,7 +94,7 @@ public class WindowDisplay {
             Image image = getImage();
 
             JLabel jLabelImg = new JLabel();
-            jLabelImg.setIcon(new ImageIcon(image));
+            jLabelImg.setIcon(new ImageIcon(image.getScaledInstance(250, 250, 250)));
 
 
             panel.add(titleLabel);
