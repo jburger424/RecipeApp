@@ -15,6 +15,7 @@ public class CommandLine {
     public String[] dietFilters = new String[5];
     public String[] ingredientFilters = new String[5];
     public DatabaseConnect dbConnect = new DatabaseConnect();
+    public AddRecipe addRecipe = new AddRecipe();
 
     public CommandLine() {
         this.userScan=new Scanner(System.in);
@@ -187,7 +188,7 @@ public class CommandLine {
         dbConnect.listRecipes();
     }
     public void add(){
-
+        addRecipe.addRecipe();
     }
     public void help(){
         System.out.println("\nHelp: \n" +
@@ -289,7 +290,7 @@ public class CommandLine {
         } else {
             dietFilters = diet.split(",\\s*");
         }
-        dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)));
+        dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)), new ArrayList<>(Arrays.asList(dietFilters)));
     }
 
     /**
@@ -347,7 +348,7 @@ public class CommandLine {
         } else {
             System.out.println("Invalid format. Please enter a valid filter, followed by a comma seperated list of arguments");
         }
-        dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)));
+        dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)), new ArrayList<>(Arrays.asList(dietFilters)));
     }
     public static void main(String[] args) throws Exception {
         CommandLine cl = new CommandLine();
