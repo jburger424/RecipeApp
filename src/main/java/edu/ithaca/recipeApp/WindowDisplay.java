@@ -40,29 +40,9 @@ public class WindowDisplay {
             e.printStackTrace();
         }
 
-
-        //        String destinationFile = "image.jpg";
-//
-//        BufferedImage c = ImageIO.read(imageUrl);
-//        ImageIcon image = new ImageIcon(c);
-//        jXImageView1.setImage(image);
-//
-//        saveImage(imageUrl, destinationFile);
     }
 
-    public void getImage() throws Exception{
-//        URL url = new URL(imageUrl);
-//        InputStream is = url.openStream();
-//        OutputStream os = new FileOutputStream(destinationFile);
-//
-//        byte[] b = new byte[2048];
-//        int length;
-//
-//        while ((length = is.read(b)) != -1) {
-//            os.write(b, 0, length);
-//        }
-//        is.close();
-//        os.close();
+    public Image getImage() throws Exception{
 
         //Chicken noodle soup
         if (id ==1){
@@ -85,50 +65,54 @@ public class WindowDisplay {
             img = ImageIO.read(url);
         }
 
-        //return img;
+        return img;
     }
 
     public void makeWindow(){
-        JFrame frame = new JFrame("Recipe");
-        JPanel panel = new JPanel();
-        panel.setLayout(new FlowLayout());
+        try {
+            JFrame frame = new JFrame("Recipe");
+            JPanel panel = new JPanel();
+            panel.setLayout(new FlowLayout());
 
 
-        JLabel titleLabel = new JLabel("<html>Title: " + title + "<br/></html>", SwingConstants.CENTER);
-        JLabel calLabel = new JLabel("Calories: "+ calories + "\n");
-        JLabel servLabel = new JLabel("Servings: "+ servings + "\n");
+            JLabel titleLabel = new JLabel("<html>Title: " + title + "<br/></html>", SwingConstants.CENTER);
+            JLabel calLabel = new JLabel("Calories: " + calories + "\n");
+            JLabel servLabel = new JLabel("Servings: " + servings + "\n");
 
-        String ingrLabelText = "Ingredients: ";
-        for (int i = 0; i < ingredients.size(); i++) {
-            ingrLabelText += ingredients.get(i) + "\n\n";
+            String ingrLabelText = "Ingredients: ";
+            for (int i = 0; i < ingredients.size(); i++) {
+                ingrLabelText += ingredients.get(i) + "\n\n";
+            }
+            JLabel ingrLabel = new JLabel(ingrLabelText);
+
+            String stepsLabelText = "Steps: ";
+            for (int i = 0; i < steps.length; i++) {
+                stepsLabelText += steps[i] + ", \n";
+            }
+            JLabel stepsLabel = new JLabel(stepsLabelText);
+
+            Image image = getImage();
+
+            JLabel jLabelImg = new JLabel();
+            jLabelImg.setIcon(new ImageIcon(image));
+
+
+            panel.add(titleLabel);
+            panel.add(calLabel);
+            panel.add(servLabel);
+            panel.add(ingrLabel);
+            panel.add(stepsLabel);
+            panel.add(jLabelImg);
+
+
+            frame.add(panel);
+            frame.setSize(600, 600);
+            //frame.setLocationRelativeTo(null);
+            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+            frame.setVisible(true);
+        }catch (java.lang.Exception e){
+            System.out.println("java.lang.Exception caught");
         }
-        JLabel ingrLabel = new JLabel(ingrLabelText);
-
-        String stepsLabelText = "Steps: ";
-        for (int i = 0; i < steps.length; i++) {
-            stepsLabelText += steps[i] + ", \n";
-        }
-        JLabel stepsLabel = new JLabel(stepsLabelText);
-
-        img = getImage();
-        JLabel jLabelImg = new JLabel();
-        jLabelImg.setIcon(new ImageIcon(img));
-
-
-        panel.add(titleLabel);
-        panel.add(calLabel);
-        panel.add(servLabel);
-        panel.add(ingrLabel);
-        panel.add(stepsLabel);
-        panel.add(jLabelImg);
-
-
-
-        frame.add(panel);
-        frame.setSize(600, 600);
-        //frame.setLocationRelativeTo(null);
-        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
     }
 
     public static void main(String[] args) {
@@ -149,10 +133,8 @@ public class WindowDisplay {
         }
 
 
-        WindowDisplay wd = new WindowDisplay(123, "Chicken Parm", 400, 2, ingr, steps);
+        WindowDisplay wd = new WindowDisplay(22, "Chicken", 400, 2, ingr, steps);
         wd.makeWindow();
-
-
 
     }
 }

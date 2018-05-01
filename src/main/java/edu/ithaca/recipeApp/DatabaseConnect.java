@@ -27,7 +27,7 @@ public class DatabaseConnect {
       e.printStackTrace();
     }
 
-
+    WindowDisplay wd = null;
     ResultSet rs = null;
     Connection connection = null;
     try
@@ -68,6 +68,12 @@ public class DatabaseConnect {
           System.out.println("\t"+step);
         }
         System.out.println();
+        wd = new WindowDisplay(ID, //ID
+                rs.getString("title"), //Title
+                rs.getInt("SERVINGS"),  //Servings
+                rs.getInt("CALS_PER_SERVING"), //Calories per serving
+                ingredients, //Ingredients
+                rs.getString("steps").split("\\r?\\n|\\r")); //Steps
       }
     }
     catch(SQLException e)
@@ -89,20 +95,20 @@ public class DatabaseConnect {
         System.err.println(e);
       }
     }
-    WindowDisplay wd = null;
-    try {
-        wd = new WindowDisplay(ID, //ID
-                rs.getString("title"), //Title
-                rs.getInt("SERVINGS"),  //Servings
-                rs.getInt("CALS_PER_SERVING"), //Calories per serving
-                ingredients, //Ingredients
-                rs.getString("steps").split("\\r?\\n|\\r")); //Steps
-        return wd;
-    }catch(SQLException e)
-    {
-        // connection close failed.
-        System.err.println(e);
-    }
+//    WindowDisplay wd = null;
+//    try {
+//        wd = new WindowDisplay(ID, //ID
+//                rs.getString("title"), //Title
+//                rs.getInt("SERVINGS"),  //Servings
+//                rs.getInt("CALS_PER_SERVING"), //Calories per serving
+//                ingredients, //Ingredients
+//                rs.getString("steps").split("\\r?\\n|\\r")); //Steps
+//        return wd;
+//    }catch(SQLException e)
+//    {
+//        // connection close failed.
+//        System.err.println(e);
+//    }
     return wd;
   }
 
