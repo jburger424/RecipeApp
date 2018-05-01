@@ -17,7 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DatabaseConnect {
-  public void viewRecipe(int ID){
+  public WindowDisplay viewRecipe(int ID){
     ArrayList<Ingredient> ingredients = new ArrayList<>();
     // load the sqlite-JDBC driver using the current class loader
     try{
@@ -28,7 +28,7 @@ public class DatabaseConnect {
     }
 
 
-
+    ResultSet rs = null;
     Connection connection = null;
     try
     {
@@ -36,7 +36,7 @@ public class DatabaseConnect {
       connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
-      ResultSet rs = statement.executeQuery("select * from RECIPE_TO_INGREDIENT WHERE RECIPE_ID="+ID);
+      rs = statement.executeQuery("select * from RECIPE_TO_INGREDIENT WHERE RECIPE_ID="+ID);
       while(rs.next())
       {
         int ingredID = rs.getInt("INGREDIENT_ID");
@@ -89,6 +89,21 @@ public class DatabaseConnect {
         System.err.println(e);
       }
     }
+    WindowDisplay wd = null;
+    try {
+        wd = new WindowDisplay(ID, //ID
+                rs.getString("title"), //Title
+                rs.getInt("SERVINGS"),  //Servings
+                rs.getInt("CALS_PER_SERVING"), //Calories per serving
+                ingredients, //Ingredients
+                rs.getString("steps").split("\\r?\\n|\\r")); //Steps
+        return wd;
+    }catch(SQLException e)
+    {
+        // connection close failed.
+        System.err.println(e);
+    }
+    return wd;
   }
 
   public void listRecipes(){

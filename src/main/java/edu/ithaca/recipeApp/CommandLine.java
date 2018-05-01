@@ -182,8 +182,24 @@ public class CommandLine {
         rec.edit();
     }
 
-    public void print(){
+    public void print() throws IOException{
+        list();
+        System.out.println("Which recipe would you like to print?");
+
+        while(true){
+            System.out.print(">_");
+            String recipe = userScan.nextLine();
+            print(recipe);
+            return;
+        }
+
+    }
+
+    public void print(String ID) throws IOException{
+        System.out.println("Printing recipe "+ ID);
         //TODO
+        WindowDisplay wd = dbConnect.viewRecipe(Integer.parseInt(ID));
+        wd.makeWindow();
     }
 
     public void filter(){

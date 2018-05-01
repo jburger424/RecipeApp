@@ -17,11 +17,11 @@ public class WindowDisplay {
     int calories;
     int servings;
     String title;
-    ArrayList<String> ingredients;
+    ArrayList<Ingredient> ingredients;
     String[] steps;
     Image img;
 
-    public WindowDisplay(int id, String title, int calories, int servings, ArrayList<String> ingredients, String[] steps, Image img){
+    public WindowDisplay(int id, String title, int calories, int servings, ArrayList<Ingredient> ingredients, String[] steps){
         this.id = id;
         this.calories = calories;
         this.servings = servings;
@@ -31,7 +31,7 @@ public class WindowDisplay {
         this.img = img;
     }
 
-    public void getImage(String imageUrl) throws Exception {
+    public void saveImage() throws Exception {
         Image image = null;
         try {
             URL url = new URL("http://www.mkyong.com/image/mypic.jpg");
@@ -50,20 +50,42 @@ public class WindowDisplay {
 //        saveImage(imageUrl, destinationFile);
     }
 
-    public void saveImage(String imageUrl, String destinationFile) throws IOException {
-        URL url = new URL(imageUrl);
-        InputStream is = url.openStream();
-        OutputStream os = new FileOutputStream(destinationFile);
+    public void getImage() throws Exception{
+//        URL url = new URL(imageUrl);
+//        InputStream is = url.openStream();
+//        OutputStream os = new FileOutputStream(destinationFile);
+//
+//        byte[] b = new byte[2048];
+//        int length;
+//
+//        while ((length = is.read(b)) != -1) {
+//            os.write(b, 0, length);
+//        }
+//        is.close();
+//        os.close();
 
-        byte[] b = new byte[2048];
-        int length;
-
-        while ((length = is.read(b)) != -1) {
-            os.write(b, 0, length);
+        //Chicken noodle soup
+        if (id ==1){
+            URL url = new URL("https://hips.hearstapps.com/clv.h-cdn.co/assets/16/49/1481052520-gettyimages-91642973.jpg?crop=0.9895953757225433xw:1xh;center,top&resize=980:*");
+            img = ImageIO.read(url);
+        }
+        //Salad
+        else if (id ==2){
+            URL url = new URL("http://www.healthguide.net/wp-content/uploads/2013/12/salad.jpg");
+            img = ImageIO.read(url);
+        }
+        //Chicken
+        else if (id ==22){
+            URL url = new URL("https://www.grandmamolasses.com/wp-content/uploads/2013/04/IMG_9296-1024x641.jpg");
+            img = ImageIO.read(url);
+        }
+        //Peach Pie
+        else if (id ==23){
+            URL url = new URL("https://images-gmi-pmc.edge-generalmills.com/bf18ade2-a8e8-4158-9e82-a9d23671b8f5.jpg");
+            img = ImageIO.read(url);
         }
 
-        is.close();
-        os.close();
+        //return img;
     }
 
     public void makeWindow(){
@@ -88,8 +110,10 @@ public class WindowDisplay {
         }
         JLabel stepsLabel = new JLabel(stepsLabelText);
 
+        img = getImage();
         JLabel jLabelImg = new JLabel();
         jLabelImg.setIcon(new ImageIcon(img));
+
 
         panel.add(titleLabel);
         panel.add(calLabel);
@@ -108,10 +132,11 @@ public class WindowDisplay {
     }
 
     public static void main(String[] args) {
-        ArrayList<String> ingr = new ArrayList<String>();
-        ingr.add("Chicken");
-        ingr.add("Cheese");
-        ingr.add("Marinara sauce");
+        ArrayList<Ingredient> ingr = new ArrayList<Ingredient>();
+        Ingredient i1 = new Ingredient();
+//        ingr.add("Chicken");
+//        ingr.add("Cheese");
+//        ingr.add("Marinara sauce");
         String [] steps = {"Cook chicken", "Add sauce", "Add cheese"};
 
         //String img = "http://www.geniuskitchen.com/recipe/chicken-parmesan-19135";
@@ -124,7 +149,7 @@ public class WindowDisplay {
         }
 
 
-        WindowDisplay wd = new WindowDisplay(123, "Chicken Parm", 400, 2, ingr, steps, image);
+        WindowDisplay wd = new WindowDisplay(123, "Chicken Parm", 400, 2, ingr, steps);
         wd.makeWindow();
 
 
