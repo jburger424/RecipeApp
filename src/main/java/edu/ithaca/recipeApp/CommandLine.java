@@ -47,8 +47,9 @@ public class CommandLine {
 
                         "5) Filter Recipes\n" +
                                 "6) Print Recipe\n" +
-                        "7) Help\n" +
-                        "8) Quit");
+                                "7) Favorite Recipe\n" +
+                        "8) Help\n" +
+                        "9) Quit");
 
 
             System.out.print(">_");
@@ -65,7 +66,7 @@ public class CommandLine {
                 case "help":
                 case "Help":
                 case "h":
-                case "7":
+                case "8":
                     help();
                     break;
 
@@ -127,10 +128,30 @@ public class CommandLine {
                 case "6":
                     print();
                     break;
+
+                case "favorite":
+                case "Favorite":
+                case "fav":
+                    if(cmdArray.length==1){
+                        System.out.println("No Recipe ID entered, please try again\n");
+                        break;
+                    } else {
+                        try{
+                            favorite(cmdArray[1]);
+                        }
+                        catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                case "7":
+                    favorite();
+                    break;
+
+
                 case "quit":
                 case "Quit":
                 case "q":
-                case "8":
+                case "9":
                     System.out.println("Thank you for using RecipeApp!\n");
                     return;
                 default:
@@ -217,6 +238,24 @@ public class CommandLine {
 
     public void print(String ID) throws IOException{
         System.out.println("Printing recipe "+ ID);
+        //TODO
+    }
+
+    public void favorite() throws IOException{
+        list();
+        System.out.println("Which recipe would you like to favorite?");
+
+        while(true){
+            System.out.print(">_");
+            String recipe = userScan.nextLine();
+            favorite(recipe);
+            return;
+        }
+
+    }
+
+    public void favorite(String ID) throws IOException{
+        System.out.println("Recipe "+ ID + " added to favorites");
         //TODO
     }
     public void filter(){
