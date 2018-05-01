@@ -4,7 +4,7 @@ import java.sql.*;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-public class editRecipe {
+public class EditRecipe {
 
     public void edit(){
         Connection connection = null;
@@ -68,7 +68,7 @@ public class editRecipe {
 
     public static void main(String[] args){
 
-        editRecipe rec = new editRecipe();
+        EditRecipe rec = new EditRecipe();
         rec.edit();
 
     }

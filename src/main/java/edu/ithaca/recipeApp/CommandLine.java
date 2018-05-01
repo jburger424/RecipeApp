@@ -180,7 +180,7 @@ public class CommandLine {
         dbConnect.viewRecipe(Integer.parseInt(ID));
     }
     private void edit(){
-        editRecipe rec = new editRecipe();
+        EditRecipe rec = new EditRecipe();
         rec.edit();
     }
 
