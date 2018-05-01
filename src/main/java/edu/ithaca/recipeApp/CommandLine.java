@@ -1,6 +1,8 @@
 package edu.ithaca.recipeApp;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Scanner;
 
 /**
@@ -266,6 +268,7 @@ public class CommandLine {
         } else {
             System.out.println("Invalid format. Please enter a valid filter, followed by a comma seperated list of arguments");
         }
+        dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)));
     }
     public static void main(String[] args) throws Exception {
         CommandLine cl = new CommandLine();

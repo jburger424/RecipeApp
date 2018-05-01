@@ -17,6 +17,13 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class DatabaseConnect {
+  private ArrayList<String> ingreds;
+
+  //TODO do we want to add or modify current filters?
+  public void setFilter(ArrayList<String> ingreds){
+    this.ingreds = ingreds;
+  }
+
   public void viewRecipe(int ID){
     ArrayList<Ingredient> ingredients = new ArrayList<>();
     // load the sqlite-JDBC driver using the current class loader
@@ -109,12 +116,30 @@ public class DatabaseConnect {
       connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
-      ResultSet rs = statement.executeQuery("select * from RECIPES");
+      StringBuilder listQuery = new StringBuilder();
+      listQuery.append("SELECT NAME, RECIPE_ID, COUNT(NAME) AS MATCHING_INGREDS FROM(SELECT RECIPES.ID AS RECIPE_ID, RECIPES.TITLE AS NAME, INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT FROM RECIPES JOIN RECIPE_TO_INGREDIENT ON RECIPES.ID=RECIPE_TO_INGREDIENT.RECIPE_ID JOIN INGREDIENTS ON RECIPE_TO_INGREDIENT.INGREDIENT_ID=INGREDIENTS.ID WHERE");
+      if(ingreds != null){
+        for (int i = 0; i < ingreds.size(); i++) {
+          listQuery.append(" INGREDIENT LIKE '");
+          listQuery.append(ingreds.get(i));
+          if(i==ingreds.size()-1) {
+
+          }
+          else{
+            listQuery.append("' OR");
+          }
+      }
+      }
+      else{
+        listQuery.append(" INGREDIENT LIKE '%");
+      }
+      listQuery.append("') GROUP BY NAME ORDER BY MATCHING_INGREDS DESC;");
+      ResultSet rs = statement.executeQuery(listQuery.toString());
       while(rs.next())
       {
         // read the result set
-        System.out.print(rs.getInt("ID")+".");
-        System.out.println(rs.getString("title"));
+        System.out.print(rs.getInt("RECIPE_ID")+".");
+        System.out.println(rs.getString("NAME"));
       }
     }
     catch(SQLException e)
