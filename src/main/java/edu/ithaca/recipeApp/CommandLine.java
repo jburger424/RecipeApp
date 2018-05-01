@@ -46,8 +46,9 @@ public class CommandLine {
                         "3) Edit Recipe\n" + "4) Add Recipe\n" +
 
                         "5) Filter Recipes\n" +
-                        "6) Help\n" +
-                        "7) Quit");
+                                "6) Print Recipe\n" +
+                        "7) Help\n" +
+                        "8) Quit");
 
 
             System.out.print(">_");
@@ -64,7 +65,7 @@ public class CommandLine {
                 case "help":
                 case "Help":
                 case "h":
-                case "6":
+                case "7":
                     help();
                     break;
 
@@ -109,11 +110,27 @@ public class CommandLine {
                         filter(cmdArray);
                     }
                     break;
-
+                case "print":
+                case "Print":
+                case "p":
+                    if(cmdArray.length==1){
+                        System.out.println("No Recipe ID entered, please try again\n");
+                        break;
+                    } else {
+                        try{
+                            print(cmdArray[1]);
+                        }
+                        catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                case "6":
+                    print();
+                    break;
                 case "quit":
                 case "Quit":
                 case "q":
-                case "7":
+                case "8":
                     System.out.println("Thank you for using RecipeApp!\n");
                     return;
                 default:
@@ -177,7 +194,7 @@ public class CommandLine {
 
     private void view(String ID) throws IOException{
         //To be linked to a function to list details of a single recipe based on a title input
-        System.out.println("Viewing recipe "+ ID +"\n");
+        System.out.println("Viewing recipe "+ ID);
         dbConnect.viewRecipe(Integer.parseInt(ID));
     }
     private void edit(){
@@ -185,10 +202,23 @@ public class CommandLine {
         rec.edit();
     }
 
-    public void print(){
-        //TODO
+    public void print() throws IOException{
+        list();
+        System.out.println("Which recipe would you like to print?");
+
+        while(true){
+            System.out.print(">_");
+            String recipe = userScan.nextLine();
+            print(recipe);
+            return;
+        }
+
     }
 
+    public void print(String ID) throws IOException{
+        System.out.println("Printing recipe "+ ID);
+        //TODO
+    }
     public void filter(){
         System.out.println("What ingredients would you like to use? (Enter all the ingredients you would like to use, seperated by commas)\n" +
                 "If you would like to clear the filters, type \"none\"");
