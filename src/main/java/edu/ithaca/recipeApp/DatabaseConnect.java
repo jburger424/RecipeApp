@@ -1,6 +1,5 @@
 package edu.ithaca.recipeApp;
 
-//import com.sun.xml.internal.bind.v2.model.core.ID;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -8,17 +7,25 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 
-import java.sql.Array;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.ArrayList;
-import java.util.Arrays;
 
 public class DatabaseConnect {
   private ArrayList<String> ingreds;
+  private int userId;
+  private Connection connection;
+
+  public DatabaseConnect(){
+    userId = -1;
+    connection = null;
+    try{
+      Class.forName("org.sqlite.JDBC");
+      this.connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
+    }
+    catch (Exception e){
+      e.printStackTrace();
+    }
+
+  }
 
   public void setFilter(ArrayList<String> ingreds){
     this.ingreds = ingreds;
@@ -26,19 +33,9 @@ public class DatabaseConnect {
 
   public void viewRecipe(int ID){
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-    // load the sqlite-JDBC driver using the current class loader
-    try{
-      Class.forName("org.sqlite.JDBC");
-    }
-    catch (Exception e){
-      e.printStackTrace();
-    }
 
-    Connection connection = null;
     try
     {
-      // create a database connection
-      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       ResultSet rs = statement.executeQuery("select * from RECIPE_TO_INGREDIENT WHERE RECIPE_ID="+ID);
@@ -97,21 +94,9 @@ public class DatabaseConnect {
   }
 
   public void listRecipes(){
-    // load the sqlite-JDBC driver using the current class loader
-    try{
-      Class.forName("org.sqlite.JDBC");
-    }
-    catch (Exception e){
-      e.printStackTrace();
-    }
-
-
-
-    Connection connection = null;
     try
     {
       // create a database connection
-      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       StringBuilder listQuery = new StringBuilder();
@@ -161,28 +146,84 @@ public class DatabaseConnect {
     }
   }
 
-  public int addUser(String name, String password){
-    // load the sqlite-JDBC driver using the current class loader
-    try{
-      Class.forName("org.sqlite.JDBC");
-    }
-    catch (Exception e){
-      e.printStackTrace();
-    }
+  public boolean userLoggedIn(){
+    return userId != -1;
+  }
 
-
-
-    Connection connection = null;
+  public boolean logInUser(String username, String password){
     try
     {
-      // create a database connection
-      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
-      String query = "INSERT INTO USER(username, password) VALUES(?,?)";
-      PreparedStatement statement = connection.prepareStatement(query);
+      Statement statement = connection.createStatement();
+      statement.setQueryTimeout(30);  // set timeout to 30 sec.
+      ResultSet rs = statement.executeQuery("select * from USER WHERE USERNAME='"+username+"' AND PASSWORD='"+password+"'");
+      if(rs.next()){
+        this.userId = rs.getInt("ID");
+        return true;
+      }
+      else{
+        return false;
+      }
+    }
+    catch(SQLException e){
+      e.printStackTrace();
+    }
+    finally
+    {
+      try
+      {
+        if(connection != null)
+          connection.close();
+      }
+      catch(SQLException e)
+      {
+        // connection close failed.
+        System.err.println(e);
+      }
+    }
+    return false;
+  }
+
+  public boolean userExists(String username){
+    try
+    {
+      Statement statement = connection.createStatement();
+      statement.setQueryTimeout(30);  // set timeout to 30 sec.
+      ResultSet rs = statement.executeQuery("select * from USER WHERE USERNAME='"+username+"'");
+      return rs.next();
+    }
+    catch(SQLException e){
+      e.printStackTrace();
+    }
+    finally
+    {
+      try
+      {
+        if(connection != null)
+          connection.close();
+      }
+      catch(SQLException e)
+      {
+        // connection close failed.
+        System.err.println(e);
+      }
+    }
+    return false;
+  }
+
+  public boolean addUser(String username, String password){
+    if(userExists(username)){
+      System.out.println("ERROR: User '"+username+"' already exists");
+      return false;
+    }
+    try
+    {
+      String statement = "INSERT INTO USER(username, password) VALUES(?,?)";
+      PreparedStatement preparedStatement = connection.prepareStatement(statement);
   //    statement.setQueryTimeout(30);  // set timeout to 30 sec.
-      statement.setString(1, name);
-      statement.setString(2, password);
-      statement.executeUpdate();
+      preparedStatement.setString(1, username);
+      preparedStatement.setString(2, password);
+      preparedStatement.executeUpdate();
+      return true;
     }
     catch(SQLException e)
     {
@@ -203,7 +244,7 @@ public class DatabaseConnect {
         System.err.println(e);
       }
     }
-    return -1;
+    return false;
   }
 
 
@@ -212,7 +253,7 @@ public class DatabaseConnect {
   {
     Class.forName("org.sqlite.JDBC");
     DatabaseConnect db = new DatabaseConnect();
-    db.addUser("jon","1234");
+    System.out.println(db.addUser("jon","1234"));
   }
 }
 
