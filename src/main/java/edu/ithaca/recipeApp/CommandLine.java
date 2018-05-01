@@ -37,18 +37,20 @@ public class CommandLine {
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
-        System.out.println(
+        while(true) {
+
+            System.out.println(
                         "\nAvailable commands are: \n" +
                         "1) List Recipes\n" +
                         "2) View Recipe\n" +
                         "3) Edit Recipe\n" + "4) Add Recipe\n" +
 
                         "5) Filter Recipes\n" +
-                        "6) Help\n" +
-                        "7) Quit");
+                                "6) Print Recipe\n" +
+                        "7) Help\n" +
+                        "8) Quit");
 
 
-        while(true) {
             System.out.print(">_");
             cmd = userScan.nextLine();
             cmdArray = cmd.split(" ");
@@ -63,7 +65,7 @@ public class CommandLine {
                 case "help":
                 case "Help":
                 case "h":
-                case "6":
+                case "7":
                     help();
                     break;
 
@@ -108,11 +110,27 @@ public class CommandLine {
                         filter(cmdArray);
                     }
                     break;
-
+                case "print":
+                case "Print":
+                case "p":
+                    if(cmdArray.length==1){
+                        System.out.println("No Recipe ID entered, please try again\n");
+                        break;
+                    } else {
+                        try{
+                            print(cmdArray[1]);
+                        }
+                        catch (IOException e){
+                            e.printStackTrace();
+                        }
+                    }
+                case "6":
+                    print();
+                    break;
                 case "quit":
                 case "Quit":
                 case "q":
-                case "7":
+                case "8":
                     System.out.println("Thank you for using RecipeApp!\n");
                     return;
                 default:
@@ -176,7 +194,7 @@ public class CommandLine {
 
     private void view(String ID) throws IOException{
         //To be linked to a function to list details of a single recipe based on a title input
-        System.out.println("Viewing recipe "+ ID +"\n");
+        System.out.println("Viewing recipe "+ ID);
         dbConnect.viewRecipe(Integer.parseInt(ID));
     }
     private void edit(){
@@ -184,33 +202,51 @@ public class CommandLine {
         rec.edit();
     }
 
-    public void print(){
-        //TODO
+    public void print() throws IOException{
+        list();
+        System.out.println("Which recipe would you like to print?");
+
+        while(true){
+            System.out.print(">_");
+            String recipe = userScan.nextLine();
+            print(recipe);
+            return;
+        }
+
     }
 
+    public void print(String ID) throws IOException{
+        System.out.println("Printing recipe "+ ID);
+        //TODO
+    }
     public void filter(){
         System.out.println("What ingredients would you like to use? (Enter all the ingredients you would like to use, seperated by commas)\n" +
                 "If you would like to clear the filters, type \"none\"");
         String ingredients = userScan.nextLine();
         if(ingredients.equals("none")){
-            System.out.println("Clearing filters...");
+            System.out.println("Clearing ingredient filters...");
             ingredientFilters[0]="none";
             for (int i = 1; i < ingredientFilters.length; i++) {
                 ingredientFilters[i]="";
             }
+            ingredients = "";
+        } else {
+            ingredientFilters = ingredients.split(",\\s*");
         }
-        ingredientFilters = ingredients.split("\\s*(\\s|,)\\s*");
         System.out.println("Do you have any dietary restrictions? If so, please list them here in the same fashion.\n" +
                 "Again, you can clear the dietary filters by entering \"none\"");
         String diet = userScan.nextLine();
         if(diet.equals("none")){
-            System.out.println("Clearing filters...");
+            System.out.println("Clearing dietary filters...");
             dietFilters[0]="none";
             for (int i = 1; i < dietFilters.length; i++) {
                 dietFilters[i]="";
             }
+            diet = "";
+        } else {
+            dietFilters = diet.split(",\\s*");
         }
-        return;
+        dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)));
     }
 
     /**
