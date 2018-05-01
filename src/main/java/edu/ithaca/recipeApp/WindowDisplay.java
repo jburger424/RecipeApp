@@ -1,6 +1,7 @@
 package edu.ithaca.recipeApp;
 
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -16,26 +17,40 @@ public class WindowDisplay {
     int calories;
     int servings;
     String title;
-    String[] ingredients;
+    ArrayList<String> ingredients;
     String[] steps;
+    Image img;
 
-    public WindowDisplay(){
+    public WindowDisplay(int id, String title, int calories, int servings, ArrayList<String> ingredients, String[] steps, Image img){
         this.id = id;
         this.calories = calories;
         this.servings = servings;
         this.title = title;
         this.ingredients = ingredients;
         this.steps = steps;
+        this.img = img;
     }
 
-    public static void getImage(String imageUrl) throws Exception {
-        imageUrl = "http://www.avajava.com/images/avajavalogo.jpg";
-        String destinationFile = "image.jpg";
+    public void getImage(String imageUrl) throws Exception {
+        Image image = null;
+        try {
+            URL url = new URL("http://www.mkyong.com/image/mypic.jpg");
+            //image = ImageIO.read(imageUrl);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
-        saveImage(imageUrl, destinationFile);
+
+        //        String destinationFile = "image.jpg";
+//
+//        BufferedImage c = ImageIO.read(imageUrl);
+//        ImageIcon image = new ImageIcon(c);
+//        jXImageView1.setImage(image);
+//
+//        saveImage(imageUrl, destinationFile);
     }
 
-    public static void saveImage(String imageUrl, String destinationFile) throws IOException {
+    public void saveImage(String imageUrl, String destinationFile) throws IOException {
         URL url = new URL(imageUrl);
         InputStream is = url.openStream();
         OutputStream os = new FileOutputStream(destinationFile);
@@ -57,109 +72,62 @@ public class WindowDisplay {
         panel.setLayout(new FlowLayout());
 
 
-        JLabel titleLabel = new JLabel("Title: "+ title);
-        JLabel calLabel = new JLabel("Calories: "+ calories);
-        JLabel servLabel = new JLabel("Servings: "+ servings);
+        JLabel titleLabel = new JLabel("<html>Title: " + title + "<br/></html>", SwingConstants.CENTER);
+        JLabel calLabel = new JLabel("Calories: "+ calories + "\n");
+        JLabel servLabel = new JLabel("Servings: "+ servings + "\n");
 
-        String ingrLabelText = "";
-        for (int i = 0; i < ingredients.length; i++) {
-            ingrLabelText += ingredients[i] + "\n";
+        String ingrLabelText = "Ingredients: ";
+        for (int i = 0; i < ingredients.size(); i++) {
+            ingrLabelText += ingredients.get(i) + "\n\n";
         }
         JLabel ingrLabel = new JLabel(ingrLabelText);
 
-        String stepsLabelText = "";
-        for (int i = 0; i < ingredients.length; i++) {
-            stepsLabelText += ingredients[i] + "\n";
+        String stepsLabelText = "Steps: ";
+        for (int i = 0; i < steps.length; i++) {
+            stepsLabelText += steps[i] + ", \n";
         }
         JLabel stepsLabel = new JLabel(stepsLabelText);
+
+        JLabel jLabelImg = new JLabel();
+        jLabelImg.setIcon(new ImageIcon(img));
 
         panel.add(titleLabel);
         panel.add(calLabel);
         panel.add(servLabel);
         panel.add(ingrLabel);
         panel.add(stepsLabel);
+        panel.add(jLabelImg);
 
 
 
         frame.add(panel);
         frame.setSize(600, 600);
-        frame.setLocationRelativeTo(null);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        //frame.setLocationRelativeTo(null);
+        //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setVisible(true);
     }
 
-    public void getDatabaseInfo(int ID){
-//        ArrayList<Ingredient> ingredients = new ArrayList<>();
-        // load the sqlite-JDBC driver using the current class loader
-        try{
-            Class.forName("org.sqlite.JDBC");
-        }
-        catch (Exception e){
+    public static void main(String[] args) {
+        ArrayList<String> ingr = new ArrayList<String>();
+        ingr.add("Chicken");
+        ingr.add("Cheese");
+        ingr.add("Marinara sauce");
+        String [] steps = {"Cook chicken", "Add sauce", "Add cheese"};
+
+        //String img = "http://www.geniuskitchen.com/recipe/chicken-parmesan-19135";
+        Image image = null;
+        try {
+            URL url = new URL("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2011/8/4/1/GL0509_chicken-parmigiana_s4x3.jpg.rend.hgtvcom.616.462.suffix/1371600392952.jpeg");
+            image = ImageIO.read(url);
+        } catch (IOException e) {
             e.printStackTrace();
         }
-        Connection connection = null;
-        try {
-            // create a database connection
-            int ingrCount = 0;
-            connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
-            Statement statement = connection.createStatement();
-            statement.setQueryTimeout(30);  // set timeout to 30 sec.
-            ResultSet rs = statement.executeQuery("select * from RECIPE_TO_INGREDIENT WHERE RECIPE_ID="+ID);
-            while(rs.next()) {
-                int ingredID = rs.getInt("INGREDIENT_ID");
-                String ingredQuant = rs.getString("QUANTITY");
-                Ingredient tempIngred = new Ingredient();
-                tempIngred.setID(ingredID);
-                tempIngred.setQuantity(ingredQuant);
-                ingrCount = Integer.parseInt(ingredQuant);
-                ingredients[ingrCount-1] = tempIngred.toString();
-            }
-            for (int i = 0; i < ingrCount; i++){
-                //rs = statement.executeQuery("select * from INGREDIENTS WHERE ID="+Ingredient.getID());
-                //i.setName(rs.getString("NAME"));
-            }
-            rs = statement.executeQuery("select * from RECIPES WHERE ID="+ID);
-            while(rs.next())
-            {
-
-                title = rs.getString("title");
-//                System.out.println("Ingredients:");
-//                for(Ingredient i: ingredients){
-//                    System.out.println("\t"+i.toString());
-//                }
-                ingredients = rs.getString("Ingredient").split("\\r?\\n|\\r");
-                servings = rs.getInt("SERVINGS");
-                calories = rs.getInt("CALS_PER_SERVING");
-                steps = rs.getString("steps").split("\\r?\\n|\\r");
-//                for(int i = 0; i < steps.length; i++){
-//                    steps[i] = ("\t"+);
-//                }
-            }
-        }
-        catch(SQLException e)
-        {
-            // if the error message is "out of memory",
-            // it probably means no database file is found
-            System.err.println(e.getMessage());
-        }
-        finally
-        {
-            try
-            {
-                if(connection != null)
-                    connection.close();
-            }
-            catch(SQLException e)
-            {
-                // connection close failed.
-                System.err.println(e);
-            }
-        }
 
 
-    }
+        WindowDisplay wd = new WindowDisplay(123, "Chicken Parm", 400, 2, ingr, steps, image);
+        wd.makeWindow();
 
-    public void main(String[] args) {
-        makeWindow();
+
+
     }
 }
