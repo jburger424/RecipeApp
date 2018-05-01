@@ -15,7 +15,6 @@ public class CommandLine {
     public String[] dietFilters = new String[0];
     public String[] ingredientFilters = new String[0];
     public DatabaseConnect dbConnect = new DatabaseConnect();
-    public AddRecipe addRecipe = new AddRecipe();
 
     public CommandLine() {
         this.userScan=new Scanner(System.in);
@@ -191,7 +190,7 @@ public class CommandLine {
         dbConnect.listRecipes();
     }
     public void add(){
-        addRecipe.addRecipe();
+        AddRecipe.addRecipe();
     }
     public void help(){
         System.out.println("\nHelp: \n" +
