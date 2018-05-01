@@ -37,7 +37,9 @@ public class CommandLine {
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
-        System.out.println(
+        while(true) {
+
+            System.out.println(
                         "\nAvailable commands are: \n" +
                         "1) List Recipes\n" +
                         "2) View Recipe\n" +
@@ -48,7 +50,6 @@ public class CommandLine {
                         "7) Quit");
 
 
-        while(true) {
             System.out.print(">_");
             cmd = userScan.nextLine();
             cmdArray = cmd.split(" ");
