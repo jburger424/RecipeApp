@@ -30,14 +30,16 @@ public class DatabaseConnect {
     this.ingreds = ingreds;
   }
 
-  public void viewRecipe(int ID){
+  public WindowDisplay viewRecipe(int ID){
     ArrayList<Ingredient> ingredients = new ArrayList<>();
+    WindowDisplay wd;
+    ResultSet rs;
     try
     {
       connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
-      ResultSet rs = statement.executeQuery("select * from RECIPE_TO_INGREDIENT WHERE RECIPE_ID="+ID);
+      rs = statement.executeQuery("select * from RECIPE_TO_INGREDIENT WHERE RECIPE_ID="+ID);
       while(rs.next())
       {
         int ingredID = rs.getInt("INGREDIENT_ID");
@@ -52,23 +54,29 @@ public class DatabaseConnect {
         i.setName(rs.getString("NAME"));
       }
       rs = statement.executeQuery("select * from RECIPES WHERE ID="+ID);
-      while(rs.next())
-      {
+      while(rs.next()) {
         // read the result set
-        System.out.println("\n*"+rs.getString("title")+"*");
+        System.out.println("\n*" + rs.getString("title") + "*");
         System.out.println("-----------------------");
         System.out.println("Ingredients:");
-        for(Ingredient i: ingredients){
-          System.out.println("\t"+i.toString());
+        for (Ingredient i : ingredients) {
+          System.out.println("\t" + i.toString());
         }
-        System.out.println("Servings: "+rs.getInt("SERVINGS"));
-        System.out.println("Calories/Serving: "+rs.getInt("CALS_PER_SERVING"));
+        System.out.println("Servings: " + rs.getInt("SERVINGS"));
+        System.out.println("Calories/Serving: " + rs.getInt("CALS_PER_SERVING"));
         System.out.println("Steps:");
         String[] steps = rs.getString("steps").split("\\r?\\n|\\r");
-        for(String step:steps){
-          System.out.println("\t"+step);
+        for (String step : steps) {
+          System.out.println("\t" + step);
         }
         System.out.println();
+        wd = new WindowDisplay(ID, //ID
+            rs.getString("title"), //Title
+            rs.getInt("SERVINGS"),  //Servings
+            rs.getInt("CALS_PER_SERVING"), //Calories per serving
+            ingredients, //Ingredients
+            rs.getString("steps").split("\\r?\\n|\\r")); //Steps
+        return wd;
       }
     }
     catch(SQLException e)
@@ -81,6 +89,7 @@ public class DatabaseConnect {
     {
       closeConnection();
     }
+    return null;
   }
 
   public void listRecipes(){

@@ -147,7 +147,6 @@ public class CommandLine {
                     favorite();
                     break;
 
-
                 case "quit":
                 case "Quit":
                 case "q":
@@ -157,6 +156,7 @@ public class CommandLine {
                 default:
                     System.out.println("Command not recognized, please try again...\n");
                     break;
+
             }
 
             try {
@@ -240,7 +240,9 @@ public class CommandLine {
 
     public void print(String ID) throws IOException{
         System.out.println("Printing recipe "+ ID);
-        //TODO
+        DatabaseConnect db2 = new DatabaseConnect();
+        WindowDisplay wd = db2.viewRecipe(Integer.parseInt(ID));
+        wd.makeWindow();
     }
 
     public void favorite() throws IOException{
