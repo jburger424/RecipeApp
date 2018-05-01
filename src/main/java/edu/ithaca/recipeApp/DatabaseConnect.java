@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DatabaseConnect {
   private ArrayList<String> ingreds, tags;

@@ -12,16 +12,13 @@ public class CommandLine {
     private Scanner userScan;
     public String cmd;
     public String[] cmdArray;
-    public String[] dietFilters = new String[5];
-    public String[] ingredientFilters = new String[5];
+    public String[] dietFilters = new String[0];
+    public String[] ingredientFilters = new String[0];
     public DatabaseConnect dbConnect = new DatabaseConnect();
     public AddRecipe addRecipe = new AddRecipe();
 
     public CommandLine() {
         this.userScan=new Scanner(System.in);
-        this.dietFilters[0]="None";
-        this.ingredientFilters[0]="None";
-
     }
 
 
@@ -177,11 +174,17 @@ public class CommandLine {
         System.out.println("Listing recipes...");
         System.out.println(
                         "Dietary filters currently applied:");
+        if (dietFilters.length == 0) {
+            System.out.println("None");
+        }
         for (int i = 0; i < dietFilters.length; i++) {
             if(dietFilters[i]!=null){System.out.println(dietFilters[i]);}
         }
         System.out.println(
                 "\nIngredient filters currently applied:");
+        if (ingredientFilters.length == 0) {
+            System.out.println("None");
+        }
         for (int i = 0; i < ingredientFilters.length; i++) {
             if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
         }
@@ -269,11 +272,10 @@ public class CommandLine {
         String ingredients = userScan.nextLine();
         if(ingredients.equals("none")){
             System.out.println("Clearing ingredient filters...");
-            ingredientFilters[0]="none";
+            ingredientFilters = new String[0];
             for (int i = 1; i < ingredientFilters.length; i++) {
                 ingredientFilters[i]="";
             }
-            ingredients = "";
         } else {
             ingredientFilters = ingredients.split(",\\s*");
         }
@@ -282,11 +284,10 @@ public class CommandLine {
         String diet = userScan.nextLine();
         if(diet.equals("none")){
             System.out.println("Clearing dietary filters...");
-            dietFilters[0]="none";
+            dietFilters = new String[0];
             for (int i = 1; i < dietFilters.length; i++) {
                 dietFilters[i]="";
             }
-            diet = "";
         } else {
             dietFilters = diet.split(",\\s*");
         }
@@ -337,11 +338,11 @@ public class CommandLine {
             }
         } else if(args.length==2 && args[1].equals("-c")){
             System.out.println("Clearing filters...");
-            dietFilters[0]="none";
+            dietFilters = new String[0];
             for (int i = 1; i < dietFilters.length; i++) {
                 dietFilters[i]="";
             }
-            ingredientFilters[0]="none";
+            ingredientFilters = new String[0];
             for (int i = 1; i < ingredientFilters.length; i++) {
                 ingredientFilters[i]="";
             }
