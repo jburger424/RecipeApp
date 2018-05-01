@@ -19,6 +19,7 @@
         <property name="enable_load_extension" value="true" />
       </driver-properties>
     </data-source>
+<<<<<<< HEAD
     <data-source source="LOCAL" name="identifier.sqlite [2]" uuid="586298c4-be9b-4445-b44f-571bab3da6d6">
       <driver-ref>sqlite.xerial</driver-ref>
       <synchronize>true</synchronize>
@@ -26,6 +27,20 @@
       <jdbc-url>jdbc:sqlite:identifier.sqlite</jdbc-url>
       <driver-properties>
         <property name="enable_load_extension" value="true" />
+=======
+    <data-source source="LOCAL" name="IthacaEvents@localhost" uuid="808653e5-3002-4136-80c5-c43f78b2dedc">
+      <driver-ref>mysql</driver-ref>
+      <synchronize>true</synchronize>
+      <jdbc-driver>com.mysql.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:mysql://localhost:3306/IthacaEvents</jdbc-url>
+      <driver-properties>
+        <property name="autoReconnect" value="true" />
+        <property name="zeroDateTimeBehavior" value="convertToNull" />
+        <property name="tinyInt1isBit" value="false" />
+        <property name="characterEncoding" value="utf8" />
+        <property name="characterSetResults" value="utf8" />
+        <property name="yearIsDateType" value="false" />
+>>>>>>> master
       </driver-properties>
     </data-source>
   </component>
