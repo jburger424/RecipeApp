@@ -197,8 +197,10 @@ public class CommandLine {
                 "3) Edit Recipe (Allows for editing an individual recipe)\n" +
                 "4) Add Recipe (Adds a new recipe)\n" +
                 "5) Filter Recipes (Applies filters to the main list of recipes)\n" +
-                "6) Help (Prints this menu)\n" +
-                "7) Quit (Quits the program)");
+                "6) Print Recipe (Opens a new window with the recipe details and image)\n" +
+                "7) Favorite Recipe (Adds recipe to favorites)" +
+                "8) Help (Prints this menu)\n" +
+                "9) Quit (Quits the program)");
     }
 
     public void view() throws IOException {
