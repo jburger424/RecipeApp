@@ -3,6 +3,7 @@ package edu.ithaca.recipeApp;
 //import com.sun.xml.internal.bind.v2.model.core.ID;
 import java.sql.Connection;
 import java.sql.DriverManager;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -19,7 +20,6 @@ import java.util.Arrays;
 public class DatabaseConnect {
   private ArrayList<String> ingreds;
 
-  //TODO do we want to add or modify current filters?
   public void setFilter(ArrayList<String> ingreds){
     this.ingreds = ingreds;
   }
@@ -33,8 +33,6 @@ public class DatabaseConnect {
     catch (Exception e){
       e.printStackTrace();
     }
-
-
 
     Connection connection = null;
     try
@@ -162,10 +160,59 @@ public class DatabaseConnect {
       }
     }
   }
+
+  public int addUser(String name, String password){
+    // load the sqlite-JDBC driver using the current class loader
+    try{
+      Class.forName("org.sqlite.JDBC");
+    }
+    catch (Exception e){
+      e.printStackTrace();
+    }
+
+
+
+    Connection connection = null;
+    try
+    {
+      // create a database connection
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
+      String query = "INSERT INTO USER(username, password) VALUES(?,?)";
+      PreparedStatement statement = connection.prepareStatement(query);
+  //    statement.setQueryTimeout(30);  // set timeout to 30 sec.
+      statement.setString(1, name);
+      statement.setString(2, password);
+      statement.executeUpdate();
+    }
+    catch(SQLException e)
+    {
+      // if the error message is "out of memory",
+      // it probably means no database file is found
+      System.err.println(e.getMessage());
+    }
+    finally
+    {
+      try
+      {
+        if(connection != null)
+          connection.close();
+      }
+      catch(SQLException e)
+      {
+        // connection close failed.
+        System.err.println(e);
+      }
+    }
+    return -1;
+  }
+
+
   // load the sqlite-JDBC driver using the current class loader
   public static void main(String[] args) throws ClassNotFoundException
   {
     Class.forName("org.sqlite.JDBC");
+    DatabaseConnect db = new DatabaseConnect();
+    db.addUser("jon","1234");
   }
 }
 
