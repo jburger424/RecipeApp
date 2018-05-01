@@ -19,7 +19,6 @@ public class DatabaseConnect {
     connection = null;
     try{
       Class.forName("org.sqlite.JDBC");
-      this.connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
     }
     catch (Exception e){
       e.printStackTrace();
@@ -33,9 +32,9 @@ public class DatabaseConnect {
 
   public void viewRecipe(int ID){
     ArrayList<Ingredient> ingredients = new ArrayList<>();
-
     try
     {
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       ResultSet rs = statement.executeQuery("select * from RECIPE_TO_INGREDIENT WHERE RECIPE_ID="+ID);
@@ -80,16 +79,7 @@ public class DatabaseConnect {
     }
     finally
     {
-      try
-      {
-        if(connection != null)
-          connection.close();
-      }
-      catch(SQLException e)
-      {
-        // connection close failed.
-        System.err.println(e);
-      }
+      closeConnection();
     }
   }
 
@@ -97,6 +87,7 @@ public class DatabaseConnect {
     try
     {
       // create a database connection
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       StringBuilder listQuery = new StringBuilder();
@@ -125,24 +116,14 @@ public class DatabaseConnect {
         System.out.println(rs.getString("NAME"));
       }
     }
-    catch(SQLException e)
-    {
+    catch(SQLException e) {
       // if the error message is "out of memory",
       // it probably means no database file is found
       System.err.println(e.getMessage());
     }
     finally
     {
-      try
-      {
-        if(connection != null)
-          connection.close();
-      }
-      catch(SQLException e)
-      {
-        // connection close failed.
-        System.err.println(e);
-      }
+      closeConnection();
     }
   }
 
@@ -153,6 +134,7 @@ public class DatabaseConnect {
   public boolean logInUser(String username, String password){
     try
     {
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       ResultSet rs = statement.executeQuery("select * from USER WHERE USERNAME='"+username+"' AND PASSWORD='"+password+"'");
@@ -169,16 +151,7 @@ public class DatabaseConnect {
     }
     finally
     {
-      try
-      {
-        if(connection != null)
-          connection.close();
-      }
-      catch(SQLException e)
-      {
-        // connection close failed.
-        System.err.println(e);
-      }
+      closeConnection();
     }
     return false;
   }
@@ -186,6 +159,7 @@ public class DatabaseConnect {
   public boolean userExists(String username){
     try
     {
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       ResultSet rs = statement.executeQuery("select * from USER WHERE USERNAME='"+username+"'");
@@ -196,16 +170,7 @@ public class DatabaseConnect {
     }
     finally
     {
-      try
-      {
-        if(connection != null)
-          connection.close();
-      }
-      catch(SQLException e)
-      {
-        // connection close failed.
-        System.err.println(e);
-      }
+      closeConnection();
     }
     return false;
   }
@@ -217,6 +182,7 @@ public class DatabaseConnect {
     }
     try
     {
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       String statement = "INSERT INTO USER(username, password) VALUES(?,?)";
       PreparedStatement preparedStatement = connection.prepareStatement(statement);
   //    statement.setQueryTimeout(30);  // set timeout to 30 sec.
@@ -233,18 +199,25 @@ public class DatabaseConnect {
     }
     finally
     {
-      try
-      {
-        if(connection != null)
-          connection.close();
-      }
-      catch(SQLException e)
-      {
-        // connection close failed.
-        System.err.println(e);
-      }
+      closeConnection();
     }
     return false;
+  }
+
+  public void closeConnection(){
+    try
+    {
+      if(connection != null){
+        connection.close();
+        connection = null;
+      }
+
+    }
+    catch(SQLException e)
+    {
+      // connection close failed.
+      System.err.println(e);
+    }
   }
 
 
