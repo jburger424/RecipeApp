@@ -194,24 +194,29 @@ public class CommandLine {
                 "If you would like to clear the filters, type \"none\"");
         String ingredients = userScan.nextLine();
         if(ingredients.equals("none")){
-            System.out.println("Clearing filters...");
+            System.out.println("Clearing ingredient filters...");
             ingredientFilters[0]="none";
             for (int i = 1; i < ingredientFilters.length; i++) {
                 ingredientFilters[i]="";
             }
+            ingredients = "";
+        } else {
+            ingredientFilters = ingredients.split(",\\s*");
         }
-        ingredientFilters = ingredients.split("\\s*(\\s|,)\\s*");
         System.out.println("Do you have any dietary restrictions? If so, please list them here in the same fashion.\n" +
                 "Again, you can clear the dietary filters by entering \"none\"");
         String diet = userScan.nextLine();
         if(diet.equals("none")){
-            System.out.println("Clearing filters...");
+            System.out.println("Clearing dietary filters...");
             dietFilters[0]="none";
             for (int i = 1; i < dietFilters.length; i++) {
                 dietFilters[i]="";
             }
+            diet = "";
+        } else {
+            dietFilters = diet.split(",\\s*");
         }
-        return;
+        dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)));
     }
 
     /**
