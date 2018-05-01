@@ -95,10 +95,8 @@ public class RateRecipe {
     }
 
     public static void main(String[] args){
-
         RateRecipe test = new RateRecipe();
         test.addRating(10,"1");
-
     }
 }
 
