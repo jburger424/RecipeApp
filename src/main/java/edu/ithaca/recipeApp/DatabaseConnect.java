@@ -113,7 +113,7 @@ public class DatabaseConnect {
     try
     {
       // create a database connection
-      connection = DriverManager.getConnection("jdbc:sqlite:/Users/jonburger/Google_Drive/recipeapp/src/test/resources/db/recipes.db");
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
       Statement statement = connection.createStatement();
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       StringBuilder listQuery = new StringBuilder();
@@ -123,7 +123,7 @@ public class DatabaseConnect {
           listQuery.append(" INGREDIENT LIKE '");
           listQuery.append(ingreds.get(i));
           if(i==ingreds.size()-1) {
-            listQuery.append("') GROUP BY NAME ORDER BY MATCHING_INGREDS DESC;");
+
           }
           else{
             listQuery.append("' OR");
@@ -131,8 +131,9 @@ public class DatabaseConnect {
       }
       }
       else{
-          listQuery.append("1));)");
-        }
+        listQuery.append(" INGREDIENT LIKE '%");
+      }
+      listQuery.append("') GROUP BY NAME ORDER BY MATCHING_INGREDS DESC;");
       ResultSet rs = statement.executeQuery(listQuery.toString());
       while(rs.next())
       {
