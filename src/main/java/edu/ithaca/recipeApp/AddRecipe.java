@@ -106,9 +106,9 @@ public class AddRecipe {
 
                 stmt = "insert into RECIPE_TO_INGREDIENT"
                         + "(INGREDIENT_ID, QUANTITY, RECIPE_ID)"
-                        + "values (" + result.getInt("ID") + ", "
-                        + ingredients.get(i).getQuantity() + ","
-                        + recipeID + ")";
+                        + "values ('" + result.getInt("ID") + "', '"
+                        + ingredients.get(i).getQuantity() + "','"
+                        + recipeID + "')";
                 statement.executeUpdate(stmt);
             }
 
