@@ -224,8 +224,7 @@ public class CommandLine {
         dbConnect.viewRecipe(Integer.parseInt(ID));
     }
     private void edit(){
-        EditRecipe rec = new EditRecipe();
-        rec.edit();
+        EditRecipe.edit();
     }
 
     public void print() throws IOException{
