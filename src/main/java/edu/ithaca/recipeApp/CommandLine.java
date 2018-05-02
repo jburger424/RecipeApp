@@ -198,6 +198,8 @@ public class CommandLine {
                             e.printStackTrace();
                         }
                     }
+                case "7":
+                    favorite();
                     break;
 
                 //*******************
