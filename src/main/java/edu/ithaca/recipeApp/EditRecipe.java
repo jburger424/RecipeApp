@@ -21,7 +21,8 @@ public class EditRecipe {
             Class.forName(driverName).newInstance();
             connection = DriverManager.getConnection(url);
             try{
-                System.out.print("Enter recipe id to edit: >_");
+                System.out.println("Enter recipe id to edit:");
+                System.out.print(">_");
                 String currentRecipeId = reader.nextLine();
                 Statement stmt = connection.createStatement();
                 String getRecipe = "SELECT * FROM RECIPES WHERE ID="+currentRecipeId;
@@ -36,7 +37,8 @@ public class EditRecipe {
                     Statement statement = connection.createStatement();
 
                     System.out.println("\nModification options: \n1)Title \n2)Ingredients \n3)Servings \n4)Calories \n5)Instructions \n6)Tags \n7)Image \n8)Author \n9)Finish");
-                    System.out.print("Enter an option number: >_");
+                    System.out.println("Enter an option number:");
+                    System.out.print(">_");
                     input = reader.nextLine();
 
                     String actual, str;
@@ -68,7 +70,8 @@ public class EditRecipe {
                     }
 
                     if(!actual.equals("default")){
-                        System.out.print("Enter new "+str+": >_");
+                        System.out.println("Enter new "+str+":");
+                        System.out.print(">_");
                         String newVal = reader.nextLine();
                         String updateNewValue = "UPDATE RECIPES SET "+actual+"='"+newVal+"' WHERE ID="+currentRecipeId;
                         statement.executeUpdate(updateNewValue);
@@ -132,15 +135,17 @@ public class EditRecipe {
             String input;
             boolean editorRunning = true;
             while(editorRunning){
-                System.out.println("Available options: \n1)Add  2)Edit  3)Remove  4)Return to edits\n");
-                System.out.print("Option: >_");
+                System.out.println("Available options: \n1)Add  2)Edit  3)Remove  4)Return to edits");
+                System.out.print(">_");
                 input = reader.nextLine();
 
                 if(input.equals("1")){
                     System.out.println("Provide ingredient information...");
-                    System.out.print("Item Name: >_");
+                    System.out.println("Item Name:");
+                    System.out.print(">_");
                     String item = reader.nextLine();
-                    System.out.print("Item Quantity: >_");
+                    System.out.println("Item Quantity:");
+                    System.out.print(">_");
                     String quantity = reader.nextLine();
 
                     String addIngredient = "insert into INGREDIENTS (NAME) select '" + item + "' where not exists(select * from INGREDIENTS where NAME = '" + item + "')";
@@ -155,14 +160,16 @@ public class EditRecipe {
                 }else if(input.equals("2")){
                     boolean found = false;
                     while(!found){
-                        System.out.print("ID of an ingredient to edit ('q' to quit): >_");
+                        System.out.println("ID of an ingredient to edit ('q' to quit):");
+                        System.out.print(">_");
                         String editItem = reader.nextLine();
                         String findIngredient = "SELECT R.ID, I.NAME FROM RECIPE_TO_INGREDIENT R INNER JOIN INGREDIENTS I ON R.INGREDIENT_ID=I.ID WHERE R.RECIPE_ID="+currentRecipeId+" AND R.ID="+editItem;
                         result = statement.executeQuery(findIngredient);
                         if(editItem.equals("q") || editItem.equals("quit") || editItem.equals("Quit") || editItem.equals("QUIT")){
                             found = true;
                         }else if(result.next()){
-                            System.out.print("Enter a new quantity: >_");
+                            System.out.println("Enter a new quantity:");
+                            System.out.print(">_");
                             String quantity = reader.nextLine();
                             String editIngredientQuantity = "UPDATE RECIPE_TO_INGREDIENT SET QUANTITY='"+quantity+"' WHERE ID="+result.getInt("ID");
                             statement.executeUpdate(editIngredientQuantity);
@@ -174,7 +181,8 @@ public class EditRecipe {
                 }else if(input.equals("3")){
                     boolean found = false;
                     while(!found){
-                        System.out.print("ID of an ingredient to remove ('q' to quit): >_");
+                        System.out.println("ID of an ingredient to remove ('q' to quit):");
+                        System.out.print(">_");
                         String removeItem = reader.nextLine();
                         String findIngredient = "SELECT R.ID, I.NAME FROM RECIPE_TO_INGREDIENT R INNER JOIN INGREDIENTS I ON R.INGREDIENT_ID=I.ID WHERE R.RECIPE_ID="+currentRecipeId+" AND R.ID="+removeItem;
                         result = statement.executeQuery(findIngredient);
@@ -229,12 +237,13 @@ public class EditRecipe {
             String input;
             boolean editorRunning = true;
             while (editorRunning) {
-                System.out.println("Available options: \n1)Add  2)Remove  3)Return to edits\n");
-                System.out.print("Option: >_");
+                System.out.println("Available options: \n1)Add  2)Remove  3)Return to edits");
+                System.out.print(">_");
                 input = reader.nextLine();
 
                 if (input.equals("1")) {
-                    System.out.print("Enter a new tag name: >_");
+                    System.out.println("Enter a new tag name:");
+                    System.out.print(">_");
                     String tagName = reader.nextLine();
 
                     String tagsInsert = "insert into TAGS (NAME) select '" + tagName + "' where not exists(select * from TAGS where NAME = '" + tagName + "')";
@@ -247,7 +256,8 @@ public class EditRecipe {
                 } else if (input.equals("2")) {
                     boolean found = false;
                     while (!found) {
-                        System.out.print("Tag you would like to remove ('q' to quit): >_");
+                        System.out.println("Tag you would like to remove ('q' to quit):");
+                        System.out.print(">_");
                         String removeTag = reader.nextLine();
                         String findTag = "SELECT R.ID, T.NAME FROM RECIPE_TO_TAG R INNER JOIN TAGS T ON R.TAG_ID=T.ID WHERE R.RECIPE_ID=" + currentRecipeId + " AND T.NAME='" + removeTag +"'";
                         result = statement.executeQuery(findTag);
@@ -259,13 +269,13 @@ public class EditRecipe {
                             statement.executeUpdate(tagRemover);
                             found = true;
                         } else {
-                            System.out.println("ID not found, please try again ('q' to cancel): >_");
+                            System.out.println("ID not found, please try again.");
                         }
                     }
                 } else if (input.equals("3")) {
                     editorRunning = false;
                 } else {
-                    System.out.println("invalid option, please try again");
+                    System.out.println("invalid option, please try again.");
                 }
             }
         }catch (SQLException s){
