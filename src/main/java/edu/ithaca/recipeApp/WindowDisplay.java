@@ -54,14 +54,14 @@ public class WindowDisplay {
             URL url = new URL("http://www.healthguide.net/wp-content/uploads/2013/12/salad.jpg");
             img = ImageIO.read(url);
         }
-        //Chicken
+        //Carrots
         else if (id ==22){
-            URL url = new URL("https://www.grandmamolasses.com/wp-content/uploads/2013/04/IMG_9296-1024x641.jpg");
+            URL url = new URL("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2003/9/29/0/ig1a09_roasted_carrots.jpg.rend.hgtvcom.616.462.suffix/1393645736360.jpeg");
             img = ImageIO.read(url);
         }
-        //Peach Pie
+        //Apples
         else if (id ==23){
-            URL url = new URL("https://images-gmi-pmc.edge-generalmills.com/bf18ade2-a8e8-4158-9e82-a9d23671b8f5.jpg");
+            URL url = new URL("http://media.foodnetwork.ca/recipetracker/dmm/G/R/Grilled_Apples_with_Spiced_Chantilly_Cream_003.jpg");
             img = ImageIO.read(url);
         }
 
