@@ -8,13 +8,16 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class DatabaseConnect {
-  private ArrayList<String> ingreds;
+  private ArrayList<String> ingreds, tags;
   private int userId;
   private Connection connection;
 
   public DatabaseConnect(){
+    ingreds = new ArrayList<>();
+    tags = new ArrayList<>();
     userId = -1;
     connection = null;
     try{
@@ -26,8 +29,9 @@ public class DatabaseConnect {
 
   }
 
-  public void setFilter(ArrayList<String> ingreds){
+  public void setFilter(ArrayList<String> ingreds, ArrayList<String> tags){
     this.ingreds = ingreds;
+    this.tags = tags;
   }
 
   public WindowDisplay viewRecipe(int ID){
@@ -92,6 +96,40 @@ public class DatabaseConnect {
     return null;
   }
 
+  public boolean recipeContainsAllTags(int recipeId){
+    int numTags = tags.size();
+    if(numTags == 0) return true;
+    try
+    {
+      connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
+      Statement statement = connection.createStatement();
+      statement.setQueryTimeout(30);  // set timeout to 30 sec.
+      StringBuilder query = new StringBuilder();
+      query.append("SELECT COUNT(TAGS.NAME) AS NUM_MATCHING_TAGS FROM RECIPE_TO_TAG JOIN TAGS ON TAGS.ID=RECIPE_TO_TAG.TAG_ID WHERE RECIPE_ID=");
+      query.append(recipeId);
+      query.append(" AND (");
+      for (int i = 0; i < numTags; i++) {
+        query.append(" TAGS.NAME = '"+tags.get(i)+"'");
+        if(i == numTags - 1) query.append(" );");
+        else query.append(" OR");
+      }
+      ResultSet rs = statement.executeQuery(query.toString());
+      if(rs.next()){
+        int numMatching = rs.getInt("NUM_MATCHING_TAGS");
+        return numMatching == numTags;
+      }
+
+    }
+    catch(SQLException e){
+      e.printStackTrace();
+    }
+    finally
+    {
+      closeConnection();
+    }
+    return false;
+  }
+
   public void listRecipes(){
     try
     {
@@ -101,7 +139,7 @@ public class DatabaseConnect {
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       StringBuilder listQuery = new StringBuilder();
       listQuery.append("SELECT NAME, RECIPE_ID, COUNT(NAME) AS MATCHING_INGREDS FROM(SELECT RECIPES.ID AS RECIPE_ID, RECIPES.TITLE AS NAME, INGREDIENT_ID, INGREDIENTS.NAME AS INGREDIENT FROM RECIPES JOIN RECIPE_TO_INGREDIENT ON RECIPES.ID=RECIPE_TO_INGREDIENT.RECIPE_ID JOIN INGREDIENTS ON RECIPE_TO_INGREDIENT.INGREDIENT_ID=INGREDIENTS.ID WHERE");
-      if(ingreds != null){
+      if(ingreds.size() > 0){
         for (int i = 0; i < ingreds.size(); i++) {
           listQuery.append(" INGREDIENT LIKE '");
           listQuery.append(ingreds.get(i));
@@ -116,13 +154,17 @@ public class DatabaseConnect {
       else{
         listQuery.append(" INGREDIENT LIKE '%");
       }
-      listQuery.append("') GROUP BY NAME ORDER BY MATCHING_INGREDS DESC;");
+      String orderBy = ingreds.size() == 0 ? "RECIPE_ID ASC;" : "MATCHING_INGREDS ASC;";
+      listQuery.append("') GROUP BY NAME ORDER BY "+orderBy);
       ResultSet rs = statement.executeQuery(listQuery.toString());
       while(rs.next())
       {
-        // read the result set
-        System.out.print(rs.getInt("RECIPE_ID")+".");
-        System.out.println(rs.getString("NAME"));
+        int recipeId = rs.getInt("RECIPE_ID");
+        String recipeName = rs.getString("NAME");
+        if(recipeContainsAllTags(recipeId)){
+          System.out.print(recipeId+".");
+          System.out.println(recipeName);
+        }
       }
     }
     catch(SQLException e) {
