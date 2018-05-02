@@ -11,7 +11,6 @@ import static org.junit.jupiter.api.Assertions.*;
  */
 class CommandLineTest {
 
-    private CommandLine cmdln = new CommandLine();
 
     @Test
     void run() throws IOException {
