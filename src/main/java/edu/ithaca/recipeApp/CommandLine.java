@@ -373,7 +373,10 @@ public class CommandLine {
     }
 
     public void favorite(String ID) throws IOException{
-        System.out.println("Recipe "+ ID + " added to favorites");
+       Favorites.addFavorite(2,Integer.parseInt(ID));
+        System.out.println("Here are your current favorites: \n");
+       Favorites.viewFavoirtes(2);
+        System.out.println("\n");
         //TODO
     }
     public void filter(){
