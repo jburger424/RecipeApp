@@ -7,7 +7,7 @@ import java.util.Scanner;
 public class RateRecipe {
 
     //User adds a rating
-    public void addRating(int userID, int rating, String recipeID){
+    public static void addRating(int userID, int rating, int recipeID){
         Connection connection = null;
 
         String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
@@ -24,9 +24,9 @@ public class RateRecipe {
             try{
 
                 Statement stmt = connection.createStatement();
-                String selectquery = "INSERT INTO USER_TO_RECIPE (USER_ID,RECIPE_ID,DID_RATE, RATING, DID_SAVE) VALUES (" + userID + "," + recipeID +"," + 1 +","+ rating + "," + 1 + ")" +
-                        " WHERE USER_ID = " + userID +"AND DID_RATE = " + 0 + "AND DID_SAVE = " + 0;
-                ResultSet rs = stmt.executeQuery(selectquery);
+                String selectquery = "INSERT INTO USER_TO_RECIPE (USER_ID,RECIPE_ID,DID_RATE, RATING) VALUES (" + userID + "," + recipeID +"," + 1 +","+ rating + ")";
+//                 " WHERE USER_ID = " + userID +"AND DID_RATE = " + 0
+                stmt.executeQuery(selectquery);
 
             }
             catch(SQLException s){
@@ -41,7 +41,7 @@ public class RateRecipe {
     }
 
     //AVERAGE FROM ALL USERS
-    public int getAverage(String ID) {
+    public  static int getAverage(int ID) {
         Connection connection = null;
         int avg = 0;
         int counter = 0;
@@ -55,7 +55,7 @@ public class RateRecipe {
             connection = DriverManager.getConnection(url);
             try {
                 Statement stmt = connection.createStatement();
-                String selectquery = "SELECT RATING FROM USER_TO_RECIPE WHERE DID_RATE = " + 1;
+                String selectquery = "SELECT RATING FROM USER_TO_RECIPE WHERE DID_RATE = " + 1 + " AND RECIPE_ID = " + ID;
                 ResultSet rs = stmt.executeQuery(selectquery);
                 while (rs.next()){
                     counter++;
@@ -68,13 +68,18 @@ public class RateRecipe {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return avg/counter;
+        if(counter==0){
+            return -1;
+        }
+        else {
+            //System.out.println(avg/counter);
+            return avg / counter;
+        }
     }
 
 
-    //RATING FROM A SPECIFIC USER
-    public int usersAverage(String userID){
+    //RATING FROM A SPECIFIC USER ********WORKS**********
+    public static int usersAverage(int userID, int recipeID){
         int rating = 0;
         Connection connection = null;
         int avg = 0;
@@ -89,10 +94,12 @@ public class RateRecipe {
             connection = DriverManager.getConnection(url);
             try {
                 Statement stmt = connection.createStatement();
-                String selectquery = "SELECT RATING FROM USER_TO_RECIPE WHERE DID_RATE = " + 1 + "AND USER_ID = " + userID + "AND DID_SAVE = " +1;
+                String selectquery = "SELECT RATING FROM USER_TO_RECIPE WHERE DID_RATE = " + 1 + " AND USER_ID = " + userID + " AND RECIPE_ID = " + recipeID;
                 ResultSet rs = stmt.executeQuery(selectquery);
                 while (rs.next()){
                     rating=rs.getInt("RATING");
+                    avg+=rating;
+                    counter++;
                 }
             } catch (SQLException s) {
                 System.out.println(s);
@@ -101,14 +108,14 @@ public class RateRecipe {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        return rating;
+        return avg/counter;
     }
 
 
     public static void main(String[] args){
         RateRecipe test = new RateRecipe();
-        //test.addRating(10,"1");
+        //test.addRating(1,10,2);
+        //test.getAverage(1);
     }
 }
 

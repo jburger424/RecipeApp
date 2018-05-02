@@ -42,8 +42,11 @@ public class CommandLine {
                         "5) Filter Recipes\n" +
                                 "6) Print Recipe\n" +
                                 "7) Favorite Recipe\n" +
-                        "8) Help\n" +
-                        "9) Quit");
+                                "8) Rate a recipe\n" +
+                                "9) View your ratings\n" +
+                                "10) View average ratings\n" +
+                        "11) Help\n" +
+                        "12) Quit");
 
 
             System.out.print(">_");
@@ -60,7 +63,7 @@ public class CommandLine {
                 case "help":
                 case "Help":
                 case "h":
-                case "8":
+                case "11":
                     help();
                     break;
 
@@ -126,6 +129,7 @@ public class CommandLine {
                 case "favorite":
                 case "Favorite":
                 case "fav":
+                case "7":
                     if(cmdArray.length==1){
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
@@ -133,24 +137,78 @@ public class CommandLine {
                         try{
                             favorite(cmdArray[1]);
                         }
-                        catch (IOException e){
+                        catch (Exception e){
                             e.printStackTrace();
                         }
                     }
-                case "7":
-                    favorite();
                     break;
 
+                //*******************
+                case "rate":
+                case "Rate":
+                case "r":
+                case "8":
+                    if(cmdArray.length<4){
+                        System.out.println("Missing: your user ID, and/or a rating between 1-10, and/or the recipe ID\n");
+                        break;
+                    } else {
+                        try{
+                            RateRecipe.addRating(Integer.parseInt(cmdArray[1]),Integer.parseInt(cmdArray[2]),Integer.parseInt(cmdArray[3]));
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+                //*******************
+                case "View Ratings":
+                case "View ratings":
+                case "view ratings":
+                case "vr":
+                case "9":
+                    if(cmdArray.length<3){
+                        System.out.println("Missing: your user ID and/or the recipe ID\n");
+                        break;
+                    } else {
+                        try{
+                            int result = RateRecipe.usersAverage(Integer.parseInt(cmdArray[1]),Integer.parseInt(cmdArray[2]));
+                            System.out.println("Your average rating: " + result);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+                //*******************
+                case "View Average":
+                case "View average":
+                case "view average":
+                case "va":
+                case "10":
+                    if(cmdArray.length<2){
+                        System.out.println("Missing: the recipe ID\n");
+                        break;
+                    } else {
+                        try{
+                            int result = RateRecipe.getAverage(Integer.parseInt(cmdArray[1]));
+                            System.out.println("Overall average rating: " + result);
+                        }
+                        catch (Exception e){
+                            e.printStackTrace();
+                        }
+                    }
+                    break;
+                    
+                //*******************
                 case "quit":
                 case "Quit":
                 case "q":
-                case "9":
+                case "12":
                     System.out.println("Thank you for using RecipeApp!\n");
                     return;
                 default:
                     System.out.println("Command not recognized, please try again...\n");
                     break;
-
             }
 
             try {
