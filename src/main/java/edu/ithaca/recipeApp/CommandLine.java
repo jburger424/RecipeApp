@@ -10,43 +10,98 @@ import java.util.Scanner;
  */
 public class CommandLine {
     private Scanner userScan;
-    public String cmd;
-    public String[] cmdArray;
-    public String[] dietFilters = new String[0];
-    public String[] ingredientFilters = new String[0];
-    public DatabaseConnect dbConnect = new DatabaseConnect();
+    private String cmd;
+    private String loginCmd;
+    private String username;
+    private String password;
+    private String[] cmdArray;
+    private String[] dietFilters = new String[0];
+    private String[] ingredientFilters = new String[0];
+    private DatabaseConnect dbConnect = new DatabaseConnect();
+    private boolean loggedin = false;
 
-    public CommandLine() {
-        this.userScan=new Scanner(System.in);
+    private CommandLine() {
+        this.userScan = new Scanner(System.in);
     }
 
 
     public void run() throws IOException {
 
+        while (true) {
+            System.out.println(
+                    "Welcome to RecipeApp\n" +
+                            "1) Log In\n" +
+                            "2) Create Account");
+            System.out.print(">_");
+            loginCmd = userScan.nextLine();
+            switch (loginCmd) {
+                case "1":
+                        System.out.println("Enter username:");
+                        System.out.print(">_");
+                        username = userScan.nextLine();
+                        if (dbConnect.userExists(username)) {
+                            System.out.println("Enter password:");
+                            System.out.print(">_");
+                            password = userScan.nextLine();
+                            if (dbConnect.logInUser(username, password)) {
+                                this.loggedin = true;
+                                menu();
+                                break;
+                            } else {
+                                System.out.println("Username and password do not match");
+                                break;
+                            }
+                        } else {
+                            System.out.println("Username does not exist");
+                            break;
+                        }
+
+                case "2":
+                    System.out.println("Enter username:");
+                    System.out.print(">_");
+                    username = userScan.nextLine();
+                    System.out.println("Enter password:");
+                    System.out.print(">_");
+                    password = userScan.nextLine();
+                    dbConnect.addUser(username, password);
+                    break;
+                default:
+                    System.out.println("Command not recognized, please try again...\n");
+                    break;
+            }
+        }
+    }
+
+    public void menu() throws IOException {
         System.out.println(
                 "\nRecipeApp \n" +
                         "\nDietary filters:");
         for (int i = 0; i < dietFilters.length; i++) {
-            if(dietFilters[i]!=null){System.out.println(dietFilters[i]);}
+            if (dietFilters[i] != null) {
+                System.out.println(dietFilters[i]);
+            }
         }
         System.out.println(
-        "\n\nIngredient filters:");
+                "\n\nIngredient filters:");
         for (int i = 0; i < ingredientFilters.length; i++) {
-            if(ingredientFilters[i]!=null){System.out.println(ingredientFilters[i]);}
+            if (ingredientFilters[i] != null) {
+                System.out.println(ingredientFilters[i]);
+            }
         }
-        while(true) {
+
+        while (true) {
 
             System.out.println(
-                        "\nAvailable commands are: \n" +
-                        "1) List Recipes\n" +
-                        "2) View Recipe\n" +
-                        "3) Edit Recipe\n" + "4) Add Recipe\n" +
+                    "\nAvailable commands are: \n" +
+                            "1) List Recipes\n" +
+                            "2) View Recipe\n" +
+                            "3) Edit Recipe\n" + "4) Add Recipe\n" +
 
-                        "5) Filter Recipes\n" +
-                                "6) Print Recipe\n" +
-                                "7) Favorite Recipe\n" +
-                        "8) Help\n" +
-                        "9) Quit");
+                            "5) Filter Recipes\n" +
+                            "6) Print Recipe\n" +
+                            "7) Favorite Recipe\n" +
+                            "8) Help\n" +
+                            "9) Quit");
 
 
             System.out.print(">_");
@@ -70,19 +125,22 @@ public class CommandLine {
                 case "view":
                 case "View":
                 case "v":
-                    if(cmdArray.length==1){
+                    if (cmdArray.length == 1) {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        try{
+                        try {
                             view(cmdArray[1]);
-                        }
-                        catch (IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
                 case "2":
-                    view();
+                    try {
+                        view();
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
                     break;
 
                 case "Add":
@@ -102,7 +160,7 @@ public class CommandLine {
                 case "Filter":
                 case "f":
                 case "5":
-                    if (cmdArray.length == 1 ) {
+                    if (cmdArray.length == 1) {
                         filter();
                     } else {
                         filter(cmdArray);
@@ -111,14 +169,13 @@ public class CommandLine {
                 case "print":
                 case "Print":
                 case "p":
-                    if(cmdArray.length==1){
+                    if (cmdArray.length == 1) {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        try{
+                        try {
                             print(cmdArray[1]);
-                        }
-                        catch (IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
@@ -129,14 +186,13 @@ public class CommandLine {
                 case "favorite":
                 case "Favorite":
                 case "fav":
-                    if(cmdArray.length==1){
+                    if (cmdArray.length == 1) {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        try{
+                        try {
                             favorite(cmdArray[1]);
-                        }
-                        catch (IOException e){
+                        } catch (IOException e) {
                             e.printStackTrace();
                         }
                     }
@@ -149,6 +205,7 @@ public class CommandLine {
                 case "q":
                 case "9":
                     System.out.println("Thank you for using RecipeApp!\n");
+                    this.loggedin=false;
                     return;
                 default:
                     System.out.println("Command not recognized, please try again...\n");
@@ -163,7 +220,6 @@ public class CommandLine {
             }
         }
     }
-
 
 
     public void list() {
@@ -291,6 +347,8 @@ public class CommandLine {
         }
         dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)), new ArrayList<>(Arrays.asList(dietFilters)));
     }
+
+
 
     /**
      * Deprecated commandline filter code. Kept in for legacy uses.
