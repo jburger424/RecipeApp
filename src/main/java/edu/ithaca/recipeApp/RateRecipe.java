@@ -40,7 +40,7 @@ public class RateRecipe {
 
     }
 
-    //AVERAGE FROM ALL USERS
+    //AVERAGE FROM ALL USERS ***********
     public  static int getAverage(int ID) {
         Connection connection = null;
         int avg = 0;

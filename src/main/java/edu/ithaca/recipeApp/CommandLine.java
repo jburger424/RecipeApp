@@ -198,7 +198,7 @@ public class CommandLine {
                         }
                     }
                     break;
-                    
+
                 //*******************
                 case "quit":
                 case "Quit":
