@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
 
-/**
- * Isaak Hill RecipeApp 3/25/18.
- */
 public class CommandLine {
     private Scanner userScan;
     public String cmd;
