@@ -12,7 +12,7 @@ import java.util.Arrays;
 
 public class DatabaseConnect {
   private ArrayList<String> ingreds, tags;
-  private int userId;
+  public int userId;
   private Connection connection;
 
   public DatabaseConnect(){

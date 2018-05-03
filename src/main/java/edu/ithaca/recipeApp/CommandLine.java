@@ -15,10 +15,15 @@ public class CommandLine {
     private String[] dietFilters = new String[0];
     private String[] ingredientFilters = new String[0];
     private DatabaseConnect dbConnect = new DatabaseConnect();
-    private boolean loggedin = false;
+    private int loggedinUser;
 
     private CommandLine() {
         this.userScan = new Scanner(System.in);
+    }
+
+
+    public void viewFavorites() {
+        Favorites.viewFavorites(loggedinUser);
     }
 
 
@@ -41,7 +46,7 @@ public class CommandLine {
                             System.out.print(">_");
                             password = userScan.nextLine();
                             if (dbConnect.logInUser(username, password)) {
-                                this.loggedin = true;
+                                this.loggedinUser = dbConnect.userId;
                                 menu();
                                 break;
                             } else {
@@ -100,8 +105,9 @@ public class CommandLine {
                                 "8) Rate a recipe\n" +
                                 "9) View your ratings\n" +
                                 "10) View average ratings\n" +
-                        "11) Help\n" +
-                        "12) Quit");
+                                "11) View your favorite recipes\n" +
+                        "12) Help\n" +
+                        "13) Quit");
 
 
             System.out.print(">_");
@@ -118,7 +124,7 @@ public class CommandLine {
                 case "help":
                 case "Help":
                 case "h":
-                case "11":
+                case "12":
                     help();
                     break;
 
@@ -239,6 +245,22 @@ public class CommandLine {
                     }
                     break;
                 //*******************
+                //*******************
+                case "View Favorites":
+                case "view favorites":
+                case "view Favorites":
+                case "vf":
+                case "11":
+                    viewFavorites();
+                    break;
+
+                //*******************
+
+
+
+
+
+                //*******************
                 case "View Average":
                 case "View average":
                 case "view average":
@@ -262,9 +284,8 @@ public class CommandLine {
                 case "quit":
                 case "Quit":
                 case "q":
-                case "12":
+                case "13":
                     System.out.println("Thank you for using RecipeApp!\n");
-                    this.loggedin=false;
                     return;
                 default:
                     System.out.println("Command not recognized, please try again...\n");
@@ -375,11 +396,8 @@ public class CommandLine {
     }
 
     public void favorite(String ID) throws IOException{
-       Favorites.addFavorite(2,Integer.parseInt(ID));
-        System.out.println("Here are your current favorites: \n");
-       Favorites.viewFavoirtes(2);
+        Favorites.addFavorite(loggedinUser,Integer.parseInt(ID));
         System.out.println("\n");
-        //TODO
     }
     public void filter(){
         System.out.println("What ingredients would you like to use? (Enter all the ingredients you would like to use, seperated by commas)\n" +
