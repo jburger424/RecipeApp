@@ -1,14 +1,18 @@
 # RecipeApp
 
 [Narratives & Scenarios](https://docs.google.com/document/d/1FErwj0r6H3sooWhP-GS69keH9Yd82cZMn4ozyKQOiTQ/edit)
+
 [Acceptance Testing](https://docs.google.com/document/d/11bX4dJ2bsSNBAllNMX-PoTiyHIzclwUuom-Hn8ESG_I/edit)
+
 [Quickstart Guide](https://docs.google.com/document/d/19yMptJfmb7AkStUOB3_cDUuG6-nDxqHFJUbmSj7XONA/edit?usp=sharing)
 
 [Waffle.io](https://waffle.io/jburger424/RecipeApp)
 
 **Sprint Goal 1**
 To display a list of recipes
+
 [Sprint Review]()
+
 [Sprint Retrospective](https://docs.google.com/document/d/1HryWZbYVNODxur1yXP6rqV4fR6MsftjG4-7ZWsklWBo/edit?usp=drive_web&ouid=111990705891974975843)
 
 **Sprint Goal 2**
@@ -19,11 +23,14 @@ and Ingredients (should be able to input several ingredients for this search/fil
 over quantity.
 
 [Sprint Review]()
+
 [Sprint Retrospective](https://docs.google.com/document/d/1hxQSgvRUYLYSS3g9ICG4QHyTFqxxVDa-itvjgj7qWFE/edit?usp=drive_web&ouid=111990705891974975843)
 
 **Sprint Goal 3**
 Add more functionality to filters to refine user options.  Allow user to print out ingredients for use.
+
 [Sprint Review]()
+
 [Sprint Retrospective]()
 
 [Class Diagram](https://drive.google.com/file/d/17bLiDXqb09FB6eHTXCG1tmpFz7SE5Dyr/view?usp=sharing)
