@@ -76,24 +76,24 @@ public class WindowDisplay {
         try {
             JFrame frame = new JFrame("Recipe");
             JPanel panel = new JPanel();
-            panel.setLayout(new FlowLayout());
+            panel.setLayout(new BoxLayout(panel, BoxLayout.PAGE_AXIS));
 
 
             JLabel titleLabel = new JLabel("<html>Title: " + title + ". <br/></html>", SwingConstants.CENTER);
-            JLabel calLabel = new JLabel("Calories: " + calories + ". \n");
-            JLabel servLabel = new JLabel("Servings: " + servings + ". \n");
+            JLabel calLabel = new JLabel("<html>Calories: " + calories + ". <br/></html>", SwingConstants.CENTER);
+            JLabel servLabel = new JLabel("<html>Servings: " + servings + ". <br/></html>", SwingConstants.CENTER);
 
             String ingrLabelText = "Ingredients: ";
             for (int i = 0; i < ingredients.size(); i++) {
-                ingrLabelText += ingredients.get(i) + "\n\n";
+                ingrLabelText += ingredients.get(i) + ", ";
             }
-            JLabel ingrLabel = new JLabel(ingrLabelText);
+            JLabel ingrLabel = new JLabel("<html>" + ingrLabelText + "<br/></html>", SwingConstants.CENTER);
 
             String stepsLabelText = "Steps: ";
             for (int i = 0; i < steps.length; i++) {
-                stepsLabelText += steps[i] + ", \n";
+                stepsLabelText += steps[i] + ", ";
             }
-            JLabel stepsLabel = new JLabel(stepsLabelText);
+            JLabel stepsLabel = new JLabel("<html>" + stepsLabelText + "<br/></html>", SwingConstants.CENTER);
 
             Image image = getImage();
 
@@ -109,7 +109,7 @@ public class WindowDisplay {
             panel.add(jLabelImg);
 
 
-            frame.add(panel);
+            frame.add(panel, BorderLayout.CENTER);
             frame.setSize(600, 600);
             //frame.setLocationRelativeTo(null);
             //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
