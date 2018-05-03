@@ -79,7 +79,9 @@ public class DatabaseConnect {
             rs.getInt("SERVINGS"),  //Servings
             rs.getInt("CALS_PER_SERVING"), //Calories per serving
             ingredients, //Ingredients
-            rs.getString("steps").split("\\r?\\n|\\r")); //Steps
+            rs.getString("steps").split("\\r?\\n|\\r"),
+            rs.getString("image")
+        ); //Steps
         return wd;
       }
     }

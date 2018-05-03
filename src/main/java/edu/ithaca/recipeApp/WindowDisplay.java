@@ -20,8 +20,9 @@ public class WindowDisplay {
     ArrayList<Ingredient> ingredients;
     String[] steps;
     Image img;
+    String imgURL;
 
-    public WindowDisplay(int id, String title, int calories, int servings, ArrayList<Ingredient> ingredients, String[] steps){
+    public WindowDisplay(int id, String title, int calories, int servings, ArrayList<Ingredient> ingredients, String[] steps, String imgURL) {
         this.id = id;
         this.calories = calories;
         this.servings = servings;
@@ -29,21 +30,20 @@ public class WindowDisplay {
         this.ingredients = ingredients;
         this.steps = steps;
         this.img = img;
-    }
-
-    public void saveImage() throws Exception {
-        Image image = null;
-        try {
-            URL url = new URL("http://www.mkyong.com/image/mypic.jpg");
-            //image = ImageIO.read(imageUrl);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
+        this.imgURL = imgURL;
     }
 
     public Image getImage() throws Exception{
+        try{
+            URL url = new URL(imgURL);
+            img = ImageIO.read(url);
+        }
+        catch(Exception e){
+            URL url = new URL("https://hips.hearstapps.com/clv.h-cdn.co/assets/16/49/1481052520-gettyimages-91642973.jpg?crop=0.9895953757225433xw:1xh;center,top&resize=980:*");
+            img = ImageIO.read(url);
+        }
 
+/*
         //Chicken noodle soup
         if (id ==1){
             URL url = new URL("https://hips.hearstapps.com/clv.h-cdn.co/assets/16/49/1481052520-gettyimages-91642973.jpg?crop=0.9895953757225433xw:1xh;center,top&resize=980:*");
@@ -64,6 +64,10 @@ public class WindowDisplay {
             URL url = new URL("http://media.foodnetwork.ca/recipetracker/dmm/G/R/Grilled_Apples_with_Spiced_Chantilly_Cream_003.jpg");
             img = ImageIO.read(url);
         }
+        else {
+
+        }
+        */
 
         return img;
     }
@@ -112,6 +116,7 @@ public class WindowDisplay {
             frame.setVisible(true);
         }catch (java.lang.Exception e){
             System.out.println("java.lang.Exception caught");
+            e.printStackTrace();
         }
     }
 
@@ -133,8 +138,8 @@ public class WindowDisplay {
         }
 
 
-        WindowDisplay wd = new WindowDisplay(22, "Chicken", 400, 2, ingr, steps);
-        wd.makeWindow();
+        //WindowDisplay wd = new WindowDisplay(22, "Chicken", 400, 2, ingr, steps);
+        //wd.makeWindow();
 
     }
 }
