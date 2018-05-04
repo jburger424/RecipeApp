@@ -1,6 +1,5 @@
 package edu.ithaca.recipeApp;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -27,7 +26,8 @@ public class CommandLine {
     }
 
 
-    public void run() throws IOException {
+
+    private void run() {
 
         while (true) {
             System.out.println(
@@ -74,7 +74,7 @@ public class CommandLine {
         }
     }
 
-    public void menu() throws IOException {
+    private void menu(){
         System.out.println(
                 "\nRecipeApp \n" +
                         "\nDietary filters:");
@@ -135,18 +135,10 @@ public class CommandLine {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        try {
-                            view(cmdArray[1]);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        view(cmdArray[1]);
                     }
                 case "2":
-                    try {
-                        view();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    view();
                     break;
 
                 case "Add":
@@ -179,11 +171,8 @@ public class CommandLine {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        try {
-                            print(cmdArray[1]);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        print(cmdArray[1]);
+
                     }
                 case "6":
                     print();
@@ -198,7 +187,6 @@ public class CommandLine {
                     } else {
                         try {
                             favorite(cmdArray[1]);
-                        } catch (IOException e) {
                         }
                         catch (Exception e){
                             e.printStackTrace();
@@ -255,11 +243,6 @@ public class CommandLine {
                     break;
 
                 //*******************
-
-
-
-
-
                 //*******************
                 case "View Average":
                 case "View average":
@@ -341,7 +324,7 @@ public class CommandLine {
                 "9) Quit (Quits the program)");
     }
 
-    public void view() throws IOException {
+    public void view(){
         list();
         System.out.println("Which recipe would you like to view?");
 
@@ -353,7 +336,7 @@ public class CommandLine {
         }
     }
 
-    private void view(String ID) throws IOException{
+    private void view(String ID){
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ ID);
         dbConnect.viewRecipe(Integer.parseInt(ID));
@@ -362,7 +345,7 @@ public class CommandLine {
         EditRecipe.edit();
     }
 
-    public void print() throws IOException{
+    public void print(){
         list();
         System.out.println("Which recipe would you like to print?");
 
@@ -375,14 +358,14 @@ public class CommandLine {
 
     }
 
-    public void print(String ID) throws IOException{
+    public void print(String ID){
         System.out.println("Printing recipe "+ ID);
         DatabaseConnect db2 = new DatabaseConnect();
         WindowDisplay wd = db2.viewRecipe(Integer.parseInt(ID));
         wd.makeWindow();
     }
 
-    public void favorite() throws IOException{
+    public void favorite(){
         list();
         System.out.println("Which recipe would you like to favorite?");
 
@@ -395,7 +378,7 @@ public class CommandLine {
 
     }
 
-    public void favorite(String ID) throws IOException{
+    public void favorite(String ID){
         Favorites.addFavorite(loggedinUser,Integer.parseInt(ID));
         System.out.println("\n");
     }
@@ -406,9 +389,6 @@ public class CommandLine {
         if(ingredients.equals("none")){
             System.out.println("Clearing ingredient filters...");
             ingredientFilters = new String[0];
-            for (int i = 1; i < ingredientFilters.length; i++) {
-                ingredientFilters[i]="";
-            }
         } else {
             ingredientFilters = ingredients.split(",\\s*");
         }
@@ -418,9 +398,6 @@ public class CommandLine {
         if(diet.equals("none")){
             System.out.println("Clearing dietary filters...");
             dietFilters = new String[0];
-            for (int i = 1; i < dietFilters.length; i++) {
-                dietFilters[i]="";
-            }
         } else {
             dietFilters = diet.split(",\\s*");
         }
@@ -436,7 +413,7 @@ public class CommandLine {
      * Clears all filters on inputting "-c"
      * @param args
      */
-    public void filter(String[] args){
+    private void filter(String[] args){
         if(args.length>=3) {
             switch (args[1]) {
                 case "-d":
@@ -474,19 +451,13 @@ public class CommandLine {
         } else if(args.length==2 && args[1].equals("-c")){
             System.out.println("Clearing filters...");
             dietFilters = new String[0];
-            for (int i = 1; i < dietFilters.length; i++) {
-                dietFilters[i]="";
-            }
             ingredientFilters = new String[0];
-            for (int i = 1; i < ingredientFilters.length; i++) {
-                ingredientFilters[i]="";
-            }
         } else {
-            System.out.println("Invalid format. Please enter a valid filter, followed by a comma seperated list of arguments");
+            System.out.println("Invalid format. Please enter a valid filter, followed by a comma separated list of arguments");
         }
         dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)), new ArrayList<>(Arrays.asList(dietFilters)));
     }
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         CommandLine cl = new CommandLine();
         cl.run();
     }
