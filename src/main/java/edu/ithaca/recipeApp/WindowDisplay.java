@@ -55,12 +55,12 @@ public class WindowDisplay {
             img = ImageIO.read(url);
         }
         //Carrots
-        else if (id ==22){
+        else if (id ==3){
             URL url = new URL("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2003/9/29/0/ig1a09_roasted_carrots.jpg.rend.hgtvcom.616.462.suffix/1393645736360.jpeg");
             img = ImageIO.read(url);
         }
         //Apples
-        else if (id ==23){
+        else if (id ==4){
             URL url = new URL("http://media.foodnetwork.ca/recipetracker/dmm/G/R/Grilled_Apples_with_Spiced_Chantilly_Cream_003.jpg");
             img = ImageIO.read(url);
         }
