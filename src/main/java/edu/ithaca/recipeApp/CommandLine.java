@@ -32,6 +32,7 @@ public class CommandLine {
         int recipeID = scan.nextInt();
         System.out.println("What rating do you want to give it? (1-10)");
         int rating = scan.nextInt();
+        //System.out.println(loggedinUser);
         RateRecipe.addRating(loggedinUser,rating,recipeID);
     }
 
@@ -39,7 +40,7 @@ public class CommandLine {
         Scanner scan = new Scanner(System.in);
         System.out.println("What recipe do you want to view your ratings for? (ID)");
         int recipeID = scan.nextInt();
-        RateRecipe.usersAverage(loggedinUser, recipeID);
+        System.out.println(RateRecipe.usersAverage(loggedinUser, recipeID));
     }
 
     public void viewAvgRating() {
