@@ -22,7 +22,7 @@ public class CommandLine {
 
 
     public void viewFavorites() {
-        Favorites.viewFavorites(loggedinUser);
+        System.out.println(Favorites.viewFavorites(loggedinUser));
     }
 
 
@@ -40,14 +40,15 @@ public class CommandLine {
         Scanner scan = new Scanner(System.in);
         System.out.println("What recipe do you want to view your ratings for? (ID)");
         int recipeID = scan.nextInt();
-        System.out.println(RateRecipe.usersAverage(loggedinUser, recipeID));
+        System.out.println(RateRecipe.getUsersRating(loggedinUser, recipeID));
     }
 
     public void viewAvgRating() {
         Scanner scan = new Scanner(System.in);
         System.out.println("What recipe do you want to view the average rating for? (ID)");
         int recipeID = scan.nextInt();
-        RateRecipe.getAverage(recipeID);
+        float avg = RateRecipe.getAverage(recipeID);
+        System.out.println(avg);
     }
     /**
      * Starts the program, gets user login

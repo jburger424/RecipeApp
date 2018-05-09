@@ -9,6 +9,7 @@ public class Favorites {
 
     //User adds a favorite
     public static void addFavorite(int userID, int recipeID){
+        boolean rowExists = userToRecipeExists(userID, recipeID);
         Connection connection = null;
 
         String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
@@ -20,11 +21,16 @@ public class Favorites {
             connection = DriverManager.getConnection(url);
 
             try{
-
                 Statement stmt = connection.createStatement();
-                String selectquery = "UPDATE USER_TO_RECIPE SET DID_SAVE = " + 1 + " WHERE USER_ID = " + userID + " AND RECIPE_ID = " + recipeID;
-
-                stmt.executeQuery(selectquery);
+                if(!rowExists){
+                    String selectquery = "INSERT INTO USER_TO_RECIPE (USER_ID,RECIPE_ID, DID_SAVE) VALUES (" + userID + "," + recipeID + ","+ 1 + ")";
+                    stmt.execute(selectquery);
+                }
+                //else update
+                else{
+                    String selectquery = "UPDATE USER_TO_RECIPE SET DID_SAVE=1 WHERE USER_ID='"+userID+"' AND RECIPE_ID='"+recipeID+"'";
+                    stmt.executeUpdate(selectquery);
+                }
 
             }
             catch(SQLException s){
@@ -41,7 +47,8 @@ public class Favorites {
     public static String viewFavorites(int userID){
         //System.out.println("called");
         Connection connection = null;
-        String favorites = "Favorites: ";
+        String favoritesHead = "Favorites: \n";
+        String favorites = "None";
         String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
 
         String driverName = "com.mysql.jdbc.Driver";
@@ -60,6 +67,8 @@ public class Favorites {
 
                 ResultSet rs = stmt.executeQuery(selectquery);
                 while(rs.next()){
+                    if(favorites.equals("None")) favorites = "";
+                    favorites+=rs.getInt("RECIPE_ID")+". ";
                     favorites+=rs.getString("TITLE")+"\n";
                 }
 
@@ -72,8 +81,34 @@ public class Favorites {
         catch (Exception e){
             e.printStackTrace();
         }
-        return favorites;
+        return favoritesHead+favorites;
 
+    }
+
+    public static boolean userToRecipeExists(int userID, int recipeID){
+        Connection connection = null;
+        String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
+
+        String driverName = "com.mysql.jdbc.Driver";
+
+        try {
+            Class.forName(driverName).newInstance();
+            connection = DriverManager.getConnection(url);
+            try {
+                Statement stmt = connection.createStatement();
+                String selectquery = "SELECT RATING FROM USER_TO_RECIPE WHERE USER_ID = " + userID + " AND RECIPE_ID = " + recipeID+" LIMIT 1";
+                ResultSet rs = stmt.executeQuery(selectquery);
+                if(rs.next()){
+                    return true;
+                }
+            } catch (SQLException s) {
+                System.out.println(s);
+            }
+            connection.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return false;
     }
 
 
