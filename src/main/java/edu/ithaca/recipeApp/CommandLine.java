@@ -16,6 +16,7 @@ public class CommandLine {
     private DatabaseConnect dbConnect = new DatabaseConnect();
     private int loggedinUser;
 
+
     private CommandLine() {
         this.userScan = new Scanner(System.in);
     }
@@ -447,8 +448,6 @@ public class CommandLine {
         }
         dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)), new ArrayList<>(Arrays.asList(dietFilters)));
     }
-
-
 
     /**
      * Deprecated commandline filter code. Kept in for legacy uses.

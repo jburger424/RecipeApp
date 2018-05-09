@@ -6,7 +6,12 @@ import java.util.Scanner;
 
 public class RateRecipe {
 
-    //User adds a rating
+    /**
+     * adds a rating from a specific user
+     * @param userID
+     * @param rating
+     * @param recipeID
+     */
     public static void addRating(int userID, int rating, int recipeID){
         int currentRating = getUsersRating(userID, recipeID);
         Connection connection = null;
@@ -49,7 +54,11 @@ public class RateRecipe {
 
     }
 
-    //AVERAGE FROM ALL USERS ***********
+    /**
+     * gets the average rating for a recipe
+     * @param recipeID
+     * @return
+     */
     public static float getAverage(int recipeID) {
         Connection connection = null;
         float avg = -1;
@@ -78,8 +87,12 @@ public class RateRecipe {
         return avg;
     }
 
-
-    //RATING FROM A SPECIFIC USER ********WORKS**********
+    /**
+     * gets users rating for a recipe
+     * @param userID
+     * @param recipeID
+     * @return
+     */
     public static int getUsersRating(int userID, int recipeID){
         int rating = -1;
         Connection connection = null;
