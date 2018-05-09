@@ -22,7 +22,7 @@ public class CommandLine {
 
 
     public void viewFavorites() {
-        Favorites.viewFavorites(loggedinUser);
+        System.out.println(Favorites.viewFavorites(loggedinUser));
     }
 
 
