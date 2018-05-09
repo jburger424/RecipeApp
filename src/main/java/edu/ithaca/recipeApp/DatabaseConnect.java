@@ -16,6 +16,9 @@ public class DatabaseConnect {
   private Connection connection;
   private RateRecipe rater;
 
+    /**
+     * This function establishes a connection to the database
+     */
   public DatabaseConnect(){
     ingreds = new ArrayList<>();
     tags = new ArrayList<>();
@@ -31,11 +34,21 @@ public class DatabaseConnect {
 
   }
 
+    /**
+     * This function sets the active filter based on ingredients and tags
+     * @param ingreds
+     * @param tags
+     */
   public void setFilter(ArrayList<String> ingreds, ArrayList<String> tags){
     this.ingreds = ingreds;
     this.tags = tags;
   }
 
+    /**
+     * This function creates and opens a window with all of the recipes information and and image in it
+     * @param ID
+     * @return
+     */
   public WindowDisplay viewRecipe(int ID){
     int userRating = rater.getUsersRating(this.userId, ID);
     float avgRating = rater.getAverage(ID);
@@ -108,6 +121,11 @@ public class DatabaseConnect {
     return null;
   }
 
+    /**
+     *
+     * @param recipeId
+     * @return
+     */
   public boolean recipeContainsAllTags(int recipeId){
     int numTags = tags.size();
     if(numTags == 0) return true;
@@ -142,6 +160,9 @@ public class DatabaseConnect {
     return false;
   }
 
+    /**
+     * This function lists all of the recipes in the database
+     */
   public void listRecipes(){
     try
     {
@@ -190,10 +211,13 @@ public class DatabaseConnect {
     }
   }
 
-  public boolean userLoggedIn(){
-    return userId != -1;
-  }
 
+    /**
+     * This function queries the database for the logged in users ID based on their username and password
+     * @param username
+     * @param password
+     * @return
+     */
   public int getUserID(String username, String password){
     try
     {
@@ -216,6 +240,12 @@ public class DatabaseConnect {
     return -1;
   }
 
+    /**
+     * This method indicates if a user is logged in or not by returning a boolean
+     * @param username
+     * @param password
+     * @return
+     */
   public boolean logInUser(String username, String password){
     int userID = getUserID(username, password);
     if(userID != -1){
@@ -225,6 +255,11 @@ public class DatabaseConnect {
     return false;
   }
 
+    /**
+     * this function indicates if a user exits or not based on a boolean value
+     * @param username
+     * @return
+     */
   public boolean userExists(String username){
     try
     {
@@ -244,6 +279,12 @@ public class DatabaseConnect {
     return false;
   }
 
+    /**
+     * This function adds a user to the database if they do not already exist
+     * @param username
+     * @param password
+     * @return
+     */
   public boolean addUser(String username, String password){
     if(userExists(username)){
       System.out.println("ERROR: User '"+username+"' already exists");
@@ -272,6 +313,7 @@ public class DatabaseConnect {
     }
     return false;
   }
+
 
   public void closeConnection(){
     try
