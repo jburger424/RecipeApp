@@ -7,7 +7,11 @@ import java.util.Scanner;
 
 public class Favorites {
 
-    //User adds a favorite
+    /**
+     * This function adds a recipe by its id as a favorite for the corresponding user's id
+     * @param userID
+     * @param recipeID
+     */
     public static void addFavorite(int userID, int recipeID){
         boolean rowExists = userToRecipeExists(userID, recipeID);
         Connection connection = null;
@@ -42,8 +46,12 @@ public class Favorites {
             e.printStackTrace();
         }
     }
-    //when user is related or recipe is added set defaults in db
-    //PRINT USERS FAVORITES
+
+    /**
+     * This function queries the database and returns all of the recipes a user has marked a favorites.
+     * @param userID
+     * @return
+     */
     public static String viewFavorites(int userID){
         //System.out.println("called");
         Connection connection = null;
@@ -111,10 +119,8 @@ public class Favorites {
         return false;
     }
 
-
     public static void main(String[] args) {
         addFavorite(2,3);
         viewFavorites(2);
     }
-
 }
