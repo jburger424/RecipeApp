@@ -13,7 +13,7 @@ class rateRecipesTest {
     }
     @Test
     void avgRating(){
-        assertEquals(1.0,RateRecipe.getAverage(8));
+        assertEquals(1.0,RateRecipe.getAverage(1));
     }
 
 
