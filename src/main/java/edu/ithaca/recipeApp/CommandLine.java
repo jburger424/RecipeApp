@@ -1,6 +1,5 @@
 package edu.ithaca.recipeApp;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Scanner;
@@ -27,7 +26,30 @@ public class CommandLine {
     }
 
 
-    public void run() throws IOException {
+    public void rate(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("What recipe do you want to rate? (ID)");
+        int recipeID = scan.nextInt();
+        System.out.println("What rating do you want to give it? (1-10)");
+        int rating = scan.nextInt();
+        //System.out.println(loggedinUser);
+        RateRecipe.addRating(loggedinUser,rating,recipeID);
+    }
+
+    public void viewRating() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("What recipe do you want to view your ratings for? (ID)");
+        int recipeID = scan.nextInt();
+        System.out.println(RateRecipe.usersAverage(loggedinUser, recipeID));
+    }
+
+    public void viewAvgRating() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("What recipe do you want to view the average rating for? (ID)");
+        int recipeID = scan.nextInt();
+        RateRecipe.getAverage(recipeID);
+    }
+    private void run() {
 
         while (true) {
             System.out.println(
@@ -74,7 +96,7 @@ public class CommandLine {
         }
     }
 
-    public void menu() throws IOException {
+    private void menu(){
         System.out.println(
                 "\nRecipeApp \n" +
                         "\nDietary filters:");
@@ -135,18 +157,10 @@ public class CommandLine {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        try {
-                            view(cmdArray[1]);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        view(cmdArray[1]);
                     }
                 case "2":
-                    try {
-                        view();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
+                    view();
                     break;
 
                 case "Add":
@@ -179,11 +193,8 @@ public class CommandLine {
                         System.out.println("No Recipe ID entered, please try again\n");
                         break;
                     } else {
-                        try {
-                            print(cmdArray[1]);
-                        } catch (IOException e) {
-                            e.printStackTrace();
-                        }
+                        print(cmdArray[1]);
+
                     }
                 case "6":
                     print();
@@ -198,7 +209,6 @@ public class CommandLine {
                     } else {
                         try {
                             favorite(cmdArray[1]);
-                        } catch (IOException e) {
                         }
                         catch (Exception e){
                             e.printStackTrace();
@@ -213,17 +223,7 @@ public class CommandLine {
                 case "Rate":
                 case "r":
                 case "8":
-                    if(cmdArray.length<4){
-                        System.out.println("Missing: your user ID, and/or a rating between 1-10, and/or the recipe ID\n");
-                        break;
-                    } else {
-                        try{
-                            RateRecipe.addRating(Integer.parseInt(cmdArray[1]),Integer.parseInt(cmdArray[2]),Integer.parseInt(cmdArray[3]));
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
+                    rate();
                     break;
                 //*******************
                 case "View Ratings":
@@ -231,18 +231,7 @@ public class CommandLine {
                 case "view ratings":
                 case "vr":
                 case "9":
-                    if(cmdArray.length<3){
-                        System.out.println("Missing: your user ID and/or the recipe ID\n");
-                        break;
-                    } else {
-                        try{
-                            int result = RateRecipe.usersAverage(Integer.parseInt(cmdArray[1]),Integer.parseInt(cmdArray[2]));
-                            System.out.println("Your average rating: " + result);
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
+                    viewRating();
                     break;
                 //*******************
                 //*******************
@@ -255,29 +244,13 @@ public class CommandLine {
                     break;
 
                 //*******************
-
-
-
-
-
                 //*******************
                 case "View Average":
                 case "View average":
                 case "view average":
                 case "va":
                 case "10":
-                    if(cmdArray.length<2){
-                        System.out.println("Missing: the recipe ID\n");
-                        break;
-                    } else {
-                        try{
-                            int result = RateRecipe.getAverage(Integer.parseInt(cmdArray[1]));
-                            System.out.println("Overall average rating: " + result);
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
+                    viewAvgRating();
                     break;
 
                 //*******************
@@ -328,20 +301,24 @@ public class CommandLine {
         AddRecipe.addRecipe();
     }
     public void help(){
-        System.out.println("\nHelp: \n" +
+        System.out.println(
                 "\nAvailable commands are: \n" +
-                "1) List Recipes (Lists all recipes based on current filters)\n" +
-                "2) View Recipe (Views details about an individual recipe)\n" +
-                "3) Edit Recipe (Allows for editing an individual recipe)\n" +
-                "4) Add Recipe (Adds a new recipe)\n" +
-                "5) Filter Recipes (Applies filters to the main list of recipes)\n" +
-                "6) Print Recipe (Opens a new window with the recipe details and image)\n" +
-                "7) Favorite Recipe (Adds recipe to favorites)" +
-                "8) Help (Prints this menu)\n" +
-                "9) Quit (Quits the program)");
+                        "1) List Recipes (Lists all recipes based on current filters)\n" +
+                        "2) View Recipe (Views details about an individual recipe)\n" +
+                        "3) Edit Recipe (Allows for editing an individual recipe)\n"+
+                        "4) Add Recipe (Adds a new recipe)\n" +
+                        "5) Filter Recipes (Applies filters to the main list of recipes)\n" +
+                        "6) Print Recipe (Opens a new window with the recipe details and image)\n" +
+                        "7) Favorite Recipe (adds a recipe to your favorites\n" +
+                        "8) Rate a recipe (rate a recipe from 1-10 on how much you liked it)\n" +
+                        "9) View your ratings (view the ratings you have given a recipe)\n" +
+                        "10) View average ratings (view the avergae rating for a recipe from all users)\n" +
+                        "11) View your favorite recipes (view recipes in your favorites)\n" +
+                        "12) Help (see details about available actions)\n" +
+                        "13) Quit (quit the program)");
     }
 
-    public void view() throws IOException {
+    public void view(){
         list();
         System.out.println("Which recipe would you like to view?");
 
@@ -353,7 +330,7 @@ public class CommandLine {
         }
     }
 
-    private void view(String ID) throws IOException{
+    private void view(String ID){
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ ID);
         dbConnect.viewRecipe(Integer.parseInt(ID));
@@ -362,7 +339,7 @@ public class CommandLine {
         EditRecipe.edit();
     }
 
-    public void print() throws IOException{
+    public void print(){
         list();
         System.out.println("Which recipe would you like to print?");
 
@@ -375,14 +352,14 @@ public class CommandLine {
 
     }
 
-    public void print(String ID) throws IOException{
+    public void print(String ID){
         System.out.println("Printing recipe "+ ID);
         DatabaseConnect db2 = new DatabaseConnect();
         WindowDisplay wd = db2.viewRecipe(Integer.parseInt(ID));
         wd.makeWindow();
     }
 
-    public void favorite() throws IOException{
+    public void favorite(){
         list();
         System.out.println("Which recipe would you like to favorite?");
 
@@ -395,7 +372,7 @@ public class CommandLine {
 
     }
 
-    public void favorite(String ID) throws IOException{
+    public void favorite(String ID){
         Favorites.addFavorite(loggedinUser,Integer.parseInt(ID));
         System.out.println("\n");
     }
@@ -406,9 +383,6 @@ public class CommandLine {
         if(ingredients.equals("none")){
             System.out.println("Clearing ingredient filters...");
             ingredientFilters = new String[0];
-            for (int i = 1; i < ingredientFilters.length; i++) {
-                ingredientFilters[i]="";
-            }
         } else {
             ingredientFilters = ingredients.split(",\\s*");
         }
@@ -418,9 +392,6 @@ public class CommandLine {
         if(diet.equals("none")){
             System.out.println("Clearing dietary filters...");
             dietFilters = new String[0];
-            for (int i = 1; i < dietFilters.length; i++) {
-                dietFilters[i]="";
-            }
         } else {
             dietFilters = diet.split(",\\s*");
         }
@@ -436,7 +407,7 @@ public class CommandLine {
      * Clears all filters on inputting "-c"
      * @param args
      */
-    public void filter(String[] args){
+    private void filter(String[] args){
         if(args.length>=3) {
             switch (args[1]) {
                 case "-d":
@@ -474,19 +445,13 @@ public class CommandLine {
         } else if(args.length==2 && args[1].equals("-c")){
             System.out.println("Clearing filters...");
             dietFilters = new String[0];
-            for (int i = 1; i < dietFilters.length; i++) {
-                dietFilters[i]="";
-            }
             ingredientFilters = new String[0];
-            for (int i = 1; i < ingredientFilters.length; i++) {
-                ingredientFilters[i]="";
-            }
         } else {
-            System.out.println("Invalid format. Please enter a valid filter, followed by a comma seperated list of arguments");
+            System.out.println("Invalid format. Please enter a valid filter, followed by a comma separated list of arguments");
         }
         dbConnect.setFilter(new ArrayList<>(Arrays.asList(ingredientFilters)), new ArrayList<>(Arrays.asList(dietFilters)));
     }
-    public static void main(String[] args) throws Exception {
+    public static void main(String[] args){
         CommandLine cl = new CommandLine();
         cl.run();
     }
