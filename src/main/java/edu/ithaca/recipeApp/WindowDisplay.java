@@ -23,8 +23,8 @@ public class WindowDisplay {
     String imgURL;
 
     public WindowDisplay(int id, String title, int calories, int servings, ArrayList<Ingredient> ingredients, String[] steps, String imgURL) {
-        this.id = id;
-        this.calories = calories;
+        this.id = id; //identification number in database
+        this.calories = calories; //calories per serving
         this.servings = servings;
         this.title = title;
         this.ingredients = ingredients;
@@ -33,6 +33,12 @@ public class WindowDisplay {
         this.imgURL = imgURL;
     }
 
+    /**
+     * Takes image URL from database and gets an image from that URL
+     * If image cannot be found in URL, a default image will be assigned to the recipe
+     * @return returns image associated to corresponding ID
+     * @throws Exception
+     */
     public Image getImage() throws Exception{
         try{
             URL url = new URL(imgURL);
@@ -43,35 +49,13 @@ public class WindowDisplay {
             img = ImageIO.read(url);
         }
 
-/*
-        //Chicken noodle soup
-        if (id ==1){
-            URL url = new URL("https://hips.hearstapps.com/clv.h-cdn.co/assets/16/49/1481052520-gettyimages-91642973.jpg?crop=0.9895953757225433xw:1xh;center,top&resize=980:*");
-            img = ImageIO.read(url);
-        }
-        //Salad
-        else if (id ==2){
-            URL url = new URL("http://www.healthguide.net/wp-content/uploads/2013/12/salad.jpg");
-            img = ImageIO.read(url);
-        }
-        //Carrots
-        else if (id ==3){
-            URL url = new URL("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2003/9/29/0/ig1a09_roasted_carrots.jpg.rend.hgtvcom.616.462.suffix/1393645736360.jpeg");
-            img = ImageIO.read(url);
-        }
-        //Apples
-        else if (id ==4){
-            URL url = new URL("http://media.foodnetwork.ca/recipetracker/dmm/G/R/Grilled_Apples_with_Spiced_Chantilly_Cream_003.jpg");
-            img = ImageIO.read(url);
-        }
-        else {
-
-        }
-        */
-
         return img;
     }
 
+    /**
+     * Makes a JFrame window that displays all of the information associated to the recipe,
+     * as well as an image of that food
+     */
     public void makeWindow(){
         try {
             JFrame frame = new JFrame("Recipe");
@@ -97,8 +81,8 @@ public class WindowDisplay {
 
             Image image = getImage();
 
-            JLabel jLabelImg = new JLabel();
-            jLabelImg.setIcon(new ImageIcon(image.getScaledInstance(250, 250, 250)));
+            JLabel jLabelImg = new JLabel(BorderLayout.CENTER);
+            jLabelImg.setIcon(new ImageIcon(image.getScaledInstance(250, 250, 250), BorderLayout.CENTER));
 
 
             panel.add(titleLabel);
@@ -111,35 +95,28 @@ public class WindowDisplay {
 
             frame.add(panel, BorderLayout.CENTER);
             frame.setSize(600, 600);
-            //frame.setLocationRelativeTo(null);
-            //frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
             frame.setVisible(true);
         }catch (java.lang.Exception e){
-            System.out.println("java.lang.Exception caught");
             e.printStackTrace();
         }
     }
 
+    /**
+     * Used for testing
+     * Unlike JUnit testing, this main class will make a JFrame window for manual testing
+     * Helpful so you don't have to go through entire command line to test a window
+     * @param args
+     */
     public static void main(String[] args) {
         ArrayList<Ingredient> ingr = new ArrayList<Ingredient>();
         Ingredient i1 = new Ingredient();
-//        ingr.add("Chicken");
-//        ingr.add("Cheese");
-//        ingr.add("Marinara sauce");
         String [] steps = {"Cook chicken", "Add sauce", "Add cheese"};
 
-        //String img = "http://www.geniuskitchen.com/recipe/chicken-parmesan-19135";
-        Image image = null;
-        try {
-            URL url = new URL("https://food.fnr.sndimg.com/content/dam/images/food/fullset/2011/8/4/1/GL0509_chicken-parmigiana_s4x3.jpg.rend.hgtvcom.616.462.suffix/1371600392952.jpeg");
-            image = ImageIO.read(url);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        String img = "https://food.fnr.sndimg.com/content/dam/images/food/fullset/2011/8/4/1/GL0509_chicken-parmigiana_s4x3.jpg.rend.hgtvcom.616.462.suffix/1371600392952.jpeg";
 
 
-        //WindowDisplay wd = new WindowDisplay(22, "Chicken", 400, 2, ingr, steps);
-        //wd.makeWindow();
+        WindowDisplay wd = new WindowDisplay(123, "Chicken", 400, 2, ingr, steps, img);
+        wd.makeWindow();
 
     }
 }
