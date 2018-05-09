@@ -14,9 +14,6 @@ public class Favorites {
         String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
 
         String driverName = "com.mysql.jdbc.Driver";
-        ArrayList<String> rowArray = new ArrayList<String>();
-
-        Scanner reader = new Scanner(System.in);
 
         try{
             Class.forName(driverName).newInstance();
@@ -38,13 +35,13 @@ public class Favorites {
         catch (Exception e){
             e.printStackTrace();
         }
-
     }
-
+    //when user is related or recipe is added set defaults in db
     //PRINT USERS FAVORITES
-    public static void viewFavoirtes(int userID){
+    public static String viewFavorites(int userID){
+        //System.out.println("called");
         Connection connection = null;
-
+        String favorites = "Favorites: ";
         String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
 
         String driverName = "com.mysql.jdbc.Driver";
@@ -61,10 +58,9 @@ public class Favorites {
                 Statement stmt = connection.createStatement();
                 String selectquery = "SELECT * FROM USER_TO_RECIPE JOIN RECIPES ON RECIPE_ID=RECIPES.ID WHERE USER_ID = " + userID + " AND DID_SAVE = " + 1;
 
-
                 ResultSet rs = stmt.executeQuery(selectquery);
                 while(rs.next()){
-                    System.out.println(rs.getString("TITLE"));
+                    favorites+=rs.getString("TITLE")+"\n";
                 }
 
             }
@@ -76,13 +72,14 @@ public class Favorites {
         catch (Exception e){
             e.printStackTrace();
         }
+        return favorites;
 
     }
 
 
     public static void main(String[] args) {
-        addFavorite(1,2);
-        viewFavoirtes(1);
+        addFavorite(2,3);
+        viewFavorites(2);
     }
 
 }
