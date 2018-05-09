@@ -26,7 +26,28 @@ public class CommandLine {
     }
 
 
+    public void rate(){
+        Scanner scan = new Scanner(System.in);
+        System.out.println("What recipe do you want to rate? (ID)");
+        int recipeID = scan.nextInt();
+        System.out.println("What rating do you want to give it? (1-10)");
+        int rating = scan.nextInt();
+        RateRecipe.addRating(loggedinUser,rating,recipeID);
+    }
 
+    public void viewRating() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("What recipe do you want to view your ratings for? (ID)");
+        int recipeID = scan.nextInt();
+        RateRecipe.usersAverage(loggedinUser, recipeID);
+    }
+
+    public void viewAvgRating() {
+        Scanner scan = new Scanner(System.in);
+        System.out.println("What recipe do you want to view the average rating for? (ID)");
+        int recipeID = scan.nextInt();
+        RateRecipe.getAverage(recipeID);
+    }
     private void run() {
 
         while (true) {
@@ -201,17 +222,7 @@ public class CommandLine {
                 case "Rate":
                 case "r":
                 case "8":
-                    if(cmdArray.length<4){
-                        System.out.println("Missing: your user ID, and/or a rating between 1-10, and/or the recipe ID\n");
-                        break;
-                    } else {
-                        try{
-                            RateRecipe.addRating(Integer.parseInt(cmdArray[1]),Integer.parseInt(cmdArray[2]),Integer.parseInt(cmdArray[3]));
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
+                    rate();
                     break;
                 //*******************
                 case "View Ratings":
@@ -219,18 +230,7 @@ public class CommandLine {
                 case "view ratings":
                 case "vr":
                 case "9":
-                    if(cmdArray.length<3){
-                        System.out.println("Missing: your user ID and/or the recipe ID\n");
-                        break;
-                    } else {
-                        try{
-                            int result = RateRecipe.usersAverage(Integer.parseInt(cmdArray[1]),Integer.parseInt(cmdArray[2]));
-                            System.out.println("Your average rating: " + result);
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
+                    viewRating();
                     break;
                 //*******************
                 //*******************
@@ -249,18 +249,7 @@ public class CommandLine {
                 case "view average":
                 case "va":
                 case "10":
-                    if(cmdArray.length<2){
-                        System.out.println("Missing: the recipe ID\n");
-                        break;
-                    } else {
-                        try{
-                            int result = RateRecipe.getAverage(Integer.parseInt(cmdArray[1]));
-                            System.out.println("Overall average rating: " + result);
-                        }
-                        catch (Exception e){
-                            e.printStackTrace();
-                        }
-                    }
+                    viewAvgRating();
                     break;
 
                 //*******************
@@ -311,17 +300,21 @@ public class CommandLine {
         AddRecipe.addRecipe();
     }
     public void help(){
-        System.out.println("\nHelp: \n" +
+        System.out.println(
                 "\nAvailable commands are: \n" +
-                "1) List Recipes (Lists all recipes based on current filters)\n" +
-                "2) View Recipe (Views details about an individual recipe)\n" +
-                "3) Edit Recipe (Allows for editing an individual recipe)\n" +
-                "4) Add Recipe (Adds a new recipe)\n" +
-                "5) Filter Recipes (Applies filters to the main list of recipes)\n" +
-                "6) Print Recipe (Opens a new window with the recipe details and image)\n" +
-                "7) Favorite Recipe (Adds recipe to favorites)" +
-                "8) Help (Prints this menu)\n" +
-                "9) Quit (Quits the program)");
+                        "1) List Recipes (Lists all recipes based on current filters)\n" +
+                        "2) View Recipe (Views details about an individual recipe)\n" +
+                        "3) Edit Recipe (Allows for editing an individual recipe)\n"+
+                        "4) Add Recipe (Adds a new recipe)\n" +
+                        "5) Filter Recipes (Applies filters to the main list of recipes)\n" +
+                        "6) Print Recipe (Opens a new window with the recipe details and image)\n" +
+                        "7) Favorite Recipe (adds a recipe to your favorites\n" +
+                        "8) Rate a recipe (rate a recipe from 1-10 on how much you liked it)\n" +
+                        "9) View your ratings (view the ratings you have given a recipe)\n" +
+                        "10) View average ratings (view the avergae rating for a recipe from all users)\n" +
+                        "11) View your favorite recipes (view recipes in your favorites)\n" +
+                        "12) Help (see details about available actions)\n" +
+                        "13) Quit (quit the program)");
     }
 
     public void view(){
