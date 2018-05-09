@@ -8,6 +8,10 @@ import java.util.Scanner;
 
 public class AddRecipe {
 
+    /**
+     * Prompts user to add specific elements to a new recipe object
+     * @return returns a recipe object for testing
+     */
     public static Recipe addRecipe(){
 
         Scanner reader = new Scanner(System.in);
@@ -66,6 +70,10 @@ public class AddRecipe {
         return recipe;
     }
 
+    /**
+     * Inserts a provided recipe object to the database
+     * @param recipe recipe object to add to database
+     */
     public static void insertRecipeToDatabase(Recipe recipe){
         Connection connection = null;
         Statement statement = null;
@@ -140,18 +148,13 @@ public class AddRecipe {
         System.out.println("Your recipe has been saved.");
     }
 
-    public static boolean validInteger(String input){
-        boolean valid = false;
-        try{
-            Integer.parseInt(input);
-            valid = true;
-        }catch(NumberFormatException ne){
-
-        }
-        return valid;
-    }
-
-    public static void processInput(int prompt, String input, Recipe recipe){
+    /**
+     * processes user input based on current recipe element
+     * @param prompt the current recipe element
+     * @param input user input
+     * @param recipe new recipe object whose elements are being iterated through for input
+     */
+    private static void processInput(int prompt, String input, Recipe recipe){
         switch (prompt){
             case 0:
                 recipe.setTitle(input);
@@ -173,7 +176,13 @@ public class AddRecipe {
         }
     }
 
-    public static String inputTags(List<String> tags, Scanner reader){
+    /**
+     * Gets tags from user
+     * @param tags tags list object to insert new tags into
+     * @param reader system input scanner
+     * @return returns decision to cancel/draft/skip etc
+     */
+    private static String inputTags(List<String> tags, Scanner reader){
         String tag = "void";
         while(!tag.equals("done")) {
             System.out.print("... >_");
@@ -186,7 +195,13 @@ public class AddRecipe {
         return tag;
     }
 
-    public static String inputInstructions(StringBuilder instructions, Scanner reader){
+    /**
+     * Gets instructions from user
+     * @param instructions string instructions builder to add input to
+     * @param reader system input scanner
+     * @return returns decision done/draft/skip etc
+     */
+    private static String inputInstructions(StringBuilder instructions, Scanner reader){
         String instruction = "void";
         Boolean start = true;
         while(!instruction.equals("done")){
@@ -204,7 +219,13 @@ public class AddRecipe {
         return instruction;
     }
 
-    public static String inputIngredients(List<Ingredient> ingredients, Scanner reader){
+    /**
+     * Gets ingredients from user
+     * @param ingredients ingredients list to add user input ingredients
+     * @param reader system input scanner
+     * @return returns decision done/cancel/draft/skip
+     */
+    private static String inputIngredients(List<Ingredient> ingredients, Scanner reader){
         String ingredientName = "void", quantity;
         int num = 1;
         while(!ingredientName.equals("done")){
@@ -227,7 +248,11 @@ public class AddRecipe {
     }
 
 
-    public static void createPrompts(List<String> prompts){
+    /**
+     * Initializes prompt strings
+     * @param prompts string list to add prompt strings to
+     */
+    private static void createPrompts(List<String> prompts){
         prompts.add("Recipe name: >_");
         prompts.add("Ingredients (enter 'done' when completed):\n");
         prompts.add("Servings: >_");
