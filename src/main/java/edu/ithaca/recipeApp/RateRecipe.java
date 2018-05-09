@@ -41,10 +41,9 @@ public class RateRecipe {
     }
 
     //AVERAGE FROM ALL USERS ***********
-    public  static int getAverage(int ID) {
+    public static float getAverage(int recipeID) {
         Connection connection = null;
-        int avg = 0;
-        int counter = 0;
+        float avg = 0;
         String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
 
         String driverName = "com.mysql.jdbc.Driver";
@@ -55,11 +54,13 @@ public class RateRecipe {
             connection = DriverManager.getConnection(url);
             try {
                 Statement stmt = connection.createStatement();
-                String selectquery = "SELECT RATING FROM USER_TO_RECIPE WHERE DID_RATE = " + 1 + " AND RECIPE_ID = " + ID;
+                String selectquery = "SELECT avg(RATING) as avg_rating FROM USER_TO_RECIPE WHERE DID_RATE = " + 1 + " AND RECIPE_ID = " + recipeID;
                 ResultSet rs = stmt.executeQuery(selectquery);
-                while (rs.next()){
-                    counter++;
-                    avg+=rs.getInt("RATING");
+                if (rs.next()){
+                    avg=rs.getFloat("avg_rating");
+                }
+                else{
+                    return -1;
                 }
             } catch (SQLException s) {
                 System.out.println(s);
@@ -68,13 +69,7 @@ public class RateRecipe {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(counter==0){
-            return -1;
-        }
-        else {
-            //System.out.println(avg/counter);
-            return avg / counter;
-        }
+        return avg;
     }
 
 

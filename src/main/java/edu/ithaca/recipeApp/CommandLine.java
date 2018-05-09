@@ -47,7 +47,8 @@ public class CommandLine {
         Scanner scan = new Scanner(System.in);
         System.out.println("What recipe do you want to view the average rating for? (ID)");
         int recipeID = scan.nextInt();
-        RateRecipe.getAverage(recipeID);
+        float avg = RateRecipe.getAverage(recipeID);
+        System.out.println(avg);
     }
     private void run() {
 
