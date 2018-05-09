@@ -14,12 +14,14 @@ public class DatabaseConnect {
   private ArrayList<String> ingreds, tags;
   public int userId;
   private Connection connection;
+  private RateRecipe rater;
 
   public DatabaseConnect(){
     ingreds = new ArrayList<>();
     tags = new ArrayList<>();
     userId = -1;
     connection = null;
+    rater = new RateRecipe();
     try{
       Class.forName("org.sqlite.JDBC");
     }
@@ -35,6 +37,8 @@ public class DatabaseConnect {
   }
 
   public WindowDisplay viewRecipe(int ID){
+    int userRating = rater.getUsersRating(this.userId, ID);
+    float avgRating = rater.getAverage(ID);
     ArrayList<Ingredient> ingredients = new ArrayList<>();
     WindowDisplay wd;
     ResultSet rs;
@@ -62,6 +66,12 @@ public class DatabaseConnect {
         // read the result set
         System.out.println("\n*" + rs.getString("title") + "*");
         System.out.println("-----------------------");
+        if (userRating > -1) {
+          System.out.println("Your Rating: "+userRating);
+        }
+        if (avgRating > 0) {
+          System.out.println("Average Rating: "+avgRating);
+        }
         System.out.println("Ingredients:");
         for (Ingredient i : ingredients) {
           System.out.println("\t" + i.toString());
@@ -184,7 +194,7 @@ public class DatabaseConnect {
     return userId != -1;
   }
 
-  public boolean logInUser(String username, String password){
+  public int getUserID(String username, String password){
     try
     {
       connection = DriverManager.getConnection("jdbc:sqlite:src/test/resources/db/recipes.db");
@@ -192,11 +202,8 @@ public class DatabaseConnect {
       statement.setQueryTimeout(30);  // set timeout to 30 sec.
       ResultSet rs = statement.executeQuery("select * from USER WHERE USERNAME='"+username+"' AND PASSWORD='"+password+"'");
       if(rs.next()){
-        this.userId = rs.getInt("ID");
-        return true;
-      }
-      else{
-        return false;
+        int userId = rs.getInt("ID");
+        return userId;
       }
     }
     catch(SQLException e){
@@ -205,6 +212,15 @@ public class DatabaseConnect {
     finally
     {
       closeConnection();
+    }
+    return -1;
+  }
+
+  public boolean logInUser(String username, String password){
+    int userID = getUserID(username, password);
+    if(userID != -1){
+      this.userId = userID;
+      return true;
     }
     return false;
   }
