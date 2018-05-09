@@ -8,7 +8,7 @@ class rateRecipesTest {
 
     @Test
     void userRating() {
-       // RateRecipe.addRating(3,1,8);
+        RateRecipe.addRating(3,1,8);
         assertEquals(1,RateRecipe.usersAverage(3,8));
     }
     @Test
