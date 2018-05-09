@@ -10,6 +10,9 @@ import java.util.Scanner;
 
 public class EditRecipe {
 
+    /**
+     * Asks user for input on which recipe element they would like to modify
+     */
     public static void edit(){
         Connection connection = null;
         String url = "jdbc:sqlite:src/test/resources/db/recipes.db";
@@ -78,19 +81,21 @@ public class EditRecipe {
                         System.out.println("Edition submitted");
 
                     }else if(input.equals("2")){
-                        String currentIngredients = "SELECT R.ID, I.NAME, R.QUANTITY FROM RECIPE_TO_INGREDIENT R INNER JOIN INGREDIENTS I ON R.INGREDIENT_ID=I.ID WHERE R.RECIPE_ID="+currentRecipeId;
-                        result = statement.executeQuery(currentIngredients);
-                        System.out.println("\nCurrent ingredients... ");
-                        while(result.next()){
-                            System.out.println("  " + result.getInt("ID") + " " + result.getString("NAME") + " " + result.getString("QUANTITY"));
-                        }
-                        System.out.println(" ");
+
                         // EDIT INGREDIENTS
                         editIngredients(currentRecipeId,statement,reader);
 
                         System.out.println("Edition submitted");
 
                     }else if(input.equals("5")){
+                        String currentInstructions = "SELECT STEPS FROM RECIPES WHERE ID ="+currentRecipeId;
+                        result = statement.executeQuery(currentInstructions);
+                        System.out.println("\nCurrent instructions: ");
+                        while(result.next()){
+                            System.out.println(result.getString("STEPS"));
+                        }
+                        System.out.println(" ");
+
                         System.out.println("Enter new instructions: ");
                         System.out.println("Type 'done' on a new line when finished");
                         System.out.println("  or 'cancel' to exit without saving");
@@ -101,13 +106,7 @@ public class EditRecipe {
                         System.out.println("Edition submitted");
 
                     }else if(input.equals("6")){
-                        String currentTags = "SELECT R.ID, T.NAME FROM RECIPE_TO_TAG R INNER JOIN TAGS T ON R.TAG_ID=T.ID WHERE R.RECIPE_ID="+currentRecipeId;
-                        result = statement.executeQuery(currentTags);
-                        System.out.println("\nCurrent tags...");
-                        while(result.next()){
-                            System.out.println("  " + result.getString("NAME"));
-                        }
-                        System.out.println(" ");
+
 
                         // EDIT TAGS
                         editTags(currentRecipeId,statement,reader);
@@ -129,12 +128,26 @@ public class EditRecipe {
         }
     }
 
-    public static void editIngredients(String currentRecipeId, Statement statement, Scanner reader){
+    /**
+     * Asks the user which ingredient element they would like to modify and how they would like to modify it, then changes the database accordingly
+     * @param currentRecipeId The ID of the recipe that is being modified
+     * @param statement The SQList statement object belonging to the current SQLite connection
+     * @param reader The system input reader
+     */
+    private static void editIngredients(String currentRecipeId, Statement statement, Scanner reader){
         try{
             ResultSet result;
             String input;
             boolean editorRunning = true;
             while(editorRunning){
+                String currentIngredients = "SELECT R.ID, I.NAME, R.QUANTITY FROM RECIPE_TO_INGREDIENT R INNER JOIN INGREDIENTS I ON R.INGREDIENT_ID=I.ID WHERE R.RECIPE_ID="+currentRecipeId;
+                result = statement.executeQuery(currentIngredients);
+                System.out.println("\nCurrent ingredients... ");
+                while(result.next()){
+                    System.out.println("  " + result.getInt("ID") + " " + result.getString("NAME") + " " + result.getString("QUANTITY"));
+                }
+                System.out.println(" ");
+
                 System.out.println("Available options: \n1)Add  2)Edit  3)Remove  4)Return to edits");
                 System.out.print(">_");
                 input = reader.nextLine();
@@ -207,7 +220,14 @@ public class EditRecipe {
             System.out.println(s);
         }
     }
-    public static void editInstructions(String currentRecipeId, Statement statement, Scanner reader){
+
+    /**
+     * Asks user to enter a new set of instructions and then updates the database
+     * @param currentRecipeId The ID of the recipe that is being modified
+     * @param statement The SQList statement object belonging to the current SQLite connection
+     * @param reader The system input reader
+     */
+    private static void editInstructions(String currentRecipeId, Statement statement, Scanner reader){
         try{
             StringBuilder instructions = new StringBuilder();
             String instruction = "void";
@@ -231,12 +251,26 @@ public class EditRecipe {
             System.out.println(s);
         }
     }
-    public static void editTags(String currentRecipeId, Statement statement, Scanner reader){
+
+    /**
+     * Asks user what kind of modification they would like to make to the tags, promps user to make that modification and then updates the database
+     * @param currentRecipeId The ID of the recipe that is being modified
+     * @param statement The SQList statement object belonging to the current SQLite connection
+     * @param reader The system input reader
+     */
+    private static void editTags(String currentRecipeId, Statement statement, Scanner reader){
         try {
             ResultSet result;
             String input;
             boolean editorRunning = true;
             while (editorRunning) {
+                String currentTags = "SELECT R.ID, T.NAME FROM RECIPE_TO_TAG R INNER JOIN TAGS T ON R.TAG_ID=T.ID WHERE R.RECIPE_ID="+currentRecipeId;
+                result = statement.executeQuery(currentTags);
+                System.out.println("\nCurrent tags...");
+                while(result.next()){
+                    System.out.println(result.getInt("ID") + "  " + result.getString("NAME"));
+                }
+                System.out.println(" ");
                 System.out.println("Available options: \n1)Add  2)Remove  3)Return to edits");
                 System.out.print(">_");
                 input = reader.nextLine();
@@ -256,10 +290,10 @@ public class EditRecipe {
                 } else if (input.equals("2")) {
                     boolean found = false;
                     while (!found) {
-                        System.out.println("Tag you would like to remove ('q' to quit):");
+                        System.out.println("Tag id you would like to remove ('q' to quit):");
                         System.out.print(">_");
                         String removeTag = reader.nextLine();
-                        String findTag = "SELECT R.ID, T.NAME FROM RECIPE_TO_TAG R INNER JOIN TAGS T ON R.TAG_ID=T.ID WHERE R.RECIPE_ID=" + currentRecipeId + " AND T.NAME='" + removeTag +"'";
+                        String findTag = "SELECT R.ID, T.NAME FROM RECIPE_TO_TAG R INNER JOIN TAGS T ON R.TAG_ID=T.ID WHERE R.RECIPE_ID=" + currentRecipeId + " AND R.ID='" + removeTag +"'";
                         result = statement.executeQuery(findTag);
                         if (removeTag.equals("q") || removeTag.equals("quit") || removeTag.equals("Quit") || removeTag.equals("QUIT")) {
                             found = true;
