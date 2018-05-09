@@ -50,6 +50,9 @@ public class CommandLine {
         float avg = RateRecipe.getAverage(recipeID);
         System.out.println(avg);
     }
+    /**
+     * Starts the program, gets user login
+     */
     private void run() {
 
         while (true) {
@@ -97,6 +100,9 @@ public class CommandLine {
         }
     }
 
+    /**
+     * Runs the entirety of the main interaction with the program. Prompts for user input and runs the appropriate menu command
+     */
     private void menu(){
         System.out.println(
                 "\nRecipeApp \n" +
@@ -274,7 +280,9 @@ public class CommandLine {
         }
     }
 
-
+    /**
+     * Lists all recipes based on currently applied filters
+     */
     public void list() {
 
 
@@ -298,9 +306,17 @@ public class CommandLine {
         }
         dbConnect.listRecipes();
     }
+
+    /**
+     * Adds a new recipe to the database after prompting the user via a function elsewhere.
+     */
     public void add(){
         AddRecipe.addRecipe();
     }
+
+    /**
+     * Prints more detailed help for each command
+     */
     public void help(){
         System.out.println(
                 "\nAvailable commands are: \n" +
@@ -313,12 +329,16 @@ public class CommandLine {
                         "7) Favorite Recipe (adds a recipe to your favorites\n" +
                         "8) Rate a recipe (rate a recipe from 1-10 on how much you liked it)\n" +
                         "9) View your ratings (view the ratings you have given a recipe)\n" +
-                        "10) View average ratings (view the avergae rating for a recipe from all users)\n" +
+                        "10) View average ratings (view the average rating for a recipe from all users)\n" +
                         "11) View your favorite recipes (view recipes in your favorites)\n" +
                         "12) Help (see details about available actions)\n" +
                         "13) Quit (quit the program)");
+
     }
 
+    /**
+     * Prompts user for a recipe, and shows detailed information about it.
+     */
     public void view(){
         list();
         System.out.println("Which recipe would you like to view?");
@@ -331,15 +351,27 @@ public class CommandLine {
         }
     }
 
+    /**
+     * Shows the detailed info for a specific recipe.
+     * This is the direct function for this process, based on some legacy functionality where the user could input the argument themselves in the command
+     * @param ID the unique recipe ID to view
+     */
     private void view(String ID){
         //To be linked to a function to list details of a single recipe based on a title input
         System.out.println("Viewing recipe "+ ID);
         dbConnect.viewRecipe(Integer.parseInt(ID));
     }
+
+    /**
+     * Allows the user to edit a recipe. Runs another function which walks them through the process
+     */
     private void edit(){
         EditRecipe.edit();
     }
 
+    /**
+     * Prints a separate window with detailed information about a recipe, including image.
+     */
     public void print(){
         list();
         System.out.println("Which recipe would you like to print?");
@@ -353,6 +385,11 @@ public class CommandLine {
 
     }
 
+    /**
+     * Prints a separate window with detailed information about a recipe, including image
+     * This is the direct function for this process, based on some legacy functionality where the user could input the argument themselves in the command
+     * @param ID unique ID of the recipe to be printed
+     */
     public void print(String ID){
         System.out.println("Printing recipe "+ ID);
         DatabaseConnect db2 = new DatabaseConnect();
@@ -360,6 +397,9 @@ public class CommandLine {
         wd.makeWindow();
     }
 
+    /**
+     * Adds a recipe to a user's favorites
+     */
     public void favorite(){
         list();
         System.out.println("Which recipe would you like to favorite?");
@@ -373,10 +413,19 @@ public class CommandLine {
 
     }
 
+    /**
+     * Adds a recipe to the user's favorites.
+     * This is the direct function for this process, based on some legacy functionality where the user could input the argument themselves in the command
+     * @param ID unique ID of the recipe to be favorited
+     */
     public void favorite(String ID){
         Favorites.addFavorite(loggedinUser,Integer.parseInt(ID));
         System.out.println("\n");
     }
+
+    /**
+     * Prompts user for filters to add to the list function. Filters based on available ingredients and dietary restrictions
+     */
     public void filter(){
         System.out.println("What ingredients would you like to use? (Enter all the ingredients you would like to use, seperated by commas)\n" +
                 "If you would like to clear the filters, type \"none\"");
@@ -406,7 +455,10 @@ public class CommandLine {
      * parses single letter arguments and following ingredients/dietary concerns
      * Updates dietFilters and ingredientFilters with the user input.
      * Clears all filters on inputting "-c"
-     * @param args
+     * @param args Takes in a series of arguments, separated by spaces.
+     *             anything after -i and separated by commas becomes an ingredient filter
+     *             anything after -d and separated by commas becomes a dietary filter.
+     *             These can be applied separately or at the same time
      */
     private void filter(String[] args){
         if(args.length>=3) {
